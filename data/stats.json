@@ -1,0 +1,54 @@
+{
+  "totalProjetos": 82,
+  "totalProponentes": 54,
+  "totalPatrocinadores": 22,
+  "totalMunicipiosAtendidos": 32,
+  "autorizado": 23997000,
+  "captado": 13800000,
+  "comprometimentoDoTeto": 0.95988,
+  "execucao": 0.5750718839854981,
+  "cotas": [
+    {
+      "regraId": "cota-pautados",
+      "titulo": "30% para projetos pautados",
+      "cota": 0.3,
+      "reservado": 7500000,
+      "alocado": 8622000,
+      "cumprimento": 1.1496,
+      "atendida": true
+    },
+    {
+      "regraId": "cota-fora-rmgv",
+      "titulo": "10% fora da Região Metropolitana",
+      "cota": 0.1,
+      "reservado": 2500000,
+      "alocado": 8922000,
+      "cumprimento": 3.5688,
+      "atendida": true
+    },
+    {
+      "regraId": "cota-continuados",
+      "titulo": "10% para programas continuados",
+      "cota": 0.1,
+      "reservado": 2500000,
+      "alocado": 3416000,
+      "cumprimento": 1.3664,
+      "atendida": true
+    }
+  ],
+  "proponentesNoLimite": [
+    "prop-agente-alfa",
+    "prop-prefeitura-de-ibatiba",
+    "prop-produtora-epsilon",
+    "prop-instituto-zeta",
+    "prop-produtora-teta",
+    "prop-agente-iota",
+    "prop-instituto-niu",
+    "prop-agente-omicron",
+    "prop-coletivo-sigma",
+    "prop-produtora-psi",
+    "prop-agente-zeta-2",
+    "prop-produtora-teta-2",
+    "prop-produtora-miu-2"
+  ]
+}

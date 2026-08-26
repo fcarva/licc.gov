@@ -1,0 +1,133 @@
+@import "tailwindcss";
+
+/*
+ * Estética de setor público, na linha do SF Government Graph: fundo claro,
+ * bordas discretas, tipografia de alto contraste e nenhuma cor decorativa.
+ * A cor só aparece onde carrega significado — a categoria de um vértice.
+ */
+@theme {
+  --color-tinta: #0b1220;
+  --color-tinta-suave: #475569;
+  --color-tinta-fraca: #94a3b8;
+  --color-papel: #ffffff;
+  --color-papel-suave: #f8fafc;
+  /* Fundo da tela: o cinza sobre o qual os cartões flutuam. */
+  --color-papel-fundo: #f1f0ec;
+  --color-borda: #e2e8f0;
+  --color-borda-forte: #cbd5e1;
+  --color-realce: #1e3a5f;
+
+  --color-governanca: #1e3a5f;
+  --color-patrocinador: #0f766e;
+  --color-proponente: #7c2d92;
+  --color-projeto: #b45309;
+  --color-segmento: #be123c;
+  --color-municipio: #4d7c0f;
+  --color-fundamento: #3f3f46;
+  --color-publico: #0369a1;
+
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-tema="claro"]) {
+    --color-tinta: #e8edf5;
+    --color-tinta-suave: #94a3b8;
+    --color-tinta-fraca: #64748b;
+    --color-papel: #12161d;
+    --color-papel-suave: #171c25;
+    --color-papel-fundo: #0b0e13;
+    --color-borda: #1f2937;
+    --color-borda-forte: #334155;
+    --color-realce: #7dd3fc;
+  }
+}
+
+:root[data-tema="escuro"] {
+  --color-tinta: #e8edf5;
+  --color-tinta-suave: #94a3b8;
+  --color-tinta-fraca: #64748b;
+  --color-papel: #12161d;
+  --color-papel-suave: #171c25;
+  --color-papel-fundo: #0b0e13;
+  --color-borda: #1f2937;
+  --color-borda-forte: #334155;
+  --color-realce: #7dd3fc;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  background: var(--color-papel-fundo);
+  color: var(--color-tinta);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  font-feature-settings: "cv02", "cv03", "cv04", "tnum";
+}
+
+/* Números tabulares em toda tabela financeira — colunas que se alinham. */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Faixa diagonal que marca visualmente um dado não oficial. */
+.faixa-demo {
+  background-image: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 6px,
+    color-mix(in srgb, var(--color-tinta-fraca) 14%, transparent) 6px,
+    color-mix(in srgb, var(--color-tinta-fraca) 14%, transparent) 12px
+  );
+}
+
+::selection {
+  background: color-mix(in srgb, var(--color-realce) 22%, transparent);
+}
+
+/* Barra de rolagem discreta nos painéis. */
+.rolagem-fina {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-borda-forte) transparent;
+}
+.rolagem-fina::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.rolagem-fina::-webkit-scrollbar-thumb {
+  background: var(--color-borda-forte);
+  border-radius: 4px;
+}
+.rolagem-fina::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Corta o texto em N linhas — usado nos cards de entidade em foco. */
+.line-clamp-2,
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.line-clamp-2 { -webkit-line-clamp: 2; }
+.line-clamp-3 { -webkit-line-clamp: 3; }
+
+/* Foco visível nos vértices do grafo, que são elementos SVG. */
+svg [tabindex]:focus-visible > path:last-of-type {
+  stroke: var(--color-realce);
+  stroke-width: 2;
+}
