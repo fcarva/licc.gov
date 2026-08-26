@@ -6,7 +6,7 @@
  * página oficial correspondente e proveniência `oficial`.
  */
 
-import type { GraphNode, Noticia } from "@/types/graph";
+import type { GraphEdge, GraphNode, Noticia } from "@/types/graph";
 import { FUNDAMENTOS, TETO_AUTORIZADO, FONTE_TETO } from "@/ontology";
 
 /** Notícias verificadas nos portais do Governo do ES e da SECULT. */
@@ -196,4 +196,25 @@ export function nosFixos(ano: number): GraphNode[] {
   }
 
   return nos;
+}
+
+/** Arestas institucionais fixas que independem da coleta do Mapa Cultural. */
+export function arestasFixas(ano: number): GraphEdge[] {
+  const prov = (source: string, target: string, kind: GraphEdge["kind"], rotulo: string): GraphEdge => ({
+    id: `${kind}:${source}->${target}`,
+    source,
+    target,
+    kind,
+    rotulo,
+    proveniencia: "oficial",
+  });
+
+  return [
+    prov("governo-es", "secult-es", "nomeia", "Governo nomeia o titular da SECULT-ES"),
+    prov("governo-es", "cec-es", "nomeia", "Governo nomeia os membros do CEC"),
+    prov("secult-es", "cap-licc", "nomeia", "SECULT designa os membros da Comissão de Análise"),
+    prov("secult-es", "licc-programa", "regula", "SECULT é o órgão gestor da LICC"),
+    prov("sefaz-es", "licc-programa", "regula", "SEFAZ autoriza o teto via portaria"),
+    prov("licc-programa", "publico-es", "beneficia", "A LICC beneficia a população capixaba"),
+  ];
 }

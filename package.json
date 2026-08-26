@@ -9,9 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
-    "ingest": "tsx pipeline/ingest.ts",
-    "build:graph": "tsx pipeline/build-graph.ts",
-    "data": "npm run ingest && npm run build:graph"
+    "ingest": "tsx --env-file=.env pipeline/ingest.ts",
+    "build:graph": "tsx --env-file=.env pipeline/build-graph.ts",
+    "data": "npm run ingest && npm run build:graph",
+    "scrape:secult": "tsx --env-file=.env pipeline/scrape-secult.ts",
+    "merge:patrocinadores": "tsx --env-file=.env pipeline/importar-patrocinadores.ts"
   },
   "dependencies": {
     "next": "16.3.3",

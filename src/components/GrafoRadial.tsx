@@ -8,6 +8,7 @@ import {
   calcularCadeia,
   caminhoDaForma,
   type NoPosicionado,
+  type ArcoSegmento,
 } from "@/lib/radial";
 import { brlCurto } from "@/lib/format";
 
@@ -62,10 +63,10 @@ export function GrafoRadial({
           <marker
             id={idSeta}
             viewBox="0 0 10 10"
-            refX="9"
+            refX="10"
             refY="5"
-            markerWidth="5"
-            markerHeight="5"
+            markerWidth="6"
+            markerHeight="6"
             orient="auto-start-reverse"
           >
             <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor" />
@@ -80,9 +81,9 @@ export function GrafoRadial({
                 r={a.raio}
                 fill="none"
                 stroke={a.cor}
-                strokeOpacity={0.22}
+                strokeOpacity={0.28}
                 strokeWidth={0.75}
-                strokeDasharray="3 4"
+                strokeDasharray="4 2"
               />
               {/* Traço grosso na cor do fundo abre um vão no anel para o
                   rótulo respirar por cima dos vértices. */}
@@ -112,6 +113,15 @@ export function GrafoRadial({
           ))}
         </g>
 
+        {/* Arcos de bem público: segmentos → população (sempre visíveis). */}
+        {layout.arcosSegmento.length > 0 ? (
+          <ArcosSegmento
+            arcos={layout.arcosSegmento}
+            idSeta={idSeta}
+            apagado={cadeia !== null}
+          />
+        ) : null}
+
         {/* Cadeia de responsabilização. */}
         {cadeia ? (
           <g fill="none">
@@ -120,14 +130,15 @@ export function GrafoRadial({
               const para = porId.get(l.para);
               if (!de || !para) return null;
               const cor = NODE_KINDS[para.no.kind].cor;
+              const forte = l.enfase === "forte";
               return (
                 <path
                   key={`${l.de}-${l.para}-${i}`}
-                  d={arco(de, para)}
+                  d={forte ? arco(de, para, para.r + 6) : arco(de, para, 0)}
                   stroke={cor}
-                  strokeOpacity={l.enfase === "forte" ? 0.75 : 0.35}
-                  strokeWidth={l.enfase === "forte" ? 1.5 : 0.9}
-                  markerEnd={de.orbita === 0 ? `url(#${idSeta})` : undefined}
+                  strokeOpacity={forte ? 0.75 : 0.35}
+                  strokeWidth={forte ? 1.5 : 0.9}
+                  markerEnd={forte ? `url(#${idSeta})` : undefined}
                   color={cor}
                 />
               );
@@ -178,14 +189,51 @@ export function GrafoRadial({
 
                 <path
                   d={caminhoDaForma(p.forma, p.r)}
-                  fill={aceso ? p.cor : "var(--color-papel)"}
-                  fillOpacity={aceso ? 1 : 0.85}
+                  fill={cadeia && aceso ? p.cor : "var(--color-papel)"}
+                  fillOpacity={1}
                   stroke={p.cor}
-                  strokeOpacity={aceso ? 1 : 0.42}
-                  strokeWidth={aceso ? 0.8 : 1}
-                  strokeDasharray={demonstracao && !aceso ? "2 2" : undefined}
-                  className="transition-[fill-opacity,stroke-opacity] duration-200"
+                  strokeOpacity={!cadeia ? 1 : aceso ? 0.9 : 0.22}
+                  strokeWidth={1}
+                  strokeDasharray={demonstracao && (!cadeia || !aceso) ? "2 2" : undefined}
+                  className="transition-[fill,stroke-opacity] duration-200"
                 />
+
+                {/* Rótulo abreviado para nós de governança e segmento. */}
+                {(p.no.kind === "governanca" || p.no.kind === "segmento") && aceso ? (() => {
+                  const sigla = recortar(p.no.sigla ?? p.no.nome, 14);
+                  const ty = p.r + 9;
+                  return (
+                    <>
+                      {/* Halo branco — renderizado primeiro (painter's algorithm). */}
+                      <text
+                        x={0}
+                        y={ty}
+                        textAnchor="middle"
+                        stroke="white"
+                        strokeWidth={3}
+                        strokeLinejoin="round"
+                        fill="none"
+                        pointerEvents="none"
+                        style={{ fontSize: 7, fontWeight: 500 }}
+                        aria-hidden="true"
+                      >
+                        {sigla}
+                      </text>
+                      {/* Texto colorido. */}
+                      <text
+                        x={0}
+                        y={ty}
+                        textAnchor="middle"
+                        fill={p.cor}
+                        fillOpacity={0.85}
+                        pointerEvents="none"
+                        style={{ fontSize: 7, fontWeight: 500 }}
+                      >
+                        {sigla}
+                      </text>
+                    </>
+                  );
+                })() : null}
               </g>
             );
           })}
@@ -208,7 +256,7 @@ export function GrafoRadial({
             textAnchor="middle"
             className="pointer-events-none"
             fill="var(--color-papel)"
-            style={{ fontSize: 8.5, fontWeight: 600 }}
+            style={{ fontSize: 9, fontWeight: 700 }}
           >
             <tspan x="0" dy="-4">População</tspan>
             <tspan x="0" dy="10">Capixaba</tspan>
@@ -223,8 +271,14 @@ export function GrafoRadial({
   );
 }
 
-/** Curva suave entre dois vértices, abaulada para fora do centro. */
-function arco(de: NoPosicionado, para: NoPosicionado): string {
+/**
+ * Curva suave entre dois pontos, abaulada para fora do centro.
+ *
+ * @param parar - quantos px recuar a partir do centro do ponto alvo,
+ *   ao longo da tangente do bezier no endpoint. Passar `para.r + 6`
+ *   faz a ponta da seta assentar na borda do nó, não no centro.
+ */
+function arco(de: { x: number; y: number }, para: { x: number; y: number }, parar = 0): string {
   const mx = (de.x + para.x) / 2;
   const my = (de.y + para.y) / 2;
   const distancia = Math.hypot(para.x - de.x, para.y - de.y);
@@ -234,7 +288,52 @@ function arco(de: NoPosicionado, para: NoPosicionado): string {
   const desvio = Math.min(distancia * 0.12, 26);
   const cx = mx + (mx / norma) * desvio;
   const cy = my + (my / norma) * desvio;
-  return `M ${de.x} ${de.y} Q ${cx} ${cy} ${para.x} ${para.y}`;
+
+  // A tangente no final de uma curva Q cx cy ex ey é (ex−cx, ey−cy).
+  // Recuamos o endpoint ao longo dessa direção para que a seta pare na borda.
+  let ex = para.x;
+  let ey = para.y;
+  if (parar > 0) {
+    const tx = ex - cx;
+    const ty = ey - cy;
+    const tn = Math.hypot(tx, ty) || 1;
+    ex -= (tx / tn) * parar;
+    ey -= (ty / tn) * parar;
+  }
+
+  return `M ${de.x} ${de.y} Q ${cx} ${cy} ${ex} ${ey}`;
+}
+
+/** Setas finas dos segmentos culturais em direção à população (centro). */
+function ArcosSegmento({
+  arcos,
+  idSeta,
+  apagado,
+}: {
+  arcos: ArcoSegmento[];
+  idSeta: string;
+  apagado: boolean;
+}) {
+  const maxProjetos = Math.max(1, ...arcos.map((a) => a.totalProjetos));
+  return (
+    <g fill="none">
+      {arcos.map((a) => {
+        const peso = a.totalProjetos / maxProjetos;
+        return (
+          <path
+            key={a.segId}
+            d={arco(a.pos, { x: 0, y: 0 }, 38)}
+            stroke={a.cor}
+            strokeOpacity={apagado ? 0.06 : 0.1 + peso * 0.22}
+            strokeWidth={apagado ? 0.5 : 1 + peso * 3.5}
+            markerEnd={apagado ? undefined : `url(#${idSeta})`}
+            color={a.cor}
+            className="transition-[stroke-opacity,stroke-width] duration-300"
+          />
+        );
+      })}
+    </g>
+  );
 }
 
 function Etiqueta({

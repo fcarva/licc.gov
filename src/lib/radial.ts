@@ -30,11 +30,20 @@ export interface AnelDesenhado {
   quantidade: number;
 }
 
+export interface ArcoSegmento {
+  segId: string;
+  cor: string;
+  pos: NoPosicionado;
+  totalProjetos: number;
+}
+
 export interface Layout {
   nos: NoPosicionado[];
   aneis: AnelDesenhado[];
   /** Extensão necessária do meio-lado do viewBox. */
   extensao: number;
+  /** Arcos de bem público: segmentos → população (magnitude = nº de projetos). */
+  arcosSegmento: ArcoSegmento[];
 }
 
 /**
@@ -44,11 +53,20 @@ export interface Layout {
  * adensam para fora: o miolo institucional é pequeno e a periferia concentra
  * a maior parte dos vértices.
  */
+/**
+ * Proporções medidas no SF Gov Graph (CivLab):
+ *   ring1=147 ring2=236.25 ring3=330.75 no raio útil de 400px
+ *   → 0.368 · 0.591 · 0.827
+ *
+ * Para 4 anéis interpolamos um anel extra entre commission e department,
+ * mantendo a mesma progressão geométrica (~×1.47 a cada passo).
+ */
 const FRACAO_POR_ANEL: Record<number, number> = {
-  1: 0.3,
-  2: 0.52,
-  3: 0.73,
-  4: 0.93,
+  1: 0.33,   // governança  (≈ Elected)
+  2: 0.53,   // patrocinadores (≈ Commission)
+  3: 0.72,   // proponentes  (≈ Advisory interpolado)
+  4: 0.91,   // projetos     (≈ Department)
+  5: 0.19,   // segmentos    — halo ao redor do centro (população)
 };
 
 /** Espaço angular mínimo entre dois símbolos vizinhos, em px de arco. */
@@ -66,7 +84,17 @@ const PASSO_FILEIRA = 17;
 export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
   const nos: NoPosicionado[] = [];
   const aneis: AnelDesenhado[] = [];
+  const arcosSegmento: ArcoSegmento[] = [];
   let extensao = 0;
+
+  // Proxy de magnitude dos segmentos: contagem de projetos via arestas pertence_a.
+  // Usado para dimensionar os nós do anel 5 até que orçamentos sejam publicados.
+  const projetosPorSegmento = new Map<string, number>();
+  for (const e of grafo.edges) {
+    if (e.kind === "pertence_a") {
+      projetosPorSegmento.set(e.target, (projetosPorSegmento.get(e.target) ?? 0) + 1);
+    }
+  }
 
   for (const spec of ANEIS) {
     const doAnel = grafo.nodes.filter((n) => n.kind === spec.kind);
@@ -89,21 +117,28 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
       continue;
     }
 
-    // Maior captação primeiro: vizinhos no anel ficam comparáveis a olho.
+    const isSegmento = spec.anel === 5;
+
+    // Segmentos: ordenar por nº de projetos; demais: por captação.
     const ordenados = [...doAnel].sort(
-      (a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0),
+      isSegmento
+        ? (a, b) => (projetosPorSegmento.get(b.id) ?? 0) - (projetosPorSegmento.get(a.id) ?? 0)
+        : (a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0),
     );
 
     const raioNominal = raioUtil * (FRACAO_POR_ANEL[spec.anel ?? 1] ?? 0.9);
 
-    // A escala de tamanho é interna ao anel. Comparar um projeto ao programa
-    // inteiro achataria todos os projetos no mesmo raio; comparado aos seus
-    // pares, a diferença de captação volta a ser visível.
-    const maiorDoAnel = Math.max(
-      1,
-      ...doAnel.map((n) => n.orcamento?.captado ?? 0),
-    );
+    // A escala de tamanho é interna ao anel.
+    const maiorDoAnel = isSegmento
+      ? Math.max(1, ...doAnel.map((n) => projetosPorSegmento.get(n.id) ?? 0))
+      : Math.max(1, ...doAnel.map((n) => n.orcamento?.captado ?? 0));
+
     const tamanho = (n: GraphNode) => {
+      if (isSegmento) {
+        const count = projetosPorSegmento.get(n.id) ?? 0;
+        const escala = count > 0 ? Math.sqrt(count / maiorDoAnel) : 0.3;
+        return spec.raioBase * (0.55 + escala * 0.9);
+      }
       const captado = n.orcamento?.captado ?? 0;
       const escala = captado > 0 ? Math.sqrt(captado / maiorDoAnel) : 0;
       return spec.raioBase * (0.62 + escala * 0.9);
@@ -132,17 +167,28 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
       // livre para a cadeia descer do centro até a periferia.
       const angulo = -Math.PI / 2 + posicaoNaFileira * passo + (fileira % 2) * passo * 0.5;
       const r = tamanho(no);
+      // Segmentos usam cor individual (meta.cor) em vez da cor genérica do anel.
+      const cor = isSegmento && no.meta?.cor ? String(no.meta.cor) : spec.cor;
 
-      nos.push({
+      const noPosicionado: NoPosicionado = {
         no,
         x: Math.cos(angulo) * orbita,
         y: Math.sin(angulo) * orbita,
         r,
         forma: spec.forma,
-        cor: spec.cor,
+        cor,
         orbita,
         angulo,
-      });
+      };
+      nos.push(noPosicionado);
+      if (isSegmento) {
+        arcosSegmento.push({
+          segId: no.id,
+          cor,
+          pos: noPosicionado,
+          totalProjetos: projetosPorSegmento.get(no.id) ?? 0,
+        });
+      }
       extensao = Math.max(extensao, orbita + r);
     });
 
@@ -156,7 +202,7 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
     });
   }
 
-  return { nos, aneis, extensao };
+  return { nos, aneis, extensao, arcosSegmento };
 }
 
 export interface Cadeia {
