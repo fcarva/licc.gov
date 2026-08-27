@@ -1,13 +1,13 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { useRouter } from "next/navigation";
 import type { Graph, GraphNode } from "@/types/graph";
 import { GrafoRadial } from "./GrafoRadial";
 import { Sunburst, type FatiaSunburst } from "./Sunburst";
 import { Segmentado } from "./Coluna";
+import { corDoSegmento } from "@/ontology/paleta-orcamento";
 
-type Aba = "grafo" | "orcamento";
+export type Aba = "grafo" | "orcamento";
 
 /**
  * A metade direita da tela: o grafo do ecossistema ou a rosca do orçamento,
@@ -19,6 +19,8 @@ export function CanvasVisualizacao({
   onSelecionar,
   destaqueOrcamento,
   abaInicial = "grafo",
+  aba: abaControlada,
+  onMudarAba,
 }: {
   grafo: Graph;
   selecionado?: GraphNode | null;
@@ -26,9 +28,16 @@ export function CanvasVisualizacao({
   /** `id` da fatia acesa na rosca, quando a página tem uma entidade em foco. */
   destaqueOrcamento?: string;
   abaInicial?: Aba;
+  /** Quando fornecida, a aba é controlada pela página. */
+  aba?: Aba;
+  onMudarAba?: (aba: Aba) => void;
 }) {
-  const [aba, setAba] = useState<Aba>(abaInicial);
-  const router = useRouter();
+  const [abaInterna, setAbaInterna] = useState<Aba>(abaInicial);
+  const aba = abaControlada ?? abaInterna;
+  const setAba = (proxima: Aba) => {
+    setAbaInterna(proxima);
+    onMudarAba?.(proxima);
+  };
 
   const fatias = useMemo(() => montarFatias(grafo), [grafo]);
 
@@ -49,7 +58,7 @@ export function CanvasVisualizacao({
             destaqueId={destaqueOrcamento}
             onSelecionar={(id) => {
               const no = grafo.nodes.find((n) => n.id === id);
-              if (no) router.push(`/entidade/${no.slug}`);
+              if (no) onSelecionar?.(no);
             }}
           />
         )}
@@ -78,7 +87,9 @@ function montarFatias(grafo: Graph): FatiaSunburst[] {
       id: seg.id,
       rotulo: seg.nome,
       valor: seg.orcamento?.captado ?? 0,
-      cor: (seg.meta?.cor as string) ?? "var(--color-segmento)",
+      // A rosca usa a paleta vívida do orçamento, não a pastel do grafo:
+      // fatias finas precisam continuar distinguíveis lado a lado.
+      cor: corDoSegmento(seg.id),
       filhos: projetos
         .filter((p) => p.meta?.segmentoId === seg.id && (p.orcamento?.captado ?? 0) > 0)
         .sort((a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0))

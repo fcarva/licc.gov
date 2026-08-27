@@ -12,21 +12,31 @@ export interface LinhaAlocacao {
  *
  * O CivLab não usa barras aqui: cada categoria é uma faixa cuja **altura**
  * corresponde à sua fatia. Lê-se a composição inteira de uma vez, sem
- * comparar comprimentos, e as fatias mínimas continuam clicáveis porque
+ * comparar comprimentos, e as fatias mínimas continuam legíveis porque
  * recebem uma altura de piso.
+ *
+ * A cor de fundo estratifica por intensidade — quanto mais forte, mais recurso
+ * ali. A referência é o **maior valor da lista**, não o total: com nove
+ * segmentos nenhum passa de ~17% do todo, e uma escala sobre o total deixaria
+ * todas as faixas igualmente pálidas, apagando justamente a comparação que a
+ * lista existe para mostrar.
  */
 export function AlocacaoProporcional({
   titulo,
   total,
   linhas,
   alturaTotal = 300,
+  onPairar,
 }: {
   titulo?: string;
   total: number;
   linhas: LinhaAlocacao[];
   alturaTotal?: number;
+  /** Avisa qual linha está sob o ponteiro, para acender a fatia na rosca. */
+  onPairar?: (id: string | undefined) => void;
 }) {
   const soma = linhas.reduce((s, l) => s + l.valor, 0) || 1;
+  const maior = Math.max(...linhas.map((l) => l.valor), 1);
   const ALTURA_MINIMA = 26;
 
   // Distribui a altura proporcionalmente, mas garante o piso de leitura e
@@ -56,11 +66,12 @@ export function AlocacaoProporcional({
         {linhas.map((l, i) => (
           <li
             key={l.id}
-            className="flex items-start justify-between gap-3 border-b border-borda px-3 py-2 last:border-b-0"
+            onMouseEnter={() => onPairar?.(l.id)}
+            className="flex items-start justify-between gap-3 border-b border-borda px-3 py-2 transition-[filter] last:border-b-0 hover:brightness-95"
             style={{
               height: `${alturas[i]}px`,
               background: l.cor
-                ? `color-mix(in srgb, ${l.cor} ${Math.max(6, (l.valor / soma) * 42)}%, transparent)`
+                ? `color-mix(in srgb, ${l.cor} ${(8 + (l.valor / maior) * 62).toFixed(1)}%, transparent)`
                 : undefined,
             }}
           >

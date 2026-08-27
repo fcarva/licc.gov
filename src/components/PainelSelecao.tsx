@@ -5,11 +5,11 @@ import Link from "next/link";
 import type { EntityDetail, GraphNode } from "@/types/graph";
 import { NODE_KINDS } from "@/ontology/nodes";
 import { EDGE_KINDS } from "@/ontology/edges";
-import { brl, brlCurto, percentual, rotuloStatus } from "@/lib/format";
+import { brl, brlCurto, percentual, dataCurta, rotuloStatus } from "@/lib/format";
 import { Cartao, Metrica, Segmentado } from "./Coluna";
 import { SeloProveniencia } from "./SeloProveniencia";
 
-type Aba = "geral" | "conexoes" | "orcamento";
+type Aba = "noticias" | "conexoes" | "orcamento";
 
 /**
  * Cartão de contexto do vértice selecionado no grafo da home.
@@ -20,15 +20,18 @@ type Aba = "geral" | "conexoes" | "orcamento";
 export function PainelSelecao({
   no,
   onFechar,
+  abaInicial = "noticias",
 }: {
   no: GraphNode;
   onFechar: () => void;
+  /** Clique vindo da rosca abre direto no orçamento. */
+  abaInicial?: Aba;
 }) {
-  const [aba, setAba] = useState<Aba>("geral");
+  const [aba, setAba] = useState<Aba>(abaInicial);
   const [detalhe, setDetalhe] = useState<EntityDetail | null>(null);
 
   useEffect(() => {
-    setAba("geral");
+    setAba(abaInicial);
     setDetalhe(null);
     const controle = new AbortController();
     fetch(`/api/entities/${no.slug}`, { signal: controle.signal })
@@ -38,7 +41,7 @@ export function PainelSelecao({
         if ((e as Error).name !== "AbortError") setDetalhe(null);
       });
     return () => controle.abort();
-  }, [no.slug]);
+  }, [no.slug, abaInicial]);
 
   useEffect(() => {
     const aoTeclar = (e: KeyboardEvent) => e.key === "Escape" && onFechar();
@@ -50,11 +53,16 @@ export function PainelSelecao({
   const temOrcamento =
     (detalhe?.agregado.autorizado ?? 0) > 0 || (detalhe?.agregado.captado ?? 0) > 0;
 
+  // Espelha o painel de entidade do CivLab: News | Who's connected? | Budget.
+  // Abas vazias não aparecem — mostrar aba sem conteúdo é pior que omiti-la.
   const abas: Array<{ id: Aba; rotulo: string; contagem?: number }> = [
-    { id: "geral", rotulo: "Visão geral" },
+    ...(detalhe?.noticias.length
+      ? [{ id: "noticias" as const, rotulo: "Notícias", contagem: detalhe.noticias.length }]
+      : []),
     { id: "conexoes", rotulo: "Quem se conecta?", contagem: detalhe?.vizinhos.length },
     ...(temOrcamento ? [{ id: "orcamento" as const, rotulo: "Orçamento" }] : []),
   ];
+  const abaAtiva = abas.some((a) => a.id === aba) ? aba : abas[0].id;
 
   return (
     <>
@@ -89,6 +97,27 @@ export function PainelSelecao({
           <p className="mt-2.5 text-sm leading-relaxed text-tinta-suave">{no.descricao}</p>
         ) : null}
 
+        {detalhe?.fundamentos.length ? (
+          <p className="mt-2.5 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm">
+            <Link
+              href={`/entidade/${detalhe.fundamentos[0].slug}`}
+              className="text-tinta-suave underline decoration-borda-forte underline-offset-4 transition-colors hover:text-tinta"
+            >
+              Fundamento legal
+            </Link>
+            {no.url ? (
+              <a
+                href={no.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="text-tinta-suave underline decoration-borda-forte underline-offset-4 transition-colors hover:text-tinta"
+              >
+                Sítio oficial
+              </a>
+            ) : null}
+          </p>
+        ) : null}
+
         <div className="mt-3 flex flex-wrap items-center gap-1.5">
           <SeloProveniencia proveniencia={no.proveniencia} />
           {no.meta?.status ? (
@@ -109,14 +138,14 @@ export function PainelSelecao({
         </div>
       </Cartao>
 
-      <Segmentado opcoes={abas} valor={aba} onMudar={setAba} className="self-start" />
+      <Segmentado opcoes={abas} valor={abaAtiva} onMudar={setAba} className="self-start" />
 
       <Cartao>
         {!detalhe ? (
           <p className="py-6 text-center text-sm text-tinta-fraca">Carregando…</p>
-        ) : aba === "geral" ? (
-          <Geral no={no} detalhe={detalhe} />
-        ) : aba === "conexoes" ? (
+        ) : abaAtiva === "noticias" ? (
+          <Noticias detalhe={detalhe} />
+        ) : abaAtiva === "conexoes" ? (
           <Conexoes detalhe={detalhe} />
         ) : (
           <Orcamento no={no} detalhe={detalhe} />
@@ -135,61 +164,41 @@ export function PainelSelecao({
   );
 }
 
-function Geral({ no, detalhe }: { no: GraphNode; detalhe: EntityDetail }) {
-  const ag = detalhe.agregado;
+/** Feed da entidade, no lugar da aba News do original. */
+function Noticias({ detalhe }: { detalhe: EntityDetail }) {
+  if (!detalhe.noticias.length) {
+    return <p className="text-sm text-tinta-fraca">Nenhuma publicação vinculada.</p>;
+  }
   return (
-    <div className="space-y-4">
-      {ag.captado > 0 || ag.autorizado > 0 ? (
-        <div className="grid grid-cols-2 gap-4">
-          <Metrica rotulo="Captado" valor={brl(ag.captado)} posicao={no.posicao} variacao={no.variacaoAnual} />
-          <Metrica rotulo="Autorizado" valor={brl(ag.autorizado)} nota={`${percentual(ag.execucao)} executado`} />
-        </div>
-      ) : null}
-
-      {detalhe.fundamentos.length ? (
-        <div>
-          <h3 className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-tinta-fraca">
-            Fundamento legal
+    <ul className="divide-y divide-borda">
+      {detalhe.noticias.slice(0, 12).map((n) => (
+        <li key={n.id} className="py-3 first:pt-0 last:pb-0">
+          <div className="flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <time dateTime={n.data} className="tabular text-[11px] text-tinta-fraca">
+              {dataCurta(n.data)}
+            </time>
+            <span className="text-[11px] text-tinta-fraca">· {n.veiculo}</span>
+          </div>
+          <h3 className="mt-1 text-sm font-medium leading-snug text-tinta">
+            {n.url ? (
+              <a
+                href={n.url}
+                target="_blank"
+                rel="noreferrer noopener"
+                className="underline-offset-2 hover:underline"
+              >
+                {n.titulo}
+              </a>
+            ) : (
+              n.titulo
+            )}
           </h3>
-          <ul className="space-y-1">
-            {detalhe.fundamentos.map((f) => (
-              <li key={f.id}>
-                <Link
-                  href={`/entidade/${f.slug}`}
-                  className="text-sm text-realce underline underline-offset-2 hover:opacity-80"
-                >
-                  {f.nome}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-
-      {detalhe.noticias.length ? (
-        <div>
-          <h3 className="mb-1.5 text-[11px] font-medium uppercase tracking-wide text-tinta-fraca">
-            Últimas notícias
-          </h3>
-          <ul className="space-y-2">
-            {detalhe.noticias.slice(0, 3).map((n) => (
-              <li key={n.id}>
-                <p className="text-sm leading-snug text-tinta">
-                  {n.url ? (
-                    <a href={n.url} target="_blank" rel="noreferrer noopener" className="underline-offset-2 hover:underline">
-                      {n.titulo}
-                    </a>
-                  ) : (
-                    n.titulo
-                  )}
-                </p>
-                <p className="text-[11px] text-tinta-fraca">{n.veiculo}</p>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : null}
-    </div>
+          {n.resumo ? (
+            <p className="mt-1 text-xs leading-relaxed text-tinta-fraca">{n.resumo}</p>
+          ) : null}
+        </li>
+      ))}
+    </ul>
   );
 }
 

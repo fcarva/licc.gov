@@ -54,6 +54,12 @@ export default function PaginaInicial() {
   return (
     <HomeGrafo
       grafo={grafo}
+      orcamento={{
+        segmentos,
+        totais: { autorizado: stats.autorizado, captado: stats.captado },
+        cotas: stats.cotas,
+        variacaoCaptado,
+      }}
       coluna={
         <>
           <Cartao>
