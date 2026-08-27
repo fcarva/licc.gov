@@ -26,6 +26,7 @@ import {
   EXERCICIO_PADRAO,
 } from "@/ontology";
 import { gerarSeed } from "./seed/gerar";
+import { nosFixos, arestasFixas } from "./seed/institucional";
 
 const RAIZ = process.cwd();
 const DIR_DADOS = join(RAIZ, "data");
@@ -231,6 +232,23 @@ function podarArestas(nodes: GraphNode[], edges: GraphEdge[]): GraphEdge[] {
   return edges.filter((e) => ids.has(e.source) && ids.has(e.target));
 }
 
+/** Converte o campo `fundamentos` de cada nó em arestas `fundamenta`. */
+function criarArestasFundamento(nodes: GraphNode[], existentes: GraphEdge[]): GraphEdge[] {
+  const ids = new Set(nodes.map((n) => n.id));
+  const existentesSet = new Set(existentes.map((e) => e.id));
+  const novas: GraphEdge[] = [];
+  for (const no of nodes) {
+    if (!no.fundamentos?.length) continue;
+    for (const fundId of no.fundamentos) {
+      if (!ids.has(fundId)) continue;
+      const id = `fundamenta:${no.id}->${fundId}`;
+      if (existentesSet.has(id)) continue;
+      novas.push({ id, source: no.id, target: fundId, kind: "fundamenta", proveniencia: no.proveniencia });
+    }
+  }
+  return novas;
+}
+
 export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: Estatisticas } {
   const arquivoBruto = join(DIR_BRUTO, `licc-${ano}.json`);
   let nodes: GraphNode[];
@@ -251,7 +269,25 @@ export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: E
     edges = seed.edges;
   }
 
+  // Garante que os nós e arestas institucionais estejam presentes,
+  // independente de quando o ingest foi rodado.
+  const idsExistentes = new Set(nodes.map((n) => n.id));
+  for (const no of nosFixos(ano)) {
+    if (!idsExistentes.has(no.id)) {
+      nodes.push(no);
+      idsExistentes.add(no.id);
+    }
+  }
+  const idsArestas = new Set(edges.map((e) => e.id));
+  for (const aresta of arestasFixas(ano)) {
+    if (!idsArestas.has(aresta.id)) {
+      edges.push(aresta);
+      idsArestas.add(aresta.id);
+    }
+  }
+
   edges = podarArestas(nodes, edges);
+  edges = [...edges, ...criarArestasFundamento(nodes, edges)];
   propagarAgregados(nodes, edges);
   posicionarEVariar(nodes);
   const stats = apurarEstatisticas(nodes);

@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-08-27T02:10:43.827Z",
+    "geradoEm": "2026-08-27T02:20:58.383Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -18,9 +18,9 @@
       }
     ],
     "contagemPorProveniencia": {
-      "oficial": 31,
-      "derivado": 96,
-      "demonstracao": 1330
+      "oficial": 46,
+      "derivado": 105,
+      "demonstracao": 1592
     }
   },
   "nodes": [
@@ -20274,6 +20274,2008 @@
       "source": "evento-2025-0127",
       "target": "espaco-praca-de-eventos-de-vitoria",
       "kind": "acontece_em",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:publico-es->lei-11246-2021",
+      "source": "publico-es",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:governo-es->lei-11246-2021",
+      "source": "governo-es",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:secult-es->lei-11246-2021",
+      "source": "secult-es",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:secult-es->in-licc-001-2025",
+      "source": "secult-es",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:sefaz-es->lei-7000-2001",
+      "source": "sefaz-es",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:sefaz-es->portaria-sefaz-01r-2025",
+      "source": "sefaz-es",
+      "target": "portaria-sefaz-01r-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:cec-es->lei-11246-2021",
+      "source": "cec-es",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:cap-licc->in-licc-001-2025",
+      "source": "cap-licc",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:licc-programa->lei-11246-2021",
+      "source": "licc-programa",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:licc-programa->lei-7000-2001",
+      "source": "licc-programa",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:licc-programa->portaria-sefaz-01r-2025",
+      "source": "licc-programa",
+      "target": "portaria-sefaz-01r-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:licc-programa->in-licc-2026",
+      "source": "licc-programa",
+      "target": "in-licc-2026",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:licc-programa->in-licc-001-2025",
+      "source": "licc-programa",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:edital-licc-2025->in-licc-001-2025",
+      "source": "edital-licc-2025",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:titular-secult->lei-11246-2021",
+      "source": "titular-secult",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:seg-musica->in-licc-001-2025",
+      "source": "seg-musica",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-audiovisual->in-licc-001-2025",
+      "source": "seg-audiovisual",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-artes-cenicas->in-licc-001-2025",
+      "source": "seg-artes-cenicas",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-patrimonio->in-licc-001-2025",
+      "source": "seg-patrimonio",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-literatura->in-licc-001-2025",
+      "source": "seg-literatura",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-artes-visuais->in-licc-001-2025",
+      "source": "seg-artes-visuais",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-culturas-populares->in-licc-001-2025",
+      "source": "seg-culturas-populares",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-museus-memoria->in-licc-001-2025",
+      "source": "seg-museus-memoria",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-cultura-digital->in-licc-001-2025",
+      "source": "seg-cultura-digital",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:prop-agente-alfa->lei-11246-2021",
+      "source": "prop-agente-alfa",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-beta->lei-11246-2021",
+      "source": "prop-agente-beta",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-prefeitura-de-ibatiba->lei-11246-2021",
+      "source": "prop-prefeitura-de-ibatiba",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-delta->lei-11246-2021",
+      "source": "prop-produtora-delta",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-epsilon->lei-11246-2021",
+      "source": "prop-produtora-epsilon",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-zeta->lei-11246-2021",
+      "source": "prop-instituto-zeta",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-eta->lei-11246-2021",
+      "source": "prop-agente-eta",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-teta->lei-11246-2021",
+      "source": "prop-produtora-teta",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-iota->lei-11246-2021",
+      "source": "prop-agente-iota",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-capa->lei-11246-2021",
+      "source": "prop-produtora-capa",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-lambda->lei-11246-2021",
+      "source": "prop-produtora-lambda",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-miu->lei-11246-2021",
+      "source": "prop-coletivo-miu",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-niu->lei-11246-2021",
+      "source": "prop-instituto-niu",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-csi->lei-11246-2021",
+      "source": "prop-coletivo-csi",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-omicron->lei-11246-2021",
+      "source": "prop-agente-omicron",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-pi->lei-11246-2021",
+      "source": "prop-coletivo-pi",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-ro->lei-11246-2021",
+      "source": "prop-produtora-ro",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-sigma->lei-11246-2021",
+      "source": "prop-coletivo-sigma",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-prefeitura-de-apiaca->lei-11246-2021",
+      "source": "prop-prefeitura-de-apiaca",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-ipsilon->lei-11246-2021",
+      "source": "prop-produtora-ipsilon",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-fi->lei-11246-2021",
+      "source": "prop-produtora-fi",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-qui->lei-11246-2021",
+      "source": "prop-coletivo-qui",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-psi->lei-11246-2021",
+      "source": "prop-produtora-psi",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-omega->lei-11246-2021",
+      "source": "prop-produtora-omega",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-alfa-2->lei-11246-2021",
+      "source": "prop-agente-alfa-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-beta-2->lei-11246-2021",
+      "source": "prop-instituto-beta-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-gama-2->lei-11246-2021",
+      "source": "prop-produtora-gama-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-delta-2->lei-11246-2021",
+      "source": "prop-coletivo-delta-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-epsilon-2->lei-11246-2021",
+      "source": "prop-produtora-epsilon-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-zeta-2->lei-11246-2021",
+      "source": "prop-agente-zeta-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-eta-2->lei-11246-2021",
+      "source": "prop-produtora-eta-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-teta-2->lei-11246-2021",
+      "source": "prop-produtora-teta-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-iota-2->lei-11246-2021",
+      "source": "prop-coletivo-iota-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-capa-2->lei-11246-2021",
+      "source": "prop-produtora-capa-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-lambda-2->lei-11246-2021",
+      "source": "prop-agente-lambda-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-miu-2->lei-11246-2021",
+      "source": "prop-produtora-miu-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-prefeitura-de-colatina->lei-11246-2021",
+      "source": "prop-prefeitura-de-colatina",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-csi-2->lei-11246-2021",
+      "source": "prop-instituto-csi-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-omicron-2->lei-11246-2021",
+      "source": "prop-instituto-omicron-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-pi-2->lei-11246-2021",
+      "source": "prop-agente-pi-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-ro-2->lei-11246-2021",
+      "source": "prop-produtora-ro-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-sigma-2->lei-11246-2021",
+      "source": "prop-produtora-sigma-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-tau-2->lei-11246-2021",
+      "source": "prop-produtora-tau-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-ipsilon-2->lei-11246-2021",
+      "source": "prop-coletivo-ipsilon-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-prefeitura-de-iconha->lei-11246-2021",
+      "source": "prop-prefeitura-de-iconha",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-qui-2->lei-11246-2021",
+      "source": "prop-produtora-qui-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-prefeitura-de-marilandia->lei-11246-2021",
+      "source": "prop-prefeitura-de-marilandia",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-omega-2->lei-11246-2021",
+      "source": "prop-instituto-omega-2",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-alfa-3->lei-11246-2021",
+      "source": "prop-produtora-alfa-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-beta-3->lei-11246-2021",
+      "source": "prop-coletivo-beta-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-produtora-gama-3->lei-11246-2021",
+      "source": "prop-produtora-gama-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-instituto-delta-3->lei-11246-2021",
+      "source": "prop-instituto-delta-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-agente-epsilon-3->lei-11246-2021",
+      "source": "prop-agente-epsilon-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:prop-coletivo-zeta-3->lei-11246-2021",
+      "source": "prop-coletivo-zeta-3",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-delta-siderurgia->lei-11246-2021",
+      "source": "patr-empresa-delta-siderurgia",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-delta-siderurgia->lei-7000-2001",
+      "source": "patr-empresa-delta-siderurgia",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-iota-celulose->lei-11246-2021",
+      "source": "patr-empresa-iota-celulose",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-iota-celulose->lei-7000-2001",
+      "source": "patr-empresa-iota-celulose",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-csi-mineracao->lei-11246-2021",
+      "source": "patr-empresa-csi-mineracao",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-csi-mineracao->lei-7000-2001",
+      "source": "patr-empresa-csi-mineracao",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-tau-logistica-portuaria->lei-11246-2021",
+      "source": "patr-empresa-tau-logistica-portuaria",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-tau-logistica-portuaria->lei-7000-2001",
+      "source": "patr-empresa-tau-logistica-portuaria",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-omega-rochas-ornamentais->lei-11246-2021",
+      "source": "patr-empresa-omega-rochas-ornamentais",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-omega-rochas-ornamentais->lei-7000-2001",
+      "source": "patr-empresa-omega-rochas-ornamentais",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-epsilon-energia->lei-11246-2021",
+      "source": "patr-empresa-epsilon-energia",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-epsilon-energia->lei-7000-2001",
+      "source": "patr-empresa-epsilon-energia",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-capa-varejo->lei-11246-2021",
+      "source": "patr-empresa-capa-varejo",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-capa-varejo->lei-7000-2001",
+      "source": "patr-empresa-capa-varejo",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-omicron-alimentos->lei-11246-2021",
+      "source": "patr-empresa-omicron-alimentos",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-omicron-alimentos->lei-7000-2001",
+      "source": "patr-empresa-omicron-alimentos",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-ipsilon-petroleo-e-gas->lei-11246-2021",
+      "source": "patr-empresa-ipsilon-petroleo-e-gas",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-ipsilon-petroleo-e-gas->lei-7000-2001",
+      "source": "patr-empresa-ipsilon-petroleo-e-gas",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-alfa-servicos-financeiros->lei-11246-2021",
+      "source": "patr-empresa-alfa-servicos-financeiros",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-alfa-servicos-financeiros->lei-7000-2001",
+      "source": "patr-empresa-alfa-servicos-financeiros",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-zeta-saude->lei-11246-2021",
+      "source": "patr-empresa-zeta-saude",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-zeta-saude->lei-7000-2001",
+      "source": "patr-empresa-zeta-saude",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-lambda-construcao-civil->lei-11246-2021",
+      "source": "patr-empresa-lambda-construcao-civil",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-lambda-construcao-civil->lei-7000-2001",
+      "source": "patr-empresa-lambda-construcao-civil",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-pi-siderurgia->lei-11246-2021",
+      "source": "patr-empresa-pi-siderurgia",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-pi-siderurgia->lei-7000-2001",
+      "source": "patr-empresa-pi-siderurgia",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-fi-celulose->lei-11246-2021",
+      "source": "patr-empresa-fi-celulose",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-fi-celulose->lei-7000-2001",
+      "source": "patr-empresa-fi-celulose",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-beta-mineracao->lei-11246-2021",
+      "source": "patr-empresa-beta-mineracao",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-beta-mineracao->lei-7000-2001",
+      "source": "patr-empresa-beta-mineracao",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-eta-logistica-portuaria->lei-11246-2021",
+      "source": "patr-empresa-eta-logistica-portuaria",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-eta-logistica-portuaria->lei-7000-2001",
+      "source": "patr-empresa-eta-logistica-portuaria",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-miu-rochas-ornamentais->lei-11246-2021",
+      "source": "patr-empresa-miu-rochas-ornamentais",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-miu-rochas-ornamentais->lei-7000-2001",
+      "source": "patr-empresa-miu-rochas-ornamentais",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-ro-energia->lei-11246-2021",
+      "source": "patr-empresa-ro-energia",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-ro-energia->lei-7000-2001",
+      "source": "patr-empresa-ro-energia",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-qui-varejo->lei-11246-2021",
+      "source": "patr-empresa-qui-varejo",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-qui-varejo->lei-7000-2001",
+      "source": "patr-empresa-qui-varejo",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-gama-alimentos->lei-11246-2021",
+      "source": "patr-empresa-gama-alimentos",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-gama-alimentos->lei-7000-2001",
+      "source": "patr-empresa-gama-alimentos",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-teta-petroleo-e-gas->lei-11246-2021",
+      "source": "patr-empresa-teta-petroleo-e-gas",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-teta-petroleo-e-gas->lei-7000-2001",
+      "source": "patr-empresa-teta-petroleo-e-gas",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-niu-servicos-financeiros->lei-11246-2021",
+      "source": "patr-empresa-niu-servicos-financeiros",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:patr-empresa-niu-servicos-financeiros->lei-7000-2001",
+      "source": "patr-empresa-niu-servicos-financeiros",
+      "target": "lei-7000-2001",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0001->lei-11246-2021",
+      "source": "proj-2025-0001",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0001->in-licc-001-2025",
+      "source": "proj-2025-0001",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0002->lei-11246-2021",
+      "source": "proj-2025-0002",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0002->in-licc-001-2025",
+      "source": "proj-2025-0002",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0003->lei-11246-2021",
+      "source": "proj-2025-0003",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0003->in-licc-001-2025",
+      "source": "proj-2025-0003",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0004->lei-11246-2021",
+      "source": "proj-2025-0004",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0004->in-licc-001-2025",
+      "source": "proj-2025-0004",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0005->lei-11246-2021",
+      "source": "proj-2025-0005",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0005->in-licc-001-2025",
+      "source": "proj-2025-0005",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0006->lei-11246-2021",
+      "source": "proj-2025-0006",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0006->in-licc-001-2025",
+      "source": "proj-2025-0006",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0007->lei-11246-2021",
+      "source": "proj-2025-0007",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0007->in-licc-001-2025",
+      "source": "proj-2025-0007",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0008->lei-11246-2021",
+      "source": "proj-2025-0008",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0008->in-licc-001-2025",
+      "source": "proj-2025-0008",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0009->lei-11246-2021",
+      "source": "proj-2025-0009",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0009->in-licc-001-2025",
+      "source": "proj-2025-0009",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0010->lei-11246-2021",
+      "source": "proj-2025-0010",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0010->in-licc-001-2025",
+      "source": "proj-2025-0010",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0011->lei-11246-2021",
+      "source": "proj-2025-0011",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0011->in-licc-001-2025",
+      "source": "proj-2025-0011",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0012->lei-11246-2021",
+      "source": "proj-2025-0012",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0012->in-licc-001-2025",
+      "source": "proj-2025-0012",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0013->lei-11246-2021",
+      "source": "proj-2025-0013",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0013->in-licc-001-2025",
+      "source": "proj-2025-0013",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0014->lei-11246-2021",
+      "source": "proj-2025-0014",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0014->in-licc-001-2025",
+      "source": "proj-2025-0014",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0015->lei-11246-2021",
+      "source": "proj-2025-0015",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0015->in-licc-001-2025",
+      "source": "proj-2025-0015",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0016->lei-11246-2021",
+      "source": "proj-2025-0016",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0016->in-licc-001-2025",
+      "source": "proj-2025-0016",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0017->lei-11246-2021",
+      "source": "proj-2025-0017",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0017->in-licc-001-2025",
+      "source": "proj-2025-0017",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0018->lei-11246-2021",
+      "source": "proj-2025-0018",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0018->in-licc-001-2025",
+      "source": "proj-2025-0018",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0019->lei-11246-2021",
+      "source": "proj-2025-0019",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0019->in-licc-001-2025",
+      "source": "proj-2025-0019",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0020->lei-11246-2021",
+      "source": "proj-2025-0020",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0020->in-licc-001-2025",
+      "source": "proj-2025-0020",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0021->lei-11246-2021",
+      "source": "proj-2025-0021",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0021->in-licc-001-2025",
+      "source": "proj-2025-0021",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0022->lei-11246-2021",
+      "source": "proj-2025-0022",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0022->in-licc-001-2025",
+      "source": "proj-2025-0022",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0023->lei-11246-2021",
+      "source": "proj-2025-0023",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0023->in-licc-001-2025",
+      "source": "proj-2025-0023",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0024->lei-11246-2021",
+      "source": "proj-2025-0024",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0024->in-licc-001-2025",
+      "source": "proj-2025-0024",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0025->lei-11246-2021",
+      "source": "proj-2025-0025",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0025->in-licc-001-2025",
+      "source": "proj-2025-0025",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0026->lei-11246-2021",
+      "source": "proj-2025-0026",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0026->in-licc-001-2025",
+      "source": "proj-2025-0026",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0027->lei-11246-2021",
+      "source": "proj-2025-0027",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0027->in-licc-001-2025",
+      "source": "proj-2025-0027",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0028->lei-11246-2021",
+      "source": "proj-2025-0028",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0028->in-licc-001-2025",
+      "source": "proj-2025-0028",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0029->lei-11246-2021",
+      "source": "proj-2025-0029",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0029->in-licc-001-2025",
+      "source": "proj-2025-0029",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0030->lei-11246-2021",
+      "source": "proj-2025-0030",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0030->in-licc-001-2025",
+      "source": "proj-2025-0030",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0031->lei-11246-2021",
+      "source": "proj-2025-0031",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0031->in-licc-001-2025",
+      "source": "proj-2025-0031",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0032->lei-11246-2021",
+      "source": "proj-2025-0032",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0032->in-licc-001-2025",
+      "source": "proj-2025-0032",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0033->lei-11246-2021",
+      "source": "proj-2025-0033",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0033->in-licc-001-2025",
+      "source": "proj-2025-0033",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0034->lei-11246-2021",
+      "source": "proj-2025-0034",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0034->in-licc-001-2025",
+      "source": "proj-2025-0034",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0035->lei-11246-2021",
+      "source": "proj-2025-0035",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0035->in-licc-001-2025",
+      "source": "proj-2025-0035",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0036->lei-11246-2021",
+      "source": "proj-2025-0036",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0036->in-licc-001-2025",
+      "source": "proj-2025-0036",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0037->lei-11246-2021",
+      "source": "proj-2025-0037",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0037->in-licc-001-2025",
+      "source": "proj-2025-0037",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0038->lei-11246-2021",
+      "source": "proj-2025-0038",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0038->in-licc-001-2025",
+      "source": "proj-2025-0038",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0039->lei-11246-2021",
+      "source": "proj-2025-0039",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0039->in-licc-001-2025",
+      "source": "proj-2025-0039",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0040->lei-11246-2021",
+      "source": "proj-2025-0040",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0040->in-licc-001-2025",
+      "source": "proj-2025-0040",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0041->lei-11246-2021",
+      "source": "proj-2025-0041",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0041->in-licc-001-2025",
+      "source": "proj-2025-0041",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0042->lei-11246-2021",
+      "source": "proj-2025-0042",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0042->in-licc-001-2025",
+      "source": "proj-2025-0042",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0043->lei-11246-2021",
+      "source": "proj-2025-0043",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0043->in-licc-001-2025",
+      "source": "proj-2025-0043",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0044->lei-11246-2021",
+      "source": "proj-2025-0044",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0044->in-licc-001-2025",
+      "source": "proj-2025-0044",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0045->lei-11246-2021",
+      "source": "proj-2025-0045",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0045->in-licc-001-2025",
+      "source": "proj-2025-0045",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0046->lei-11246-2021",
+      "source": "proj-2025-0046",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0046->in-licc-001-2025",
+      "source": "proj-2025-0046",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0047->lei-11246-2021",
+      "source": "proj-2025-0047",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0047->in-licc-001-2025",
+      "source": "proj-2025-0047",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0048->lei-11246-2021",
+      "source": "proj-2025-0048",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0048->in-licc-001-2025",
+      "source": "proj-2025-0048",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0049->lei-11246-2021",
+      "source": "proj-2025-0049",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0049->in-licc-001-2025",
+      "source": "proj-2025-0049",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0050->lei-11246-2021",
+      "source": "proj-2025-0050",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0050->in-licc-001-2025",
+      "source": "proj-2025-0050",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0051->lei-11246-2021",
+      "source": "proj-2025-0051",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0051->in-licc-001-2025",
+      "source": "proj-2025-0051",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0052->lei-11246-2021",
+      "source": "proj-2025-0052",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0052->in-licc-001-2025",
+      "source": "proj-2025-0052",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0053->lei-11246-2021",
+      "source": "proj-2025-0053",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0053->in-licc-001-2025",
+      "source": "proj-2025-0053",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0054->lei-11246-2021",
+      "source": "proj-2025-0054",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0054->in-licc-001-2025",
+      "source": "proj-2025-0054",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0055->lei-11246-2021",
+      "source": "proj-2025-0055",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0055->in-licc-001-2025",
+      "source": "proj-2025-0055",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0056->lei-11246-2021",
+      "source": "proj-2025-0056",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0056->in-licc-001-2025",
+      "source": "proj-2025-0056",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0057->lei-11246-2021",
+      "source": "proj-2025-0057",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0057->in-licc-001-2025",
+      "source": "proj-2025-0057",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0058->lei-11246-2021",
+      "source": "proj-2025-0058",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0058->in-licc-001-2025",
+      "source": "proj-2025-0058",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0059->lei-11246-2021",
+      "source": "proj-2025-0059",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0059->in-licc-001-2025",
+      "source": "proj-2025-0059",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0060->lei-11246-2021",
+      "source": "proj-2025-0060",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0060->in-licc-001-2025",
+      "source": "proj-2025-0060",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0061->lei-11246-2021",
+      "source": "proj-2025-0061",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0061->in-licc-001-2025",
+      "source": "proj-2025-0061",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0062->lei-11246-2021",
+      "source": "proj-2025-0062",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0062->in-licc-001-2025",
+      "source": "proj-2025-0062",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0063->lei-11246-2021",
+      "source": "proj-2025-0063",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0063->in-licc-001-2025",
+      "source": "proj-2025-0063",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0064->lei-11246-2021",
+      "source": "proj-2025-0064",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0064->in-licc-001-2025",
+      "source": "proj-2025-0064",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0065->lei-11246-2021",
+      "source": "proj-2025-0065",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0065->in-licc-001-2025",
+      "source": "proj-2025-0065",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0066->lei-11246-2021",
+      "source": "proj-2025-0066",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0066->in-licc-001-2025",
+      "source": "proj-2025-0066",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0067->lei-11246-2021",
+      "source": "proj-2025-0067",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0067->in-licc-001-2025",
+      "source": "proj-2025-0067",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0068->lei-11246-2021",
+      "source": "proj-2025-0068",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0068->in-licc-001-2025",
+      "source": "proj-2025-0068",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0069->lei-11246-2021",
+      "source": "proj-2025-0069",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0069->in-licc-001-2025",
+      "source": "proj-2025-0069",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0070->lei-11246-2021",
+      "source": "proj-2025-0070",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0070->in-licc-001-2025",
+      "source": "proj-2025-0070",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0071->lei-11246-2021",
+      "source": "proj-2025-0071",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0071->in-licc-001-2025",
+      "source": "proj-2025-0071",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0072->lei-11246-2021",
+      "source": "proj-2025-0072",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0072->in-licc-001-2025",
+      "source": "proj-2025-0072",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0073->lei-11246-2021",
+      "source": "proj-2025-0073",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0073->in-licc-001-2025",
+      "source": "proj-2025-0073",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0074->lei-11246-2021",
+      "source": "proj-2025-0074",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0074->in-licc-001-2025",
+      "source": "proj-2025-0074",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0075->lei-11246-2021",
+      "source": "proj-2025-0075",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0075->in-licc-001-2025",
+      "source": "proj-2025-0075",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0076->lei-11246-2021",
+      "source": "proj-2025-0076",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0076->in-licc-001-2025",
+      "source": "proj-2025-0076",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0077->lei-11246-2021",
+      "source": "proj-2025-0077",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0077->in-licc-001-2025",
+      "source": "proj-2025-0077",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0078->lei-11246-2021",
+      "source": "proj-2025-0078",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0078->in-licc-001-2025",
+      "source": "proj-2025-0078",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0079->lei-11246-2021",
+      "source": "proj-2025-0079",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0079->in-licc-001-2025",
+      "source": "proj-2025-0079",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0080->lei-11246-2021",
+      "source": "proj-2025-0080",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0080->in-licc-001-2025",
+      "source": "proj-2025-0080",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0081->lei-11246-2021",
+      "source": "proj-2025-0081",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0081->in-licc-001-2025",
+      "source": "proj-2025-0081",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0082->lei-11246-2021",
+      "source": "proj-2025-0082",
+      "target": "lei-11246-2021",
+      "kind": "fundamenta",
+      "proveniencia": "demonstracao"
+    },
+    {
+      "id": "fundamenta:proj-2025-0082->in-licc-001-2025",
+      "source": "proj-2025-0082",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
       "proveniencia": "demonstracao"
     }
   ]

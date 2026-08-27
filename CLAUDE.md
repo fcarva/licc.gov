@@ -190,3 +190,7 @@ no trailer `Claude-Session:` do commit inicial.
 Projeto independente. Não é sítio oficial da SECULT-ES nem do Governo do
 Espírito Santo, assim como o CivLab não tem vínculo com a Prefeitura de São
 Francisco.
+
+## Regras do Next.js
+
+@AGENTS.md

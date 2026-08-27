@@ -15,21 +15,43 @@ export const metadata: Metadata = {
 export default function PaginaOrcamento() {
   const grafo = obterGrafo();
   const stats = obterEstatisticas();
-  const segmentos = listarNos("segmento")
-    .filter((s) => (s.orcamento?.autorizado ?? 0) > 0)
-    .sort((a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0));
 
-  const regiao = new Map<string, { autorizado: number; captado: number }>();
-  for (const m of listarNos("municipio")) {
-    const chave = String(m.meta?.regiao ?? "Não informada");
-    const atual = regiao.get(chave) ?? { autorizado: 0, captado: 0 };
-    atual.autorizado += m.orcamento?.autorizado ?? 0;
-    atual.captado += m.orcamento?.captado ?? 0;
-    regiao.set(chave, atual);
+  const todosSegmentos = listarNos("segmento");
+  const todosProjetos = listarNos("projeto");
+
+  const segmentosComProjetos = todosSegmentos
+    .map((s) => ({
+      seg: s,
+      projetos: todosProjetos.filter((p) => p.meta?.segmentoId === s.id),
+    }))
+    .filter(({ projetos }) => projetos.length > 0)
+    .sort((a, b) => b.projetos.length - a.projetos.length);
+
+  const temDadosFinanceiros = segmentosComProjetos.some(
+    ({ seg }) => (seg.orcamento?.autorizado ?? 0) > 0,
+  );
+
+  const municipiosProjetos = listarNos("municipio")
+    .map((m) => ({
+      mun: m,
+      projetos: todosProjetos.filter((p) => p.meta?.municipioId === m.id).length,
+      autorizado: m.orcamento?.autorizado ?? 0,
+      captado: m.orcamento?.captado ?? 0,
+      regiao: String(m.meta?.regiao ?? "Não informada"),
+    }))
+    .filter(({ projetos }) => projetos > 0)
+    .sort((a, b) => b.projetos - a.projetos);
+
+  // Resumo por microrregião agrupando contagem de projetos
+  const regiaoMap = new Map<string, { projetos: number; autorizado: number; captado: number }>();
+  for (const item of municipiosProjetos) {
+    const atual = regiaoMap.get(item.regiao) ?? { projetos: 0, autorizado: 0, captado: 0 };
+    atual.projetos += item.projetos;
+    atual.autorizado += item.autorizado;
+    atual.captado += item.captado;
+    regiaoMap.set(item.regiao, atual);
   }
-  const regioes = [...regiao.entries()]
-    .filter(([, v]) => v.autorizado > 0)
-    .sort((a, b) => b[1].captado - a[1].captado);
+  const regioes = [...regiaoMap.entries()].sort((a, b) => b[1].projetos - a[1].projetos);
 
   return (
     <Pagina
@@ -100,21 +122,27 @@ export default function PaginaOrcamento() {
 
       <section className="mb-10">
         <h2 className="mb-4 text-lg font-semibold text-tinta">Por segmento cultural</h2>
+        {!temDadosFinanceiros && (
+          <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
+            Os valores financeiros serão preenchidos quando a SECULT publicar os resultados de captação.
+          </p>
+        )}
         <Tabela
           colunas={[
             { rotulo: "Segmento" },
             { rotulo: "Projetos", alinhar: "direita" },
-            { rotulo: "Autorizado", alinhar: "direita" },
-            { rotulo: "Captado", alinhar: "direita" },
-            { rotulo: "Execução", alinhar: "direita" },
+            ...(temDadosFinanceiros
+              ? [
+                  { rotulo: "Autorizado", alinhar: "direita" as const },
+                  { rotulo: "Captado", alinhar: "direita" as const },
+                  { rotulo: "Execução", alinhar: "direita" as const },
+                ]
+              : []),
           ]}
         >
-          {segmentos.map((s) => {
+          {segmentosComProjetos.map(({ seg: s, projetos }) => {
             const a = s.orcamento?.autorizado ?? 0;
             const c = s.orcamento?.captado ?? 0;
-            const projetos = listarNos("projeto").filter(
-              (p) => p.meta?.segmentoId === s.id,
-            ).length;
             return (
               <tr key={s.id} className="transition-colors hover:bg-papel-suave">
                 <td className="px-3 py-2.5">
@@ -122,17 +150,38 @@ export default function PaginaOrcamento() {
                     {s.nome}
                   </Link>
                 </td>
-                <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{numero(projetos)}</td>
-                <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{brl(a)}</td>
-                <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{brl(c)}</td>
-                <td className="px-3 py-2.5">
-                  <div className="ml-auto w-24">
-                    <BarraExecucao autorizado={a} captado={c} compacta />
-                  </div>
-                </td>
+                <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{numero(projetos.length)}</td>
+                {temDadosFinanceiros && (
+                  <>
+                    <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{brl(a)}</td>
+                    <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{brl(c)}</td>
+                    <td className="px-3 py-2.5">
+                      <div className="ml-auto w-24">
+                        <BarraExecucao autorizado={a} captado={c} compacta />
+                      </div>
+                    </td>
+                  </>
+                )}
               </tr>
             );
           })}
+        </Tabela>
+      </section>
+
+      <section className="mb-10">
+        <h2 className="mb-4 text-lg font-semibold text-tinta">Por microrregião (resumo)</h2>
+        <Tabela
+          colunas={[
+            { rotulo: "Microrregião" },
+            { rotulo: "Projetos", alinhar: "direita" },
+          ]}
+        >
+          {regioes.map(([nome, v]) => (
+            <tr key={nome} className="transition-colors hover:bg-papel-suave">
+              <td className="px-3 py-2.5 text-tinta">{nome}</td>
+              <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{numero(v.projetos)}</td>
+            </tr>
+          ))}
         </Tabela>
       </section>
 
@@ -140,22 +189,20 @@ export default function PaginaOrcamento() {
         <h2 className="mb-4 text-lg font-semibold text-tinta">Por microrregião</h2>
         <Tabela
           colunas={[
+            { rotulo: "Município" },
             { rotulo: "Microrregião" },
-            { rotulo: "Autorizado", alinhar: "direita" },
-            { rotulo: "Captado", alinhar: "direita" },
-            { rotulo: "Execução", alinhar: "direita" },
+            { rotulo: "Projetos", alinhar: "direita" },
           ]}
         >
-          {regioes.map(([nome, v]) => (
-            <tr key={nome} className="transition-colors hover:bg-papel-suave">
-              <td className="px-3 py-2.5 text-tinta">{nome}</td>
-              <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{brl(v.autorizado)}</td>
-              <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{brl(v.captado)}</td>
+          {municipiosProjetos.map(({ mun, projetos, regiao }) => (
+            <tr key={mun.id} className="transition-colors hover:bg-papel-suave">
               <td className="px-3 py-2.5">
-                <div className="ml-auto w-24">
-                  <BarraExecucao autorizado={v.autorizado} captado={v.captado} compacta />
-                </div>
+                <Link href={`/entidade/${mun.slug}`} className="text-tinta underline-offset-2 hover:underline">
+                  {mun.nome}
+                </Link>
               </td>
+              <td className="px-3 py-2.5 text-tinta-suave">{regiao}</td>
+              <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{numero(projetos)}</td>
             </tr>
           ))}
         </Tabela>

@@ -41,7 +41,7 @@ import {
   type EspacoBruto,
   type EventoBruto,
 } from "./sources/mapas-culturais";
-import { nosFixos } from "./seed/institucional";
+import { nosFixos, arestasFixas } from "./seed/institucional";
 
 const DIR_BRUTO = join(process.cwd(), "data", "raw");
 
@@ -94,7 +94,7 @@ async function coletar(cliente: MapasCulturais, maximo?: number): Promise<Coleta
 /** Traduz a coleta bruta para os vértices e arestas do LICC Gov Graph. */
 function transformar(coleta: Coleta, ano: number): { nodes: GraphNode[]; edges: GraphEdge[] } {
   const nodes: GraphNode[] = [...nosFixos(ano)];
-  const edges: GraphEdge[] = [];
+  const edges: GraphEdge[] = [...arestasFixas(ano)];
   const vistos = new Set(nodes.map((n) => n.id));
 
   const adicionar = (n: GraphNode) => {
@@ -171,8 +171,12 @@ function transformar(coleta: Coleta, ano: number): { nodes: GraphNode[]; edges: 
 
   for (const p of coleta.projetos) {
     const id = `proj-mc-${p.id}`;
-    const seg = resolverSegmento(p.terms?.area ?? []);
+    // Projetos no Mapas Culturais não têm terms.area — a área cultural fica
+    // no agente/proponente. Usamos as áreas do dono como fallback.
     const dono = p.owner ? agentesPorId.get(p.owner.id) : undefined;
+    const areasDoProj = Array.isArray(p.terms?.area) ? (p.terms!.area as string[]) : [];
+    const areasDoAgente = Array.isArray(dono?.terms?.area) ? (dono!.terms!.area as string[]) : [];
+    const seg = resolverSegmento([...areasDoProj, ...areasDoAgente]);
     const mun = dono?.En_Municipio ? municipioPorNome(dono.En_Municipio) : undefined;
 
     adicionar({
