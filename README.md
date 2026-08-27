@@ -26,12 +26,18 @@ tempo — e é isso que os anéis desenham, de dentro para fora:
 | `APROVAÇÃO E FOMENTO` | Define diretrizes e o teto | SECULT, SEFAZ, CEC, CAP, Governo | círculo |
 | `O CAPITAL` | Aloca a renúncia de ICMS | Empresas patrocinadoras | losango |
 | `A EXECUÇÃO` | Realiza o projeto | Produtoras, coletivos, ONGs, artistas, prefeituras | ponto |
-| `O BEM PÚBLICO` | Resultado entregue | Projetos e editais | quadrado |
+| `O BEM PÚBLICO` | Resultado entregue | Projetos, setorizados por linguagem | quadrado |
+
+O anel externo é **dividido em fatias por linguagem cultural** — música, artes
+cênicas, audiovisual, patrimônio —, cada uma nomeada ao longo do arco e com os
+projetos tingidos na sua cor. Assim dá para ler *que tipo* de cultura o dinheiro
+financia sem que o segmento vire um anel próprio.
 
 **Clicar acende a cadeia de responsabilização** e apaga o resto:
 
 - **Patrocinador** → a linha até o centro (o ICMS que não entrou no caixa
-  estadual), os projetos que escolheu bancar e os segmentos que priorizou.
+  estadual), os projetos que escolheu bancar e os segmentos que priorizou. Cada
+  linha traz o verbo da relação escrito por cima.
 - **Projeto** → proponente, patrocinadores e o órgão que aprovou o
   enquadramento.
 - **Proponente** → seus projetos e quem os financia.
@@ -40,7 +46,7 @@ tempo — e é isso que os anéis desenham, de dentro para fora:
 
 | Camada | Onde | O que faz |
 | --- | --- | --- |
-| Ontologia | `src/ontology/` | 10 categorias de vértice, 12 relações, 9 segmentos, 78 municípios, 5 normas, 4 regras auditadas |
+| Ontologia | `src/ontology/` | 12 categorias de vértice, 15 relações, 9 segmentos, 78 municípios, 5 normas, 4 regras auditadas |
 | Geometria | `src/lib/radial.ts` | Layout radial e cadeias de responsabilização |
 | Coleta | `pipeline/sources/` | Cliente da API REST do Mapas Culturais |
 | Consolidação | `pipeline/build-graph.ts` | Agregados, posição, variação anual, conferência de cotas |
@@ -109,6 +115,14 @@ A regra de **máximo 3 projetos por proponente** está marcada
 `verificado: false` — veio do briefing (LegisWeb) e ainda não foi conferida na
 instrução normativa vigente. A interface exibe esse estado.
 
+## Exercício
+
+O exercício padrão é **2025**, o último ciclo fechado — a Instrução Normativa
+nº 001/2025 está publicada e a oportunidade 1878 encerrou. A LICC 2026 segue
+com inscrições até 30/06/2026, e mostrar número parcial sem dizer que é parcial
+engana mais do que informa. `LICC_ANO=2026 npm run data` monta o exercício em
+curso.
+
 ## Monitor territorial
 
 `/monitor` é a camada inspirada no **Republic** do CivLab, que acompanha a
@@ -175,6 +189,13 @@ captura de respostas de rede. Detalhes em `tools/scrape-civlab/README.md`.
 - O recorte por microrregião varia conforme a fonte oficial; aqui serve como
   agrupamento de leitura. A marcação de RMGV, essa sim, é normativa.
 - Sem coleta real disponível, o que se vê é o conjunto de demonstração.
+
+## Paleta
+
+As cores não foram escolhidas: foram **aferidas por amostragem de pixels** dos
+quadros de uma gravação do SF Government Graph. Fundo `#ebeae4`, centro
+`#f5ccba`, anéis `#f6c4cc`, `#e2c1f8` e `#d2c9e5`. Em repouso o vértice é só
+contorno; o preenchimento pastel entra quando ele acende.
 
 ## Stack
 

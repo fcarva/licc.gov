@@ -18,7 +18,10 @@ export type NodeKind =
   | "publico"
   /* Camada territorial (Republic): o que acontece e onde. */
   | "evento"
-  | "espaco";
+  | "espaco"
+  /* Quem ocupa o cargo e sob qual chamada pública. */
+  | "pessoa"
+  | "edital";
 
 /** Categorias de aresta. Espelham `appoints` / `oversees` do CivLab. */
 export type EdgeKind =
@@ -33,7 +36,10 @@ export type EdgeKind =
   | "fundamenta"
   | "beneficia"
   | "acontece_em"
-  | "sediado_em";
+  | "sediado_em"
+  | "ocupa"
+  | "publica"
+  | "inscrito_em";
 
 /** Situação de um projeto na tramitação da LICC. */
 export type ProjetoStatus =
@@ -153,6 +159,15 @@ export interface NodeMeta {
   // espaco
   endereco?: string;
   acessivel?: boolean;
+  // pessoa
+  cargo?: string;
+  desde?: string;
+  orgaoId?: string;
+  // edital
+  oportunidadeId?: number;
+  inscricoesDe?: string;
+  inscricoesAte?: string;
+  encerrado?: boolean;
   // qualquer nó
   [key: string]: unknown;
 }

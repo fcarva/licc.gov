@@ -27,7 +27,7 @@ final** ao mesmo tempo. Por isso os anéis não são uma taxonomia, são o
 | 1 · `APROVAÇÃO E FOMENTO` | Define diretrizes e o teto | Governo do ES, SECULT, SEFAZ, CEC, CAP | círculo |
 | 2 · `O CAPITAL` | Aloca a renúncia de ICMS | Empresas patrocinadoras | losango |
 | 3 · `A EXECUÇÃO` | Realiza o projeto | Produtoras, coletivos, ONGs, artistas, prefeituras do interior | ponto |
-| 4 · `O BEM PÚBLICO` | Resultado entregue | Projetos e editais | quadrado arredondado |
+| 4 · `O BEM PÚBLICO` | Resultado entregue | Projetos, setorizados por linguagem | quadrado arredondado |
 
 As formas reproduzem a gramática aferida no CivLab: cada categoria tem símbolo
 próprio, inativo em contorno e aceso em preenchimento, com o rótulo do anel em
@@ -37,9 +37,14 @@ Quando um anel tem mais vértices do que cabem na circunferência, ele se divide
 em **fileiras escalonadas** — é o que produz, no original, duas coroas próximas
 para a mesma categoria.
 
-**Segmento e município não ocupam anel.** Eles colorem, agrupam e recortam, mas
-não movem nem recebem recurso; promovê-los a anel transformaria o mecanismo de
-volta em taxonomia. Ficam disponíveis como entidades e como eixos de leitura.
+**Segmento não ocupa anel — ele setoriza o anel dos projetos.** As linguagens
+culturais dividem o anel externo em fatias contíguas, cada uma com o nome
+escrito ao longo do arco e os projetos tingidos na sua cor. Música, teatro e
+audiovisual ficam legíveis no próprio grafo sem virar um anel a mais, que
+alongaria a cadeia de responsabilização e devolveria o desenho à taxonomia.
+
+Município, evento, espaço, pessoa, edital e fundamento também têm `anel: null`:
+existem como entidades e eixos de leitura, mas não movem nem recebem recurso.
 
 ## Vértices fora do fluxo
 
@@ -50,6 +55,8 @@ volta em taxonomia. Ficam disponíveis como entidades e como eixos de leitura.
 | `fundamento` | Leis, portarias e instruções normativas |
 | `evento` | Agenda cultural (camada Republic) |
 | `espaco` | Equipamentos culturais (camada Republic) |
+| `pessoa` | Quem ocupa o cargo — o Secretário de Estado da Cultura |
+| `edital` | A chamada pública do exercício, publicada pela SECULT |
 
 ## Arestas
 
@@ -67,6 +74,14 @@ volta em taxonomia. Ficam disponíveis como entidades e como eixos de leitura.
 | `beneficia` | beneficiado por | serves residents | — |
 | `acontece_em` | recebe | takes place at | — |
 | `sediado_em` | abriga | located in | — |
+| `ocupa` | é ocupado por | holds office | — |
+| `publica` | publicado por | issues | — |
+| `inscrito_em` | recebe a inscrição de | filed under | — |
+
+**Quem publica o edital é a SECULT; quem inscreve projeto nele é o proponente.**
+A aresta `publica` vai do órgão para o edital e `inscrito_em` vai do projeto
+para o edital. Inverter isso conta uma história falsa sobre como a lei funciona:
+a Secretaria abre a chamada, o agente cultural escreve e submete o projeto.
 
 `patrocina` é a única aresta que move dinheiro. Cada relação tem forma ativa e
 passiva, para a interface escrever "Fiscaliza (82)" no órgão e "Fiscalizado por"
@@ -86,6 +101,24 @@ história diferente sobre o mesmo mecanismo:
 - **Órgão** → o que regula, aprova, fiscaliza e nomeia.
 
 Implementadas em `calcularCadeia()`, em `src/lib/radial.ts`.
+
+## Paleta
+
+As cores foram **aferidas por amostragem de pixels** dos quadros de uma gravação
+do SF Government Graph, não escolhidas no olho:
+
+| Papel | Valor |
+| --- | --- |
+| Fundo da tela | `#ebeae4` |
+| Centro (população) | `#f5ccba` |
+| Anel 1 aceso | `#f6c4cc` |
+| Anel 2 aceso | `#e2c1f8` |
+| Anel 3–4 aceso | `#d2c9e5` |
+
+Cada categoria declara `cor` (traço e texto) e `corPastel` (preenchimento). Em
+repouso o vértice é **só contorno**; o preenchimento entra quando ele acende na
+cadeia. Os projetos herdam a cor da sua linguagem cultural em vez da cor da
+categoria, e é isso que faz o anel externo se ler como um mapa de linguagens.
 
 ## Segmentos
 

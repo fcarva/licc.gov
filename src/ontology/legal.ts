@@ -70,7 +70,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
     norma: "Instrução Normativa LICC 2026",
     nome: "Instrução Normativa da LICC para o exercício de 2026",
     descricao:
-      "Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2026. As inscrições ocorrem exclusivamente pelo Mapa Cultural do Espírito Santo.",
+      "Disciplina o exercício de 2026, ainda em curso: as inscrições vão até 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo.",
     verificado: true,
     fonte: {
       rotulo: "SECULT-ES — Instrução Normativa LICC 2026",
@@ -83,7 +83,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
     norma: "Instrução Normativa LICC nº 001/2025",
     nome: "Instrução Normativa da LICC para o exercício de 2025",
     descricao:
-      "Norma do exercício anterior, publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
+      "Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2025, e fixa as cotas de 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados. Publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
     url: "https://mapa.cultura.es.gov.br/files/opportunity/1878/instrucao-normativa-licc-no-001-2025-2.pdf",
     verificado: true,
     fonte: {
@@ -119,7 +119,7 @@ export const REGRAS: RegraLICC[] = [
     descricao:
       "Trinta por cento dos recursos são reservados a projetos pautados pela SECULT-ES.",
     cota: 0.3,
-    fundamentoId: "in-licc-2026",
+    fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
       rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
@@ -132,7 +132,7 @@ export const REGRAS: RegraLICC[] = [
     descricao:
       "Dez por cento dos recursos são reservados a projetos executados fora da Região Metropolitana da Grande Vitória.",
     cota: 0.1,
-    fundamentoId: "in-licc-2026",
+    fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
       rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
@@ -145,7 +145,7 @@ export const REGRAS: RegraLICC[] = [
     descricao:
       "Dez por cento dos recursos são reservados a programas de caráter continuado.",
     cota: 0.1,
-    fundamentoId: "in-licc-2026",
+    fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
       rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
@@ -158,7 +158,7 @@ export const REGRAS: RegraLICC[] = [
     descricao:
       "Cada proponente pode manter no máximo três projetos no exercício. O grafo sinaliza quem atinge o limite.",
     limite: 3,
-    fundamentoId: "in-licc-2026",
+    fundamentoId: "in-licc-001-2025",
     verificado: false,
     fonte: {
       rotulo:
@@ -166,6 +166,22 @@ export const REGRAS: RegraLICC[] = [
     },
   },
 ];
+
+/**
+ * Exercício que o catálogo representa por padrão.
+ *
+ * 2025 é o último ciclo **fechado** da LICC: a Instrução Normativa nº 001/2025
+ * está publicada e a oportunidade 1878 do Mapa Cultural já encerrou. A LICC
+ * 2026 segue com inscrições abertas até 30/06/2026, então seus números seriam
+ * parciais — e um painel de transparência que mostra número parcial sem dizer
+ * que é parcial engana mais do que informa.
+ */
+export const EXERCICIO_PADRAO = 2025;
+
+/** Instrução normativa que rege cada exercício. */
+export function normaDoExercicio(ano: number): string {
+  return ano >= 2026 ? "in-licc-2026" : "in-licc-001-2025";
+}
 
 /** Teto de captação do exercício, em reais. */
 export const TETO_AUTORIZADO = 25_000_000;

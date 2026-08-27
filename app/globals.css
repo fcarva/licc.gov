@@ -1,9 +1,12 @@
 @import "tailwindcss";
 
 /*
- * Estética de setor público, na linha do SF Government Graph: fundo claro,
- * bordas discretas, tipografia de alto contraste e nenhuma cor decorativa.
- * A cor só aparece onde carrega significado — a categoria de um vértice.
+ * Estética de setor público, na linha do SF Government Graph: fundo cinza
+ * quente, cartões brancos flutuando sobre ele, tipografia de alto contraste e
+ * nenhuma cor decorativa. A cor só aparece onde carrega significado.
+ *
+ * Os valores de fundo e das cores de vértice foram **aferidos por amostragem**
+ * dos quadros da gravação do CivLab, não escolhidos no olho.
  */
 @theme {
   --color-tinta: #0b1220;
@@ -11,20 +14,27 @@
   --color-tinta-fraca: #94a3b8;
   --color-papel: #ffffff;
   --color-papel-suave: #f8fafc;
-  /* Fundo da tela: o cinza sobre o qual os cartões flutuam. */
-  --color-papel-fundo: #f1f0ec;
+  /* Fundo da tela: o cinza quente sobre o qual os cartões flutuam. */
+  --color-papel-fundo: #ebeae4;
   --color-borda: #e2e8f0;
   --color-borda-forte: #cbd5e1;
   --color-realce: #1e3a5f;
 
-  --color-governanca: #1e3a5f;
-  --color-patrocinador: #0f766e;
-  --color-proponente: #7c2d92;
-  --color-projeto: #b45309;
-  --color-segmento: #be123c;
-  --color-municipio: #4d7c0f;
-  --color-fundamento: #3f3f46;
-  --color-publico: #0369a1;
+  --color-publico: #c2410c;
+  --color-governanca: #c2607a;
+  --color-patrocinador: #9b5fd0;
+  --color-proponente: #7c6bb5;
+  --color-projeto: #7b6fb0;
+  --color-segmento: #be5a70;
+  --color-municipio: #6a8f4d;
+  --color-fundamento: #6b6b78;
+
+  /* Preenchimentos pastel do grafo, no estado aceso. */
+  --color-publico-pastel: #f5ccba;
+  --color-governanca-pastel: #f6c4cc;
+  --color-patrocinador-pastel: #e2c1f8;
+  --color-proponente-pastel: #d8cfec;
+  --color-projeto-pastel: #d2c9e5;
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
     "Helvetica Neue", Arial, sans-serif;
@@ -36,9 +46,9 @@
     --color-tinta: #e8edf5;
     --color-tinta-suave: #94a3b8;
     --color-tinta-fraca: #64748b;
-    --color-papel: #12161d;
-    --color-papel-suave: #171c25;
-    --color-papel-fundo: #0b0e13;
+    --color-papel: #17171a;
+    --color-papel-suave: #1d1d21;
+    --color-papel-fundo: #101013;
     --color-borda: #1f2937;
     --color-borda-forte: #334155;
     --color-realce: #7dd3fc;
@@ -49,9 +59,9 @@
   --color-tinta: #e8edf5;
   --color-tinta-suave: #94a3b8;
   --color-tinta-fraca: #64748b;
-  --color-papel: #12161d;
-  --color-papel-suave: #171c25;
-  --color-papel-fundo: #0b0e13;
+  --color-papel: #17171a;
+  --color-papel-suave: #1d1d21;
+  --color-papel-fundo: #101013;
   --color-borda: #1f2937;
   --color-borda-forte: #334155;
   --color-realce: #7dd3fc;

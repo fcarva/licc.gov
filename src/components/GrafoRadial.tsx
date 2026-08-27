@@ -74,7 +74,11 @@ export function GrafoRadial({
 
         {/* Órbitas tracejadas e o nome de cada anel. */}
         <g aria-hidden="true">
-          {layout.aneis.map((a) => (
+          {layout.aneis.map((a) => {
+            // O anel setorizado não repete o rótulo genérico: os nomes das
+            // linguagens já o identificam, e os dois colidiriam no rodapé.
+            const setorizado = layout.setores.some((st) => st.kind === a.kind);
+            return (
             <g key={a.kind}>
               <circle
                 r={a.raio}
@@ -86,31 +90,77 @@ export function GrafoRadial({
               />
               {/* Traço grosso na cor do fundo abre um vão no anel para o
                   rótulo respirar por cima dos vértices. */}
-              <text
-                x={0}
-                y={a.raio + 13}
-                textAnchor="middle"
-                stroke="var(--color-papel-fundo)"
-                strokeWidth={4}
-                strokeLinejoin="round"
-                fill="none"
-                style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
-              >
-                {a.rotulo}
-              </text>
-              <text
-                x={0}
-                y={a.raio + 13}
-                textAnchor="middle"
-                fill={a.cor}
-                fillOpacity={0.72}
-                style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
-              >
-                {a.rotulo}
-              </text>
+              {setorizado ? null : (
+                <>
+                  {/* Traço grosso na cor do fundo abre um vão no anel para o
+                      rótulo respirar por cima dos vértices. */}
+                  <text
+                    x={0}
+                    y={a.raio - 11}
+                    textAnchor="middle"
+                    stroke="var(--color-papel-fundo)"
+                    strokeWidth={4}
+                    strokeLinejoin="round"
+                    fill="none"
+                    style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
+                  >
+                    {a.rotulo}
+                  </text>
+                  <text
+                    x={0}
+                    y={a.raio - 11}
+                    textAnchor="middle"
+                    fill={a.cor}
+                    fillOpacity={0.78}
+                    style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
+                  >
+                    {a.rotulo}
+                  </text>
+                </>
+              )}
             </g>
-          ))}
+            );
+          })}
         </g>
+
+        {/* Setores por linguagem cultural, no anel dos projetos. */}
+        {layout.setores.length ? (
+          <g aria-hidden="true">
+            {layout.setores.map((st) => {
+              const meio = (st.anguloInicio + st.anguloFim) / 2;
+              const raioTexto = st.raio + 20;
+              const largura = st.anguloFim - st.anguloInicio;
+              // Só nomeia a fatia que tem arco para caber o nome; as estreitas
+              // continuam identificáveis pela cor e pelo painel lateral.
+              if (largura < 0.3) return null;
+              const idArco = `setor-${st.id}`;
+              // Na metade de baixo o texto inverte, para nunca sair de cabeça
+              // para baixo ao acompanhar a curva.
+              const inverter = Math.sin(meio) > 0;
+              const [de, para] = inverter
+                ? [st.anguloFim, st.anguloInicio]
+                : [st.anguloInicio, st.anguloFim];
+              return (
+                <g key={st.id}>
+                  <path
+                    id={idArco}
+                    d={arcoTexto(de, para, inverter ? raioTexto + 8 : raioTexto)}
+                    fill="none"
+                  />
+                  <text
+                    fill={st.cor}
+                    fillOpacity={0.85}
+                    style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.06em" }}
+                  >
+                    <textPath href={`#${idArco}`} startOffset="50%" textAnchor="middle">
+                      {st.rotulo.toUpperCase()}
+                    </textPath>
+                  </text>
+                </g>
+              );
+            })}
+          </g>
+        ) : null}
 
         {/* Cadeia de responsabilização. */}
         {cadeia ? (
@@ -119,14 +169,14 @@ export function GrafoRadial({
               const de = porId.get(l.de);
               const para = porId.get(l.para);
               if (!de || !para) return null;
-              const cor = NODE_KINDS[para.no.kind].cor;
+              const cor = para.cor;
               return (
                 <path
                   key={`${l.de}-${l.para}-${i}`}
                   d={arco(de, para)}
                   stroke={cor}
-                  strokeOpacity={l.enfase === "forte" ? 0.75 : 0.35}
-                  strokeWidth={l.enfase === "forte" ? 1.5 : 0.9}
+                  strokeOpacity={l.enfase === "forte" ? 0.7 : 0.3}
+                  strokeWidth={l.enfase === "forte" ? 1.4 : 0.8}
                   markerEnd={de.orbita === 0 ? `url(#${idSeta})` : undefined}
                   color={cor}
                 />
@@ -176,13 +226,15 @@ export function GrafoRadial({
                   />
                 ) : null}
 
+                {/* Em repouso o vértice é só contorno, como no CivLab; o
+                    preenchimento pastel entra quando ele entra na cadeia. */}
                 <path
                   d={caminhoDaForma(p.forma, p.r)}
-                  fill={aceso ? p.cor : "var(--color-papel)"}
-                  fillOpacity={aceso ? 1 : 0.85}
+                  fill={aceso ? p.corPastel : "var(--color-papel)"}
+                  fillOpacity={aceso ? 1 : 0.55}
                   stroke={p.cor}
-                  strokeOpacity={aceso ? 1 : 0.42}
-                  strokeWidth={aceso ? 0.8 : 1}
+                  strokeOpacity={aceso ? 0.95 : 0.5}
+                  strokeWidth={aceso ? 1 : 0.9}
                   strokeDasharray={demonstracao && !aceso ? "2 2" : undefined}
                   className="transition-[fill-opacity,stroke-opacity] duration-200"
                 />
@@ -191,13 +243,41 @@ export function GrafoRadial({
           })}
         </g>
 
-        {/* Nome do vértice selecionado, logo abaixo do símbolo. */}
-        {selecionado && porId.get(selecionado.id) ? (
-          <Etiqueta
-            posicao={porId.get(selecionado.id)!}
-            texto={selecionado.sigla ?? selecionado.nome}
-            variante="selecionado"
-          />
+        {/* Verbo da relação escrito sobre a linha — o "appoints" do CivLab. */}
+        {cadeia ? (
+          <g className="pointer-events-none">
+            {cadeia.ligacoes
+              .filter((l) => l.rotulo && l.enfase === "forte")
+              .map((l, i) => {
+                const de = porId.get(l.de);
+                const para = porId.get(l.para);
+                if (!de || !para) return null;
+                const mx = (de.x + para.x) / 2;
+                const my = (de.y + para.y) / 2;
+                const largura = l.rotulo!.length * 4.2 + 8;
+                return (
+                  <g key={`v-${l.de}-${l.para}-${i}`} transform={`translate(${mx} ${my})`}>
+                    <rect
+                      x={-largura / 2}
+                      y={-6}
+                      width={largura}
+                      height={12}
+                      rx={6}
+                      fill="var(--color-papel-fundo)"
+                      fillOpacity={0.92}
+                    />
+                    <text
+                      textAnchor="middle"
+                      y={3.2}
+                      fill={para.cor}
+                      style={{ fontSize: 7.5, fontWeight: 600 }}
+                    >
+                      {l.rotulo}
+                    </text>
+                  </g>
+                );
+              })}
+          </g>
         ) : null}
 
         {/* Rótulo do centro, sempre visível. */}
@@ -219,8 +299,31 @@ export function GrafoRadial({
       {pairado && pairado.no.id !== selecionado?.id ? (
         <Tooltip posicao={pairado} lado={lado} />
       ) : null}
+
+      {/* Nome do selecionado ancorado no rodapé do canvas, como no CivLab —
+          fica legível mesmo quando o vértice está na borda do desenho. */}
+      {selecionado ? (
+        <p
+          className="pointer-events-none absolute inset-x-0 bottom-1 mx-auto w-fit max-w-[85%] truncate rounded-md border bg-papel px-2.5 py-1 text-center text-xs font-medium shadow-sm"
+          style={{
+            borderColor: porId.get(selecionado.id)?.cor ?? "var(--color-borda)",
+            color: porId.get(selecionado.id)?.cor ?? "var(--color-tinta)",
+          }}
+        >
+          {selecionado.nome}
+        </p>
+      ) : null}
     </div>
   );
+}
+
+/** Arco simples entre dois ângulos, para o texto de setor correr por cima. */
+function arcoTexto(de: number, para: number, raio: number): string {
+  const p = (a: number) =>
+    `${(Math.cos(a) * raio).toFixed(2)} ${(Math.sin(a) * raio).toFixed(2)}`;
+  const varredura = para > de ? 1 : 0;
+  const grande = Math.abs(para - de) > Math.PI ? 1 : 0;
+  return `M ${p(de)} A ${raio} ${raio} 0 ${grande} ${varredura} ${p(para)}`;
 }
 
 /** Curva suave entre dois vértices, abaulada para fora do centro. */
@@ -235,44 +338,6 @@ function arco(de: NoPosicionado, para: NoPosicionado): string {
   const cx = mx + (mx / norma) * desvio;
   const cy = my + (my / norma) * desvio;
   return `M ${de.x} ${de.y} Q ${cx} ${cy} ${para.x} ${para.y}`;
-}
-
-function Etiqueta({
-  posicao,
-  texto,
-  variante,
-}: {
-  posicao: NoPosicionado;
-  texto: string;
-  variante: "selecionado";
-}) {
-  const largura = Math.min(texto.length * 5.2 + 14, 190);
-  const y = posicao.y + posicao.r + 8;
-  const cor = posicao.cor;
-  return (
-    <g className="pointer-events-none" transform={`translate(${posicao.x} ${y})`}>
-      <rect
-        x={-largura / 2}
-        y={0}
-        width={largura}
-        height={15}
-        rx={7.5}
-        fill="var(--color-papel)"
-        stroke={cor}
-        strokeOpacity={variante === "selecionado" ? 0.55 : 0.3}
-        strokeWidth={0.8}
-      />
-      <text
-        x={0}
-        y={10.5}
-        textAnchor="middle"
-        fill={cor}
-        style={{ fontSize: 8.5, fontWeight: 500 }}
-      >
-        {recortar(texto, 34)}
-      </text>
-    </g>
-  );
 }
 
 /** Pílula preenchida com a cor do tipo, como no CivLab. */

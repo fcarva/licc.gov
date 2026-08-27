@@ -18,7 +18,14 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import type { GraphEdge, GraphNode } from "@/types/graph";
-import { segmentoPorTermo, municipioPorNome, SEGMENTOS, MUNICIPIOS } from "@/ontology";
+import {
+  segmentoPorTermo,
+  municipioPorNome,
+  SEGMENTOS,
+  MUNICIPIOS,
+  EXERCICIO_PADRAO,
+  normaDoExercicio,
+} from "@/ontology";
 import { slugificar } from "@/lib/text";
 import {
   MapasCulturais,
@@ -120,7 +127,7 @@ function transformar(coleta: Coleta, ano: number): { nodes: GraphNode[]; edges: 
       descricao: seg.descricao,
       nomesAlternativos: seg.termosMapaCultural,
       proveniencia: "derivado",
-      meta: { cor: seg.cor, slugSegmento: seg.slug },
+      meta: { cor: seg.cor, corPastel: seg.corPastel, slugSegmento: seg.slug },
     });
   }
   for (const mun of MUNICIPIOS) {
@@ -176,7 +183,7 @@ function transformar(coleta: Coleta, ano: number): { nodes: GraphNode[]; edges: 
       descricao: p.shortDescription ?? undefined,
       url: p.singleUrl ?? undefined,
       proveniencia: "oficial",
-      fundamentos: ["lei-11246-2021", "in-licc-2026"],
+      fundamentos: ["lei-11246-2021", normaDoExercicio(ano)],
       // Sem orçamento: a API pública não expõe os valores da LICC. Deixar o
       // campo ausente é preferível a estimá-lo.
       meta: {
@@ -282,7 +289,7 @@ function dataDe(v: { date: string } | string | null | undefined): string | undef
 }
 
 async function main(): Promise<void> {
-  const ano = Number(process.env.LICC_ANO ?? 2026);
+  const ano = Number(process.env.LICC_ANO ?? EXERCICIO_PADRAO);
   const maximo = process.env.LICC_MAX ? Number(process.env.LICC_MAX) : undefined;
   const cliente = new MapasCulturais({
     base: process.env.LICC_BASE,

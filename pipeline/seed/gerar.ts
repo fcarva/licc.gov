@@ -8,9 +8,8 @@
  *
  * REGRA DE OURO: tudo que sai daqui é carimbado `proveniencia: "demonstracao"`.
  * Nomes de empresas e de proponentes usam letras gregas justamente para que
- * ninguém os confunda com registros reais da SECULT. Os números oficiais
- * (teto de R$ 25 milhões, cotas de 30/10/10, 82 projetos habilitados em 2026)
- * são reais e entram carimbados como `oficial` ou `derivado`.
+ * ninguém os confunda com registros reais da SECULT. Só o teto de R$ 25 milhões
+ * e as cotas de 30/10/10 são números oficiais, e entram carimbados como tal.
  */
 
 import type {
@@ -24,6 +23,8 @@ import {
   MUNICIPIOS,
   SEGMENTOS,
   TETO_AUTORIZADO,
+  EXERCICIO_PADRAO,
+  normaDoExercicio,
   type Municipio,
   type Segmento,
 } from "@/ontology";
@@ -119,7 +120,14 @@ export interface ResultadoSeed {
 
 export interface OpcoesSeed {
   ano?: number;
-  /** 82 é a contagem oficial de projetos habilitados da LICC 1 em 2026. */
+  /**
+   * Quantidade de projetos gerados.
+   *
+   * O padrão 82 vem da lista de habilitados da LICC 1 de **2026**, usada aqui
+   * apenas para calibrar a ordem de grandeza — não é a contagem de 2025, que
+   * não foi conferida. Como todo projeto sai carimbado `demonstracao`, o
+   * número não afirma nada sobre o exercício real.
+   */
   totalProjetos?: number;
   totalProponentes?: number;
   totalPatrocinadores?: number;
@@ -127,7 +135,7 @@ export interface OpcoesSeed {
 }
 
 export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
-  const ano = opcoes.ano ?? 2026;
+  const ano = opcoes.ano ?? EXERCICIO_PADRAO;
   const totalProjetos = opcoes.totalProjetos ?? 82;
   const totalProponentes = opcoes.totalProponentes ?? 54;
   const totalPatrocinadores = opcoes.totalPatrocinadores ?? 22;
@@ -165,8 +173,11 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
   aresta("lei-11246-2021", "licc-programa", "fundamenta", { proveniencia: "oficial" });
   aresta("lei-7000-2001", "licc-programa", "fundamenta", { proveniencia: "oficial" });
   aresta("portaria-sefaz-01r-2025", "licc-programa", "fundamenta", { proveniencia: "oficial" });
-  aresta("in-licc-2026", "licc-programa", "fundamenta", { proveniencia: "oficial" });
+  aresta(normaDoExercicio(ano), "licc-programa", "fundamenta", { proveniencia: "oficial" });
   aresta("licc-programa", "publico-es", "beneficia", { proveniencia: "oficial" });
+  aresta("titular-secult", "secult-es", "ocupa", { proveniencia: "oficial" });
+  aresta("secult-es", `edital-licc-${ano}`, "publica", { proveniencia: "oficial" });
+  aresta(`edital-licc-${ano}`, "licc-programa", "regula", { proveniencia: "oficial" });
 
   /* ------------------------- segmentos e municípios --------------------- */
 
@@ -179,8 +190,8 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
       descricao: seg.descricao,
       nomesAlternativos: seg.termosMapaCultural,
       proveniencia: "derivado",
-      meta: { cor: seg.cor, slugSegmento: seg.slug },
-      fundamentos: ["in-licc-2026"],
+      meta: { cor: seg.cor, corPastel: seg.corPastel, slugSegmento: seg.slug },
+      fundamentos: [normaDoExercicio(ano)],
       fontes: [
         {
           rotulo: "Taxonomia de área — plataforma Mapas Culturais",
@@ -302,7 +313,7 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
         },
       },
       proveniencia: "demonstracao",
-      fundamentos: ["lei-11246-2021", "in-licc-2026"],
+      fundamentos: ["lei-11246-2021", normaDoExercicio(ano)],
       meta: {
         numeroProcesso,
         status,
@@ -320,9 +331,10 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
     aresta(proponente.id, id, "propoe");
     aresta(id, seg.id, "pertence_a");
     aresta(id, mun.id, "ocorre_em");
+    aresta(id, `edital-licc-${ano}`, "inscrito_em");
     aresta("cap-licc", id, "aprova");
     aresta("secult-es", id, "fiscaliza");
-    aresta("in-licc-2026", id, "fundamenta");
+    aresta(normaDoExercicio(ano), id, "fundamenta");
 
     // Divide o valor captado entre um a três patrocinadores.
     if (captado > 0) {

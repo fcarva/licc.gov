@@ -6,6 +6,7 @@
 
 import type { Graph, GraphNode, NodeKind } from "@/types/graph";
 import { ANEIS, NODE_KINDS, type Forma } from "@/ontology/nodes";
+import { EDGE_KINDS } from "@/ontology/edges";
 
 export interface NoPosicionado {
   no: GraphNode;
@@ -14,10 +15,33 @@ export interface NoPosicionado {
   /** Raio do símbolo em px. */
   r: number;
   forma: Forma;
+  /** Cor forte: traço e texto. */
   cor: string;
+  /** Preenchimento quando o vértice acende. */
+  corPastel: string;
   /** Raio da órbita a partir do centro. */
   orbita: number;
   angulo: number;
+}
+
+/**
+ * Fatia angular de um anel setorizado.
+ *
+ * O anel dos projetos é dividido por linguagem cultural — música, artes
+ * cênicas, audiovisual — e cada fatia recebe o nome escrito ao longo do arco.
+ * É o que torna visível, no próprio grafo, *que tipo* de cultura o dinheiro
+ * financia, sem precisar de um anel a mais.
+ */
+export interface SetorAnel {
+  id: string;
+  /** Categoria do anel que este setor divide. */
+  kind: NodeKind;
+  rotulo: string;
+  cor: string;
+  anguloInicio: number;
+  anguloFim: number;
+  raio: number;
+  quantidade: number;
 }
 
 export interface AnelDesenhado {
@@ -33,6 +57,7 @@ export interface AnelDesenhado {
 export interface Layout {
   nos: NoPosicionado[];
   aneis: AnelDesenhado[];
+  setores: SetorAnel[];
   /** Extensão necessária do meio-lado do viewBox. */
   extensao: number;
 }
@@ -55,6 +80,10 @@ const FRACAO_POR_ANEL: Record<number, number> = {
 const FOLGA_ARCO = 5;
 /** Distância entre fileiras escalonadas de um mesmo anel. */
 const PASSO_FILEIRA = 17;
+/** Respiro angular entre dois setores vizinhos, em radianos. */
+const VAO_SETOR = 0.035;
+/** O anel que se divide por linguagem cultural. */
+const KIND_SETORIZADO: NodeKind = "projeto";
 
 /**
  * Distribui os vértices em anéis concêntricos.
@@ -66,7 +95,28 @@ const PASSO_FILEIRA = 17;
 export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
   const nos: NoPosicionado[] = [];
   const aneis: AnelDesenhado[] = [];
+  const setores: SetorAnel[] = [];
   let extensao = 0;
+
+  // Paleta dos segmentos: os projetos herdam a cor da sua linguagem cultural.
+  const segmentos = new Map(
+    grafo.nodes
+      .filter((n) => n.kind === "segmento")
+      .map((n) => [
+        n.id,
+        {
+          nome: n.nome,
+          cor: String(n.meta?.cor ?? NODE_KINDS.segmento.cor),
+          corPastel: String(n.meta?.corPastel ?? NODE_KINDS.segmento.corPastel),
+        },
+      ]),
+  );
+  const paletaDoNo = (n: GraphNode, spec: (typeof ANEIS)[number]) => {
+    const seg = segmentos.get(String(n.meta?.segmentoId ?? ""));
+    return seg && spec.kind === KIND_SETORIZADO
+      ? { cor: seg.cor, corPastel: seg.corPastel }
+      : { cor: spec.cor, corPastel: spec.corPastel };
+  };
 
   for (const spec of ANEIS) {
     const doAnel = grafo.nodes.filter((n) => n.kind === spec.kind);
@@ -82,6 +132,7 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
         r: spec.raioBase,
         forma: spec.forma,
         cor: spec.cor,
+        corPastel: spec.corPastel,
         orbita: 0,
         angulo: 0,
       });
@@ -118,33 +169,72 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
     );
     const fileiras = Math.max(1, Math.ceil(ordenados.length / cabemPorFileira));
 
-    ordenados.forEach((no, i) => {
-      const fileira = i % fileiras;
-      const posicaoNaFileira = Math.floor(i / fileiras);
-      const totalNaFileira = Math.ceil(
-        (ordenados.length - fileira) / fileiras,
-      );
-      // Escalona o raio e desloca meia posição em fileiras alternadas, para
-      // que os símbolos não se alinhem em raios idênticos.
-      const orbita = raioNominal + (fileira - (fileiras - 1) / 2) * PASSO_FILEIRA;
-      const passo = (2 * Math.PI) / Math.max(1, totalNaFileira);
-      // -90° põe o primeiro vértice no topo; o eixo vertical inferior fica
-      // livre para a cadeia descer do centro até a periferia.
-      const angulo = -Math.PI / 2 + posicaoNaFileira * passo + (fileira % 2) * passo * 0.5;
-      const r = tamanho(no);
+    /**
+     * Agrupamento angular.
+     *
+     * O anel dos projetos é dividido em fatias contíguas por linguagem
+     * cultural; os demais formam um grupo único. Assim `música`, `teatro` e
+     * `artes visuais` ocupam arcos identificáveis sem virar um anel próprio —
+     * o que devolveria o desenho à condição de taxonomia.
+     */
+    const grupos: Array<{ id: string; rotulo: string; cor: string; itens: GraphNode[] }> =
+      spec.kind === KIND_SETORIZADO
+        ? agruparPorSegmento(ordenados, segmentos)
+        : [{ id: spec.kind, rotulo: "", cor: spec.cor, itens: ordenados }];
 
-      nos.push({
-        no,
-        x: Math.cos(angulo) * orbita,
-        y: Math.sin(angulo) * orbita,
-        r,
-        forma: spec.forma,
-        cor: spec.cor,
-        orbita,
-        angulo,
+    const totalNoAnel = ordenados.length;
+    const vaoTotal = grupos.length > 1 ? VAO_SETOR * grupos.length : 0;
+    const disponivel = 2 * Math.PI - vaoTotal;
+    // -90° põe o primeiro vértice no topo; o eixo vertical inferior fica
+    // livre para a cadeia descer do centro até a periferia.
+    let cursor = -Math.PI / 2;
+
+    for (const grupo of grupos) {
+      const span = (grupo.itens.length / totalNoAnel) * disponivel;
+      const inicio = cursor;
+
+      grupo.itens.forEach((no, j) => {
+        const fileira = j % fileiras;
+        const posicao = Math.floor(j / fileiras);
+        const naFileira = Math.ceil((grupo.itens.length - fileira) / fileiras);
+        const passo = span / Math.max(1, naFileira);
+        // Escalona o raio e desloca em fileiras alternadas, para que os
+        // símbolos não se alinhem em raios idênticos.
+        const orbita = raioNominal + (fileira - (fileiras - 1) / 2) * PASSO_FILEIRA;
+        const angulo =
+          inicio + posicao * passo + passo / 2 + (fileira % 2) * passo * 0.3;
+        const r = tamanho(no);
+        const { cor, corPastel } = paletaDoNo(no, spec);
+
+        nos.push({
+          no,
+          x: Math.cos(angulo) * orbita,
+          y: Math.sin(angulo) * orbita,
+          r,
+          forma: spec.forma,
+          cor,
+          corPastel,
+          orbita,
+          angulo,
+        });
+        extensao = Math.max(extensao, orbita + r);
       });
-      extensao = Math.max(extensao, orbita + r);
-    });
+
+      if (grupos.length > 1) {
+        setores.push({
+          id: grupo.id,
+          kind: spec.kind,
+          rotulo: grupo.rotulo,
+          cor: grupo.cor,
+          anguloInicio: inicio,
+          anguloFim: inicio + span,
+          raio: raioNominal + ((fileiras - 1) / 2) * PASSO_FILEIRA,
+          quantidade: grupo.itens.length,
+        });
+      }
+
+      cursor = inicio + span + (grupos.length > 1 ? VAO_SETOR : 0);
+    }
 
     aneis.push({
       kind: spec.kind,
@@ -156,14 +246,60 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
     });
   }
 
-  return { nos, aneis, extensao };
+  return { nos, aneis, setores, extensao };
+}
+
+/**
+ * Agrupa os projetos por linguagem cultural, em ordem de captação.
+ *
+ * Projetos sem segmento resolvido formam um grupo próprio no fim — a lacuna
+ * fica visível em vez de ser diluída numa categoria "outros" qualquer, que é a
+ * forma silenciosa de esconder classificação faltante.
+ */
+function agruparPorSegmento(
+  projetos: GraphNode[],
+  segmentos: Map<string, { nome: string; cor: string; corPastel: string }>,
+): Array<{ id: string; rotulo: string; cor: string; itens: GraphNode[] }> {
+  const porId = new Map<string, GraphNode[]>();
+  for (const p of projetos) {
+    const id = String(p.meta?.segmentoId ?? "sem-segmento");
+    (porId.get(id) ?? porId.set(id, []).get(id)!).push(p);
+  }
+
+  return [...porId.entries()]
+    .map(([id, itens]) => {
+      const seg = segmentos.get(id);
+      return {
+        id,
+        rotulo: seg?.nome ?? "Sem segmento",
+        cor: seg?.cor ?? NODE_KINDS.segmento.cor,
+        itens: itens.sort(
+          (a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0),
+        ),
+        captado: itens.reduce((t, x) => t + (x.orcamento?.captado ?? 0), 0),
+        semSegmento: id === "sem-segmento",
+      };
+    })
+    // Maior captação primeiro; o grupo sem segmento sempre fecha a volta.
+    .sort((a, b) =>
+      a.semSegmento !== b.semSegmento
+        ? Number(a.semSegmento) - Number(b.semSegmento)
+        : b.captado - a.captado,
+    )
+    .map(({ id, rotulo, cor, itens }) => ({ id, rotulo, cor, itens }));
 }
 
 export interface Cadeia {
   /** Vértices que permanecem acesos. */
   nos: Set<string>;
   /** Ligações desenhadas, na ordem em que a história se conta. */
-  ligacoes: Array<{ de: string; para: string; enfase: "forte" | "fraca" }>;
+  ligacoes: Array<{
+    de: string;
+    para: string;
+    enfase: "forte" | "fraca";
+    /** Verbo escrito sobre a linha, como o "appoints" do CivLab. */
+    rotulo?: string;
+  }>;
 }
 
 /**
@@ -187,12 +323,17 @@ export function calcularCadeia(grafo: Graph, idSelecionado: string): Cadeia {
   if (!alvo) return { nos, ligacoes };
 
   const PUBLICO = "publico-es";
-  const ligar = (de: string, para: string, enfase: "forte" | "fraca" = "forte") => {
+  const ligar = (
+    de: string,
+    para: string,
+    enfase: "forte" | "fraca" = "forte",
+    rotulo?: string,
+  ) => {
     if (!porId.has(de) || !porId.has(para) || de === para) return;
     if (ligacoes.some((l) => l.de === de && l.para === para)) return;
     nos.add(de);
     nos.add(para);
-    ligacoes.push({ de, para, enfase });
+    ligacoes.push({ de, para, enfase, rotulo });
   };
 
   nos.add(alvo.id);
@@ -204,10 +345,10 @@ export function calcularCadeia(grafo: Graph, idSelecionado: string): Cadeia {
   switch (alvo.kind) {
     case "patrocinador": {
       // O elo que dá sentido ao resto: o ICMS que não entrou no caixa estadual.
-      ligar(PUBLICO, alvo.id, "forte");
+      ligar(PUBLICO, alvo.id, "forte", "renúncia de ICMS");
       for (const e of arestasDe) {
         if (e.kind !== "patrocina") continue;
-        ligar(alvo.id, e.target, "forte");
+        ligar(alvo.id, e.target, "forte", "patrocina");
         // Segmento do projeto financiado — a prioridade setorial da empresa.
         const projeto = porId.get(e.target);
         const seg = String(projeto?.meta?.segmentoId ?? "");
@@ -224,11 +365,11 @@ export function calcularCadeia(grafo: Graph, idSelecionado: string): Cadeia {
 
       if (orgao) {
         ligar(PUBLICO, orgao, "fraca");
-        ligar(orgao, alvo.id, "forte");
+        ligar(orgao, alvo.id, "forte", "enquadra");
       }
-      if (proponente) ligar(proponente, alvo.id, "forte");
+      if (proponente) ligar(proponente, alvo.id, "forte", "propõe");
       for (const e of arestasPara) {
-        if (e.kind === "patrocina") ligar(e.source, alvo.id, "forte");
+        if (e.kind === "patrocina") ligar(e.source, alvo.id, "forte", "patrocina");
       }
       const seg = String(alvo.meta?.segmentoId ?? "");
       if (seg) nos.add(seg);
@@ -239,7 +380,7 @@ export function calcularCadeia(grafo: Graph, idSelecionado: string): Cadeia {
       ligar(PUBLICO, alvo.id, "fraca");
       for (const e of arestasDe) {
         if (e.kind !== "propoe") continue;
-        ligar(alvo.id, e.target, "forte");
+        ligar(alvo.id, e.target, "forte", "propõe");
         // Quem banca cada projeto deste proponente.
         for (const p of grafo.edges) {
           if (p.kind === "patrocina" && p.target === e.target) {
@@ -254,7 +395,12 @@ export function calcularCadeia(grafo: Graph, idSelecionado: string): Cadeia {
       ligar(PUBLICO, alvo.id, "forte");
       for (const e of arestasDe) {
         if (["regula", "aprova", "fiscaliza", "nomeia"].includes(e.kind)) {
-          ligar(alvo.id, e.target, e.kind === "nomeia" ? "forte" : "fraca");
+          ligar(
+            alvo.id,
+            e.target,
+            e.kind === "nomeia" ? "forte" : "fraca",
+            EDGE_KINDS[e.kind].rotulo,
+          );
         }
       }
       break;

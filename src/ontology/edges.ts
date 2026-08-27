@@ -118,6 +118,38 @@ export const EDGE_KINDS: Record<EdgeKind, EdgeKindSpec> = {
     tracejada: true,
     analogoCivLab: "enabled by legal source",
   },
+  ocupa: {
+    kind: "ocupa",
+    rotulo: "ocupa",
+    rotuloInverso: "é ocupado por",
+    descricao: "A pessoa titulariza o cargo à frente do órgão.",
+    cor: "#b06a86",
+    financeira: false,
+    tracejada: true,
+    analogoCivLab: "holds office",
+  },
+  publica: {
+    kind: "publica",
+    rotulo: "publica",
+    rotuloInverso: "publicado por",
+    descricao:
+      "O órgão publica a chamada pública do exercício, com as regras e os prazos de inscrição.",
+    cor: "#8a7f5a",
+    financeira: false,
+    tracejada: true,
+    analogoCivLab: "issues",
+  },
+  inscrito_em: {
+    kind: "inscrito_em",
+    rotulo: "inscrito em",
+    rotuloInverso: "recebe a inscrição de",
+    descricao:
+      "O projeto foi inscrito nesta chamada pública pelo seu proponente. A SECULT publica o edital; quem escreve e inscreve o projeto é o proponente.",
+    cor: "#8a7f5a",
+    financeira: false,
+    tracejada: true,
+    analogoCivLab: "filed under",
+  },
   acontece_em: {
     kind: "acontece_em",
     rotulo: "acontece em",

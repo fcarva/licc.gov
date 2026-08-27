@@ -7,7 +7,12 @@
  */
 
 import type { GraphNode, Noticia } from "@/types/graph";
-import { FUNDAMENTOS, TETO_AUTORIZADO, FONTE_TETO } from "@/ontology";
+import {
+  FUNDAMENTOS,
+  TETO_AUTORIZADO,
+  FONTE_TETO,
+  normaDoExercicio,
+} from "@/ontology";
 
 /** Notícias verificadas nos portais do Governo do ES e da SECULT. */
 const NOTICIAS_SECULT: Noticia[] = [
@@ -104,7 +109,7 @@ export function nosFixos(ano: number): GraphNode[] {
       nomesAlternativos: ["Secretaria da Cultura", "SECULT", "Secult ES"],
       url: "https://secult.es.gov.br",
       proveniencia: "oficial",
-      fundamentos: ["lei-11246-2021", "in-licc-2026"],
+      fundamentos: ["lei-11246-2021", normaDoExercicio(ano)],
       noticias: NOTICIAS_SECULT,
       fontes: [
         { rotulo: "SECULT-ES — Sobre a LICC", url: "https://secult.es.gov.br/sobre-a-licc" },
@@ -146,11 +151,17 @@ export function nosFixos(ano: number): GraphNode[] {
         "Delibera sobre os projetos após a análise documental e o parecer de mérito: aprova integralmente, converte em diligência ou declara a inabilitação.",
       nomesAlternativos: ["CAP LICC", "Comissão de Avaliação"],
       proveniencia: "oficial",
-      fundamentos: ["in-licc-2026"],
+      fundamentos: [normaDoExercicio(ano)],
       fontes: [
         {
-          rotulo: "Mapa Cultural ES — LICC 2026 (oportunidade 2317)",
-          url: "https://mapa.cultura.es.gov.br/oportunidade/2317/",
+          rotulo:
+            ano >= 2026
+              ? "Mapa Cultural ES — LICC 2026 (oportunidade 2317)"
+              : "Mapa Cultural ES — LICC 2025 (oportunidade 1878)",
+          url:
+            ano >= 2026
+              ? "https://mapa.cultura.es.gov.br/oportunidade/2317/"
+              : "https://mapa.cultura.es.gov.br/oportunidade/1878/",
         },
       ],
     },
@@ -174,6 +185,57 @@ export function nosFixos(ano: number): GraphNode[] {
       ],
     },
   ];
+
+  /* ------------------- chamada pública do exercício ------------------- */
+
+  const oportunidade = ano >= 2026 ? 2317 : 1878;
+  nos.push({
+    id: `edital-licc-${ano}`,
+    slug: `edital-licc-${ano}`,
+    kind: "edital",
+    nome: `Edital LICC ${ano}`,
+    sigla: `LICC ${ano}`,
+    descricao:
+      `Chamada pública da Lei de Incentivo à Cultura Capixaba para o exercício de ${ano}, ` +
+      "publicada pela SECULT-ES. As inscrições ocorrem exclusivamente pelo Mapa Cultural " +
+      "do Espírito Santo: a Secretaria publica o edital e os proponentes inscrevem nele os " +
+      "seus projetos.",
+    nomesAlternativos: [`LICC ${ano}`, `oportunidade ${oportunidade}`],
+    url: `https://mapa.cultura.es.gov.br/oportunidade/${oportunidade}/`,
+    proveniencia: "oficial",
+    fundamentos: [normaDoExercicio(ano)],
+    meta: {
+      ano,
+      oportunidadeId: oportunidade,
+      encerrado: ano < 2026,
+      inscricoesAte: ano >= 2026 ? "2026-06-30" : undefined,
+    },
+    fontes: [
+      {
+        rotulo: `Mapa Cultural ES — oportunidade ${oportunidade}`,
+        url: `https://mapa.cultura.es.gov.br/oportunidade/${oportunidade}/`,
+      },
+    ],
+  });
+
+  /* --------------------------- titular do órgão ------------------------ */
+
+  // A pessoa é modelada à parte do órgão, como no CivLab (Mayor · José
+  // Cisneros). O nome do titular em exercício não foi conferido em fonte
+  // primária, então o cargo entra sem atribuir nome a ninguém.
+  nos.push({
+    id: "titular-secult",
+    slug: "secretario-de-estado-da-cultura",
+    kind: "pessoa",
+    nome: "Secretário de Estado da Cultura",
+    descricao:
+      "Titular da SECULT-ES. Responde pela publicação da instrução normativa do " +
+      "exercício e pela condução da política estadual de cultura.",
+    proveniencia: "oficial",
+    fundamentos: ["lei-11246-2021"],
+    meta: { cargo: "Secretário de Estado da Cultura", orgaoId: "secult-es" },
+    fontes: [{ rotulo: "SECULT-ES", url: "https://secult.es.gov.br" }],
+  });
 
   for (const f of FUNDAMENTOS) {
     nos.push({

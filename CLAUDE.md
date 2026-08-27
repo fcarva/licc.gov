@@ -13,7 +13,7 @@ está no `README.md`; o modelo, em `docs/ontologia.md`; o ETL, em
 ```bash
 npm run dev            # http://localhost:3000
 npm run typecheck      # tsc --noEmit — rode antes de qualquer commit
-npm run build          # 547 páginas estáticas
+npm run build          # 549 páginas estáticas
 npm run build:graph    # regenera data/graph.json e data/stats.json
 npm run ingest         # coleta o Mapa Cultural do ES (ver bloqueio abaixo)
 ```
@@ -53,7 +53,7 @@ centro  População Capixaba      estrela   financiadora indireta e beneficiári
 anel 1  Aprovação e fomento     círculo   SECULT, SEFAZ, CEC, CAP, Governo
 anel 2  O capital               losango   empresas patrocinadoras (renúncia de ICMS)
 anel 3  A execução              ponto     produtoras, coletivos, ONGs, prefeituras
-anel 4  O bem público           quadrado  projetos e editais
+anel 4  O bem público           quadrado  projetos, setorizados por linguagem
 ```
 
 Na LICC o Estado abre mão de ICMS para que a política exista, então o capixaba
@@ -61,11 +61,19 @@ Na LICC o Estado abre mão de ICMS para que a política exista, então o capixab
 isso clicar num patrocinador acende uma linha até ele: é o imposto que não
 entrou no caixa estadual.
 
-**`segmento` e `municipio` deliberadamente não ocupam anel** (`anel: null` em
-`src/ontology/nodes.ts`). Eles colorem, agrupam e recortam, mas não movem nem
-recebem recurso. Promovê-los a anel devolve o desenho à condição de taxonomia e
-desfaz a leitura do mecanismo. Mesma coisa para `evento` e `espaco`, que são a
-camada territorial de `/monitor`.
+**`segmento` não ocupa anel — ele setoriza o anel dos projetos.** As linguagens
+culturais dividem o anel externo em fatias contíguas, cada uma com o nome
+escrito ao longo do arco e os projetos tingidos na sua cor. Assim música,
+teatro e audiovisual ficam visíveis no grafo sem virar um anel próprio, que
+devolveria o desenho à condição de taxonomia. `municipio`, `evento`, `espaco`,
+`pessoa`, `edital` e `fundamento` também têm `anel: null`: aparecem nas páginas
+e no `/monitor`, não no desenho do fluxo.
+
+**A paleta é aferida, não escolhida.** Fundo `#ebeae4`, centro `#f5ccba`,
+anéis `#f6c4cc`, `#e2c1f8` e `#d2c9e5` — amostrados por contagem de pixels dos
+quadros da gravação do CivLab. Em repouso o vértice é **só contorno**; o
+preenchimento pastel entra quando ele acende. Cada categoria tem `cor` (traço e
+texto) e `corPastel` (preenchimento). Não sature a paleta.
 
 As cadeias de responsabilização estão em `calcularCadeia()`, e cada tipo conta
 uma história diferente sobre o mesmo mecanismo. Alterar uma delas é alterar o
@@ -88,6 +96,12 @@ argumento da página, não só o desenho.
   gráfico.
 - **Rótulos de aresta têm forma ativa e passiva** (`rotulo` / `rotuloInverso`).
   Inverter ingenuamente produz "É fiscaliza por".
+- **Quem publica o edital é a SECULT; quem inscreve projeto nele é o
+  proponente.** A aresta `inscrito_em` vai do projeto para o edital, e `publica`
+  do órgão para o edital. Inverter isso conta uma história falsa sobre como a
+  lei funciona.
+- **O rótulo do anel some quando o anel é setorizado**, senão colide com o nome
+  da linguagem escrito no arco.
 
 ## Rede: o que está bloqueado
 
@@ -106,7 +120,7 @@ próprio Playwright (por isso ele não está nas dependências da raiz).
 
 | Caminho | Papel |
 | --- | --- |
-| `src/ontology/` | A verdade do modelo: categorias, relações, segmentos, municípios, normas |
+| `src/ontology/` | A verdade do modelo: 12 categorias, 15 relações, segmentos, municípios, normas |
 | `src/lib/radial.ts` | Geometria dos anéis e cadeias de responsabilização |
 | `src/lib/dados.ts` | Acesso pelo servidor: índices, vizinhança, busca, panorama |
 | `pipeline/sources/` | Cliente da API do Mapas Culturais |
@@ -126,10 +140,19 @@ quebrou a determinismo.
 
 Branch `claude/licc-cultura-dashboard-hfgv61`. Sem PR aberto — só abra se pedido.
 
-O grafo carregado tem 82 projetos (a contagem oficial de habilitados da LICC 1
-em 2026), 22 patrocinadores, 54 proponentes, 78 municípios, 68 espaços e 127
-eventos. Teto de R$ 25 milhões, 96% comprometido em tetos de projeto, 58% desse valor
-efetivamente captado.
+**O exercício padrão é 2025** (`EXERCICIO_PADRAO` em `src/ontology/legal.ts`),
+que é o último ciclo fechado: a Instrução Normativa nº 001/2025 está publicada e
+a oportunidade 1878 encerrou. A LICC 2026 segue com inscrições até 30/06/2026 e
+seus números seriam parciais. `normaDoExercicio(ano)` resolve qual IN rege cada
+ano; use-a em vez de fixar o id da norma.
+
+O grafo carregado tem 82 projetos, 22 patrocinadores, 54 proponentes, 78
+municípios, 68 espaços e 127 eventos. Teto de R$ 25 milhões, 96% comprometido em
+tetos de projeto, 58% desse valor efetivamente captado.
+
+O número 82 vem da lista de habilitados de **2026** e serve só para calibrar a
+ordem de grandeza — não é contagem conferida de 2025, e todo projeto sai
+carimbado `demonstracao` de qualquer forma.
 
 ## Próximos passos
 

@@ -18,7 +18,13 @@ import type {
   Orcamento,
   Proveniencia,
 } from "@/types/graph";
-import { REGRAS, TETO_AUTORIZADO, FONTE_TETO, MUNICIPIOS } from "@/ontology";
+import {
+  REGRAS,
+  TETO_AUTORIZADO,
+  FONTE_TETO,
+  MUNICIPIOS,
+  EXERCICIO_PADRAO,
+} from "@/ontology";
 import { gerarSeed } from "./seed/gerar";
 
 const RAIZ = process.cwd();
@@ -225,7 +231,7 @@ function podarArestas(nodes: GraphNode[], edges: GraphEdge[]): GraphEdge[] {
   return edges.filter((e) => ids.has(e.source) && ids.has(e.target));
 }
 
-export function construirGrafo(ano = 2026): { grafo: Graph; stats: Estatisticas } {
+export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: Estatisticas } {
   const arquivoBruto = join(DIR_BRUTO, `licc-${ano}.json`);
   let nodes: GraphNode[];
   let edges: GraphEdge[];
@@ -273,7 +279,7 @@ export function construirGrafo(ano = 2026): { grafo: Graph; stats: Estatisticas 
 }
 
 function main(): void {
-  const ano = Number(process.env.LICC_ANO ?? 2026);
+  const ano = Number(process.env.LICC_ANO ?? EXERCICIO_PADRAO);
   const { grafo, stats } = construirGrafo(ano);
 
   mkdirSync(DIR_DADOS, { recursive: true });
