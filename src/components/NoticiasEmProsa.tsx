@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { GraphNode, Noticia } from "@/types/graph";
-import { NODE_KINDS } from "@/ontology/nodes";
+import { Glifo } from "./Glifo";
 
 export interface NoticiaComEntidade extends Noticia {
   entidade: string;
@@ -35,11 +35,7 @@ export function NoticiasEmProsa({ noticias }: { noticias: NoticiaComEntidade[] }
               href={`/entidade/${n.entidadeSlug}`}
               className="inline-flex items-baseline gap-1 font-medium text-tinta underline decoration-borda-forte underline-offset-2 transition-colors hover:decoration-tinta"
             >
-              <span
-                aria-hidden="true"
-                className="inline-block h-1.5 w-1.5 shrink-0 translate-y-[-1px] rounded-full"
-                style={{ background: NODE_KINDS[n.entidadeKind].cor }}
-              />
+              <Glifo kind={n.entidadeKind} className="translate-y-[0.1em]" />
               {n.entidade}
             </Link>
             )}

@@ -9,6 +9,7 @@ import {
   caminhoDaForma,
   type NoPosicionado,
 } from "@/lib/radial";
+import type { Forma } from "@/ontology/nodes";
 import { brlCurto } from "@/lib/format";
 
 /**
@@ -34,7 +35,9 @@ export function GrafoRadial({
   const [pairado, setPairado] = useState<NoPosicionado | null>(null);
   const idSeta = useId();
 
-  const layout = useMemo(() => calcularLayout(grafo, 400), [grafo]);
+  // 330,75 é o raio do anel externo do original numa meia-largura de 400 —
+  // 0,827 dela. Passar 400 aqui encostaria os projetos na borda do viewBox.
+  const layout = useMemo(() => calcularLayout(grafo, RAIO_UTIL), [grafo]);
 
   const foco = selecionado?.id ?? pairado?.no.id ?? null;
   const cadeia = useMemo(
@@ -96,23 +99,23 @@ export function GrafoRadial({
                       rótulo respirar por cima dos vértices. */}
                   <text
                     x={0}
-                    y={a.raio - 11}
+                    y={a.raio - RECUO_ROTULO_ANEL}
                     textAnchor="middle"
                     stroke="var(--color-papel-fundo)"
                     strokeWidth={4}
                     strokeLinejoin="round"
                     fill="none"
-                    style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
+                    style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.14em" }}
                   >
                     {a.rotulo}
                   </text>
                   <text
                     x={0}
-                    y={a.raio - 11}
+                    y={a.raio - RECUO_ROTULO_ANEL}
                     textAnchor="middle"
                     fill={a.cor}
                     fillOpacity={0.78}
-                    style={{ fontSize: 9, fontWeight: 600, letterSpacing: "0.14em" }}
+                    style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.14em" }}
                   >
                     {a.rotulo}
                   </text>
@@ -191,11 +194,18 @@ export function GrafoRadial({
             const aceso = !cadeia || cadeia.nos.has(p.no.id);
             const eSelecionado = p.no.id === selecionado?.id;
             const demonstracao = p.no.proveniencia === "demonstracao";
+            const forma = caminhoDaForma(p.forma, p.r);
+            // No original os retângulos de comissão e departamento giram
+            // acompanhando o ângulo, o que produz o losango em inclinações
+            // variadas em vez de uma fileira de quadrados idênticos.
+            const giro = GIRA_COM_ANGULO.has(p.forma)
+              ? ` rotate(${((p.angulo * 180) / Math.PI).toFixed(1)})`
+              : "";
 
             return (
               <g
                 key={p.no.id}
-                transform={`translate(${p.x} ${p.y})`}
+                transform={`translate(${p.x} ${p.y})${giro}`}
                 className="cursor-pointer outline-none"
                 tabIndex={0}
                 role="button"
@@ -226,17 +236,25 @@ export function GrafoRadial({
                   />
                 ) : null}
 
-                {/* Em repouso o vértice é só contorno, como no CivLab; o
-                    preenchimento pastel entra quando ele entra na cadeia. */}
+                {/* A regra do HTML do CivLab, nas três camadas dele: base
+                    branca, a cor da categoria a 50% por cima quando o vértice
+                    acende, e o traço na cor cheia. Não existe segunda cor
+                    guardada em lugar nenhum — o pastel é sempre derivado. */}
+                <path d={forma} fill="var(--color-papel)" />
                 <path
-                  d={caminhoDaForma(p.forma, p.r)}
-                  fill={aceso ? p.corPastel : "var(--color-papel)"}
-                  fillOpacity={aceso ? 1 : 0.55}
+                  d={forma}
+                  fill={p.cor}
+                  fillOpacity={aceso ? 0.5 : 0}
+                  className="transition-[fill-opacity] duration-200"
+                />
+                <path
+                  d={forma}
+                  fill="none"
                   stroke={p.cor}
-                  strokeOpacity={aceso ? 0.95 : 0.5}
-                  strokeWidth={aceso ? 1 : 0.9}
+                  strokeOpacity={aceso ? 1 : 0.55}
+                  strokeWidth={aceso ? 1.2 : 0.9}
                   strokeDasharray={demonstracao && !aceso ? "2 2" : undefined}
-                  className="transition-[fill-opacity,stroke-opacity] duration-200"
+                  className="transition-[stroke-opacity] duration-200"
                 />
               </g>
             );
@@ -316,6 +334,14 @@ export function GrafoRadial({
     </div>
   );
 }
+
+/* Medidas do original (docs/referencia-civlab.md). */
+/** Raio do anel externo: 0,827 da meia-largura de 400. */
+const RAIO_UTIL = 330.75;
+/** O rótulo do anel fica 25px para dentro da órbita. */
+const RECUO_ROTULO_ANEL = 25;
+/** Formas derivadas de `rect`, que no original giram com a posição angular. */
+const GIRA_COM_ANGULO = new Set<Forma>(["losango", "quadrado"]);
 
 /** Arco simples entre dois ângulos, para o texto de setor correr por cima. */
 function arcoTexto(de: number, para: number, raio: number): string {

@@ -3,9 +3,11 @@ import Link from "next/link";
 /**
  * Card branco flutuante — o átomo visual da coluna-documento.
  *
- * O CivLab não usa caixas de borda plana: usa cartões arredondados com sombra
- * discreta sobre um fundo cinza. A diferença parece cosmética, mas é ela que
- * faz a coluna ler como documento e não como formulário.
+ * O CivLab não usa caixas de borda plana: usa cartões brancos arredondados
+ * sobre um fundo cinza quente. `rounded-xl` (12px) e **sem sombra** — o
+ * contraste com o fundo já separa, e a sombra que eu tinha posto aqui era
+ * invenção minha. A diferença parece cosmética, mas é ela que faz a coluna ler
+ * como documento e não como formulário.
  */
 export function Cartao({
   children,
@@ -18,9 +20,7 @@ export function Cartao({
 }) {
   return (
     <section
-      className={`rounded-2xl bg-papel shadow-[0_1px_2px_rgba(15,23,42,0.05),0_4px_16px_-6px_rgba(15,23,42,0.10)] ${
-        padded ? "p-5" : ""
-      } ${className}`}
+      className={`rounded-xl bg-papel ${padded ? "p-5" : ""} ${className}`}
     >
       {children}
     </section>
@@ -52,7 +52,7 @@ export function Trilha({
   return (
     <nav
       aria-label="Trilha de navegação"
-      className="flex items-center gap-1.5 rounded-full bg-papel px-4 py-2.5 text-sm shadow-[0_1px_2px_rgba(15,23,42,0.05),0_4px_16px_-6px_rgba(15,23,42,0.10)]"
+      className="flex items-center gap-1.5 rounded-full bg-papel px-4 py-2.5 text-sm"
     >
       <span aria-hidden="true" className="mr-0.5 text-[var(--color-publico)]">✳</span>
       {itens.map((item, i) => (
@@ -75,48 +75,6 @@ export function Trilha({
         </span>
       ))}
     </nav>
-  );
-}
-
-/** Controle segmentado — `Grafo | Orçamento`, `Notícias | Quem se conecta?`. */
-export function Segmentado<T extends string>({
-  opcoes,
-  valor,
-  onMudar,
-  className = "",
-}: {
-  opcoes: Array<{ id: T; rotulo: string; contagem?: number }>;
-  valor: T;
-  onMudar: (id: T) => void;
-  className?: string;
-}) {
-  return (
-    <div
-      role="tablist"
-      className={`inline-flex rounded-xl bg-papel-fundo p-1 ${className}`}
-    >
-      {opcoes.map((o) => {
-        const ativo = o.id === valor;
-        return (
-          <button
-            key={o.id}
-            role="tab"
-            aria-selected={ativo}
-            onClick={() => onMudar(o.id)}
-            className={`rounded-lg px-4 py-1.5 text-sm transition-all ${
-              ativo
-                ? "bg-papel font-medium text-tinta shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
-                : "text-tinta-fraca hover:text-tinta-suave"
-            }`}
-          >
-            {o.rotulo}
-            {o.contagem !== undefined && o.contagem > 0 ? (
-              <span className="ml-1.5 text-[11px] opacity-70">{o.contagem}</span>
-            ) : null}
-          </button>
-        );
-      })}
-    </div>
   );
 }
 

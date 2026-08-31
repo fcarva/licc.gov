@@ -190,7 +190,7 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
       descricao: seg.descricao,
       nomesAlternativos: seg.termosMapaCultural,
       proveniencia: "derivado",
-      meta: { cor: seg.cor, corPastel: seg.corPastel, slugSegmento: seg.slug },
+      meta: { cor: seg.cor, slugSegmento: seg.slug },
       fundamentos: [normaDoExercicio(ano)],
       fontes: [
         {

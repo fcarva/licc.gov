@@ -14,10 +14,11 @@ export interface NodeKindSpec {
   rotulo: string;
   rotuloPlural: string;
   descricao: string;
-  /** Cor forte: traço, texto e rótulo do anel. */
+  /**
+   * Cor da categoria: traço, texto e rótulo do anel — e, a 50% de opacidade
+   * sobre branco, o preenchimento do vértice aceso. Não há segunda cor.
+   */
   cor: string;
-  /** Preenchimento quando o vértice está aceso. Aferido dos quadros do CivLab. */
-  corPastel: string;
   /**
    * Anel do layout radial. `0` é o centro; `null` mantém o vértice fora do
    * desenho — segmentos e municípios agrupam e colorem, mas não ocupam anel.
@@ -43,10 +44,22 @@ export interface NodeKindSpec {
  * gerado. De dentro para fora o dinheiro atravessa quem aprova, quem aporta,
  * quem executa e o que se produz.
  *
- * A paleta é pastel e foi **aferida por amostragem** dos quadros da gravação do
- * SF Government Graph, não escolhida no olho: o fundo é `#ebeae4`, o centro
- * `#f5ccba`, e os anéis `#f6c4cc`, `#e2c1f8` e `#d2c9e5`. Em repouso o vértice
- * é só contorno; o preenchimento entra quando ele acende.
+ * A paleta das cinco categorias com anel vem do **HTML do SF Government
+ * Graph**, não de amostragem de pixels: houve uma versão em que eu media o
+ * vértice *aceso* e guardava o resultado como se fosse a cor da categoria, o
+ * que trocava a causa pelo efeito. A regra real é uma cor só —
+ *
+ *     <circle fill="var(--white)"/>            fundo branco
+ *     <circle fill="#f2686f" fill-opacity=".5"/>  a mesma cor, a 50%
+ *     <circle stroke="#f2686f"/>               o traço, cheia
+ *
+ * — e a correspondência com a LICC é **por posição no anel**, que é onde mora
+ * o significado do desenho. Em repouso o vértice é só contorno; o pastel
+ * aparece quando ele acende, e é derivado, nunca armazenado.
+ *
+ * As sete categorias sem anel mantêm matiz próprio: não há original a copiar.
+ * O fundo `#ebeae4` continua o aferido — foi amostrado do plano de fundo, não
+ * de um vértice aceso, então não sofre do erro acima.
  */
 export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
   publico: {
@@ -55,8 +68,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     rotuloPlural: "População",
     descricao:
       "A população capixaba. Financiadora indireta, porque o Estado abre mão de ICMS para que a política exista, e destinatária final do bem público gerado.",
-    cor: "#c2410c",
-    corPastel: "#f5ccba",
+    cor: "#f27836",
     anel: 0,
     papel: "Origem e destino do valor",
     forma: "estrela",
@@ -70,8 +82,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     rotuloPlural: "Aprovação e fomento",
     descricao:
       "Quem institui a política, autoriza o teto de renúncia, julga o mérito dos projetos e fiscaliza a execução: SECULT-ES, SEFAZ-ES, o Conselho Estadual de Cultura e a Comissão de Análise de Projetos.",
-    cor: "#c2607a",
-    corPastel: "#f6c4cc",
+    cor: "#f2686f",
     anel: 1,
     rotuloAnel: "APROVAÇÃO E FOMENTO",
     papel: "Define diretrizes e o teto do orçamento",
@@ -86,8 +97,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     rotuloPlural: "O capital",
     descricao:
       "Empresas contribuintes do ICMS. Operam como intermediárias que escolhem onde alocar a renúncia fiscal — é aqui que se decide, na prática, qual cultura recebe dinheiro.",
-    cor: "#9b5fd0",
-    corPastel: "#e2c1f8",
+    cor: "#c15ef2",
     anel: 2,
     rotuloAnel: "O CAPITAL",
     papel: "Aloca a renúncia de ICMS",
@@ -102,8 +112,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     rotuloPlural: "A execução",
     descricao:
       "Quem faz: produtoras, organizações sem fins lucrativos, coletivos, artistas e prefeituras do interior, com sede no Espírito Santo.",
-    cor: "#7c6bb5",
-    corPastel: "#d8cfec",
+    cor: "#f25eef",
     anel: 3,
     rotuloAnel: "A EXECUÇÃO",
     papel: "Realiza o projeto",
@@ -118,8 +127,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     rotuloPlural: "O bem público",
     descricao:
       "O que a política produz: festivais, mostras, obras de restauro, salvaguarda de patrimônio, planos anuais de espaços e grupos estáveis.",
-    cor: "#7b6fb0",
-    corPastel: "#d2c9e5",
+    cor: "#826dc8",
     anel: 4,
     rotuloAnel: "O BEM PÚBLICO",
     papel: "Resultado entregue à população",
@@ -137,7 +145,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Área cultural que agrupa os projetos, alinhada à taxonomia de área da plataforma Mapas Culturais. Colore os projetos no grafo e recorta as leituras de orçamento.",
     cor: "#be5a70",
-    corPastel: "#f2c3cd",
     anel: null,
     forma: "oculto",
     raioBase: 8,
@@ -151,7 +158,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Os 78 municípios capixabas onde os projetos são executados. Sustentam a auditoria da cota territorial da LICC.",
     cor: "#6a8f4d",
-    corPastel: "#cfe2bd",
     anel: null,
     forma: "oculto",
     raioBase: 6,
@@ -165,7 +171,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Ocorrências culturais cadastradas no Mapa Cultural do Espírito Santo: shows, mostras, feiras, oficinas e apresentações.",
     cor: "#b08040",
-    corPastel: "#f2dcc0",
     anel: null,
     forma: "oculto",
     raioBase: 4,
@@ -179,7 +184,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Teatros, centros culturais, bibliotecas, praças e sedes de coletivos cadastrados no Mapa Cultural do Espírito Santo.",
     cor: "#4d8a9c",
-    corPastel: "#c4dee6",
     anel: null,
     forma: "oculto",
     raioBase: 5,
@@ -193,7 +197,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Quem ocupa o cargo à frente de um órgão — o Secretário de Estado da Cultura, por exemplo. Separar a pessoa do órgão permite acompanhar a gestão sem confundi-la com a instituição.",
     cor: "#b06a86",
-    corPastel: "#f2ccd8",
     anel: null,
     forma: "oculto",
     raioBase: 5,
@@ -207,7 +210,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "A chamada pública de um exercício da LICC, publicada pela SECULT-ES no Mapa Cultural do Espírito Santo. É nela que os proponentes inscrevem seus projetos.",
     cor: "#8a7f5a",
-    corPastel: "#e6dfc4",
     anel: null,
     forma: "oculto",
     raioBase: 7,
@@ -221,7 +223,6 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     descricao:
       "Leis, portarias e instruções normativas que dão base a cada entidade do grafo.",
     cor: "#6b6b78",
-    corPastel: "#d8d8de",
     anel: null,
     forma: "oculto",
     raioBase: 8,
@@ -243,8 +244,4 @@ export function corDoNo(kind: NodeKind): string {
 
 export function formaDoNo(kind: NodeKind): Forma {
   return NODE_KINDS[kind].forma;
-}
-
-export function corPastelDoNo(kind: NodeKind): string {
-  return NODE_KINDS[kind].corPastel;
 }

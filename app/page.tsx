@@ -3,7 +3,8 @@ import { obterGrafo, obterEstatisticas, listarNoticias, listarNos } from "@/lib/
 import { HomeGrafo } from "@/components/HomeGrafo";
 import { Cartao, TituloSecao, Metrica } from "@/components/Coluna";
 import { NoticiasEmProsa, type NoticiaComEntidade } from "@/components/NoticiasEmProsa";
-import { NODE_KINDS } from "@/ontology/nodes";
+import type { NodeKind } from "@/types/graph";
+import { Glifo } from "@/components/Glifo";
 import { brl, numero, percentual } from "@/lib/format";
 
 /**
@@ -114,11 +115,7 @@ export default function PaginaInicial() {
                     className="flex h-full flex-col rounded-xl border border-borda p-3 transition-colors hover:border-borda-forte hover:bg-papel-fundo"
                   >
                     <span className="flex items-center gap-1.5">
-                      <span
-                        aria-hidden="true"
-                        className="h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ background: NODE_KINDS[e!.kind].cor }}
-                      />
+                      <Glifo kind={e!.kind} />
                       <span className="truncate text-xs font-medium text-tinta">
                         {e!.sigla ?? e!.nome}
                       </span>
@@ -138,12 +135,12 @@ export default function PaginaInicial() {
               Quem participa do ciclo da LICC no exercício {grafo.meta.ano}.
             </p>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-              <Contagem rotulo="Órgãos" valor={listarNos("governanca").length} />
-              <Contagem rotulo="Patrocinadores" valor={stats.totalPatrocinadores} />
-              <Contagem rotulo="Proponentes" valor={stats.totalProponentes} />
-              <Contagem rotulo="Projetos" valor={stats.totalProjetos} />
-              <Contagem rotulo="Segmentos" valor={segmentos.length} />
-              <Contagem rotulo="Municípios" valor={stats.totalMunicipiosAtendidos} nota="de 78" />
+              <Contagem kind="governanca" rotulo="Órgãos" valor={listarNos("governanca").length} />
+              <Contagem kind="patrocinador" rotulo="Patrocinadores" valor={stats.totalPatrocinadores} />
+              <Contagem kind="proponente" rotulo="Proponentes" valor={stats.totalProponentes} />
+              <Contagem kind="projeto" rotulo="Projetos" valor={stats.totalProjetos} />
+              <Contagem kind="segmento" rotulo="Segmentos" valor={segmentos.length} />
+              <Contagem kind="municipio" rotulo="Municípios" valor={stats.totalMunicipiosAtendidos} nota="de 78" />
             </dl>
           </Cartao>
 
@@ -219,10 +216,23 @@ export default function PaginaInicial() {
   );
 }
 
-function Contagem({ rotulo, valor, nota }: { rotulo: string; valor: number; nota?: string }) {
+function Contagem({
+  rotulo,
+  valor,
+  nota,
+  kind,
+}: {
+  rotulo: string;
+  valor: number;
+  nota?: string;
+  kind: NodeKind;
+}) {
   return (
     <div>
-      <dt className="text-xs text-tinta-suave">{rotulo}</dt>
+      <dt className="flex items-center gap-1.5 text-xs text-tinta-suave">
+        <Glifo kind={kind} />
+        {rotulo}
+      </dt>
       <dd className="tabular mt-0.5 text-lg font-semibold tracking-tight text-tinta">
         {numero(valor)}
         {nota ? <span className="ml-1 text-xs font-normal text-tinta-fraca">{nota}</span> : null}

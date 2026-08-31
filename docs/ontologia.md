@@ -104,21 +104,41 @@ Implementadas em `calcularCadeia()`, em `src/lib/radial.ts`.
 
 ## Paleta
 
-As cores foram **aferidas por amostragem de pixels** dos quadros de uma gravação
-do SF Government Graph, não escolhidas no olho:
+As cores das cinco categorias com anel vêm do **HTML do SF Government Graph**,
+capturado em `docs/referencia-civlab.md`. Houve antes uma versão aferida por
+amostragem de pixels de uma gravação; ela estava errada por um motivo que vale
+registrar, para que ninguém a "conserte" de volta: **o pixel media o vértice
+aceso**, que já é a cor misturada a 50% com o branco. Media-se o efeito e
+guardava-se como se fosse a causa.
 
-| Papel | Valor |
-| --- | --- |
-| Fundo da tela | `#ebeae4` |
-| Centro (população) | `#f5ccba` |
-| Anel 1 aceso | `#f6c4cc` |
-| Anel 2 aceso | `#e2c1f8` |
-| Anel 3–4 aceso | `#d2c9e5` |
+A regra real, direto do HTML, é **uma cor só, em três camadas**:
 
-Cada categoria declara `cor` (traço e texto) e `corPastel` (preenchimento). Em
-repouso o vértice é **só contorno**; o preenchimento entra quando ele acende na
-cadeia. Os projetos herdam a cor da sua linguagem cultural em vez da cor da
-categoria, e é isso que faz o anel externo se ler como um mapa de linguagens.
+```html
+<circle fill="var(--white)"/>              <!-- base -->
+<circle fill="#f2686f" fill-opacity="0.5"/><!-- a mesma cor, a 50% -->
+<circle stroke="#f2686f"/>                 <!-- o traço, cheia -->
+```
+
+Por isso `corPastel` **deixou de existir** como campo: guardar um pastel abre a
+porta para ele divergir da cor da categoria. Ele é derivado no desenho.
+
+A correspondência com o CivLab é **por posição no anel** — é ali que mora o
+significado —, não por semelhança de nome:
+
+| Anel | CivLab | LICC | Cor |
+| --- | --- | --- | --- |
+| centro | People | `publico` | `#f27836` |
+| 1 | Elected | `governanca` | `#f2686f` |
+| 2 | Commission | `patrocinador` | `#c15ef2` |
+| 3 | Advisory | `proponente` | `#f25eef` |
+| 4 | Department | `projeto` | `#826dc8` |
+
+As sete categorias sem anel mantêm matiz próprio: não há original a copiar. O
+fundo `#ebeae4` continua o aferido — foi amostrado do plano de fundo, não de um
+vértice, então não sofre do erro acima.
+
+Os projetos herdam a cor da sua linguagem cultural em vez da cor da categoria, e
+é isso que faz o anel externo se ler como um mapa de linguagens.
 
 ## Segmentos
 

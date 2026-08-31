@@ -4,7 +4,7 @@ import { useState, useMemo } from "react";
 import type { Graph, GraphNode } from "@/types/graph";
 import { GrafoRadial } from "./GrafoRadial";
 import { Sunburst, type FatiaSunburst } from "./Sunburst";
-import { Segmentado } from "./Coluna";
+import { Segmentado } from "./Abas";
 import { corDoSegmento } from "@/ontology/paleta-orcamento";
 
 export type Aba = "grafo" | "orcamento";

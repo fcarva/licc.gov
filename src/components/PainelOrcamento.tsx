@@ -20,8 +20,8 @@ export interface CotaResumo {
  * Coluna-documento do orçamento, ao lado da rosca.
  *
  * Espelha o painel de orçamento do SF Government Graph: os números do
- * exercício em cima e, embaixo, a alocação estratificada — a lista de altura
- * proporcional em que a intensidade da cor diz onde o recurso se concentra.
+ * exercício em cima e, embaixo, a alocação — a lista em que a altura de cada
+ * faixa é a sua parcela do total.
  */
 export function PainelOrcamento({
   grafo,
@@ -129,9 +129,9 @@ export function PainelOrcamento({
       <Cartao>
         <TituloSecao>Alocação por linguagem</TituloSecao>
         <p className="mb-3 text-xs leading-relaxed text-tinta-fraca">
-          Altura pela fatia, intensidade pelo volume: quanto mais forte a faixa,
-          mais recurso concentrado ali. Passe o ponteiro na rosca para localizar
-          a mesma fatia.
+          A altura da faixa é a fatia: quanto mais alta, mais recurso
+          concentrado ali. O filete leva a cor da fatia na rosca — passe o
+          ponteiro numa para achar a outra.
         </p>
         <div onMouseLeave={() => onDestacar?.(undefined)}>
           <AlocacaoProporcional

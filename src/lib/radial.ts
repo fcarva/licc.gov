@@ -15,10 +15,8 @@ export interface NoPosicionado {
   /** Raio do símbolo em px. */
   r: number;
   forma: Forma;
-  /** Cor forte: traço e texto. */
+  /** Cor da categoria (ou da linguagem, no anel setorizado). */
   cor: string;
-  /** Preenchimento quando o vértice acende. */
-  corPastel: string;
   /** Raio da órbita a partir do centro. */
   orbita: number;
   angulo: number;
@@ -65,15 +63,21 @@ export interface Layout {
 /**
  * Fração do raio útil em que cada anel assenta.
  *
- * Os valores acompanham a proporção medida no SF Gov Graph, onde os anéis se
- * adensam para fora: o miolo institucional é pequeno e a periferia concentra
- * a maior parte dos vértices.
+ * Medidas do HTML do SF Gov Graph: os três anéis desenhados ficam em 147,
+ * 236,25 e 330,75 — frações `0,444 / 0,714 / 1,0` do maior raio, ou seja um
+ * miolo vazio largo e, depois dele, **incrementos praticamente iguais**
+ * (89,25 e 94,5). Não é o adensamento para fora que eu supunha ao estimar no
+ * olho; é quase linear com um deslocamento inicial grande.
+ *
+ * A LICC tem quatro anéis, não três. Mantendo o mesmo primeiro anel em `0,444`
+ * e o último em `1,0`, o passo vira `(1 − 0,444)/3 = 0,185`. A proporção que
+ * caracteriza o desenho — o vazio central e a regularidade — se preserva.
  */
 const FRACAO_POR_ANEL: Record<number, number> = {
-  1: 0.3,
-  2: 0.52,
-  3: 0.73,
-  4: 0.93,
+  1: 0.444,
+  2: 0.629,
+  3: 0.815,
+  4: 1.0,
 };
 
 /** Espaço angular mínimo entre dois símbolos vizinhos, em px de arco. */
@@ -104,18 +108,12 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
       .filter((n) => n.kind === "segmento")
       .map((n) => [
         n.id,
-        {
-          nome: n.nome,
-          cor: String(n.meta?.cor ?? NODE_KINDS.segmento.cor),
-          corPastel: String(n.meta?.corPastel ?? NODE_KINDS.segmento.corPastel),
-        },
+        { nome: n.nome, cor: String(n.meta?.cor ?? NODE_KINDS.segmento.cor) },
       ]),
   );
-  const paletaDoNo = (n: GraphNode, spec: (typeof ANEIS)[number]) => {
+  const corDoVertice = (n: GraphNode, spec: (typeof ANEIS)[number]) => {
     const seg = segmentos.get(String(n.meta?.segmentoId ?? ""));
-    return seg && spec.kind === KIND_SETORIZADO
-      ? { cor: seg.cor, corPastel: seg.corPastel }
-      : { cor: spec.cor, corPastel: spec.corPastel };
+    return seg && spec.kind === KIND_SETORIZADO ? seg.cor : spec.cor;
   };
 
   for (const spec of ANEIS) {
@@ -132,7 +130,6 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
         r: spec.raioBase,
         forma: spec.forma,
         cor: spec.cor,
-        corPastel: spec.corPastel,
         orbita: 0,
         angulo: 0,
       });
@@ -204,7 +201,7 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
         const angulo =
           inicio + posicao * passo + passo / 2 + (fileira % 2) * passo * 0.3;
         const r = tamanho(no);
-        const { cor, corPastel } = paletaDoNo(no, spec);
+        const cor = corDoVertice(no, spec);
 
         nos.push({
           no,
@@ -213,7 +210,6 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
           r,
           forma: spec.forma,
           cor,
-          corPastel,
           orbita,
           angulo,
         });
@@ -258,7 +254,7 @@ export function calcularLayout(grafo: Graph, raioUtil: number): Layout {
  */
 function agruparPorSegmento(
   projetos: GraphNode[],
-  segmentos: Map<string, { nome: string; cor: string; corPastel: string }>,
+  segmentos: Map<string, { nome: string; cor: string }>,
 ): Array<{ id: string; rotulo: string; cor: string; itens: GraphNode[] }> {
   const porId = new Map<string, GraphNode[]>();
   for (const p of projetos) {

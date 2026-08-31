@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { brl, brlCurto } from "@/lib/format";
+import { useMemo, useRef, useState } from "react";
+import { brl, brlCurto, percentual } from "@/lib/format";
 import { clarear, escurecer } from "@/ontology/paleta-orcamento";
 
 export interface FatiaSunburst {
@@ -22,7 +22,12 @@ export interface FatiaSunburst {
  *
  * O anel externo usa **o mesmo matiz do interno, clareado** — é o que faz o
  * olho ler o detalhe como parte do agrupamento, em vez de duas categorias
- * soltas. Geometria e proporção de cor foram aferidas dos quadros da gravação.
+ * soltas.
+ *
+ * Geometria, traço e tipografia vêm do HTML do original, medido em
+ * `docs/referencia-civlab.md` — não de amostragem de pixels. Por isso as
+ * constantes abaixo são os números do original, e o `viewBox` é o dele: assim
+ * qualquer divergência se confere lendo a tabela, sem regra de três.
  */
 export function Sunburst({
   titulo,
@@ -34,7 +39,7 @@ export function Sunburst({
   titulo: string;
   total: number;
   fatias: FatiaSunburst[];
-  /** `id` de uma fatia ou de um filho a manter aceso. */
+  /** `id` de uma fatia ou de um filho a marcar como selecionado. */
   destaqueId?: string;
   onSelecionar?: (id: string) => void;
 }) {
@@ -43,11 +48,8 @@ export function Sunburst({
     valor: number;
     cor: string;
   } | null>(null);
-
-  const RAIO_EXTERNO = 100;
-  const RAIO_MEIO = 77;
-  const RAIO_INTERNO = 55;
-  const VAO = 0.003;
+  const [ponteiro, setPonteiro] = useState({ x: 0, y: 0 });
+  const caixa = useRef<HTMLDivElement>(null);
 
   const arcos = useMemo(() => {
     const somaFatias = fatias.reduce((s, f) => s + f.valor, 0);
@@ -77,146 +79,207 @@ export function Sunburst({
   const restante = Math.max(0, total - somaFatias);
   const inicioRestante = arcos.length ? arcos[arcos.length - 1].fim : -Math.PI / 2;
 
-  const aceso = (id: string, paiId?: string) =>
-    !destaqueId || id === destaqueId || paiId === destaqueId;
+  // Seleção é aditiva: engrossa e escurece o traço da fatia escolhida e não
+  // toca em nenhuma outra. O original apaga o resto? Não — todas as fatias
+  // ficam em opacidade cheia, porque a rosca existe para dar o contexto que o
+  // escurecimento justamente destruiria.
+  const selecionada = (id: string, paiId?: string) =>
+    Boolean(destaqueId) && (id === destaqueId || paiId === destaqueId);
+
+  const mover = (e: React.MouseEvent) => {
+    const r = caixa.current?.getBoundingClientRect();
+    if (r) setPonteiro({ x: e.clientX - r.left, y: e.clientY - r.top });
+  };
 
   return (
-    <div className="relative flex h-full w-full items-center justify-center">
+    <div
+      ref={caixa}
+      className="relative flex h-full w-full items-center justify-center"
+      onMouseLeave={() => setPairada(null)}
+    >
       <svg
-        viewBox="-118 -118 236 236"
-        className="h-full max-h-[540px] w-full"
+        viewBox="0 0 800 750"
+        preserveAspectRatio="xMidYMid meet"
+        className="h-full w-full"
         role="img"
-        aria-label={`${titulo}: ${brl(total)}`}
+        aria-label={`Rosca do orçamento — ${titulo}, ${brl(total)}, repartido entre ${fatias.length} linguagens culturais e o teto ainda não captado`}
       >
-        {/* Teto ainda não captado: fecha o anel para que o vão se leia como
-            dado, e não como defeito de renderização. */}
-        {restante > 0 ? (
-          <path
-            d={setor(inicioRestante + VAO, Math.PI * 1.5 - VAO, RAIO_INTERNO, RAIO_EXTERNO)}
-            fill="var(--color-tinta-fraca)"
-            fillOpacity={0.1}
-            stroke="var(--color-papel)"
-            strokeWidth={0.6}
-            className="cursor-help"
-            onMouseEnter={() =>
-              setPairada({
-                rotulo: "Teto ainda não captado",
-                valor: restante,
-                cor: "#8a8a92",
-              })
-            }
-            onMouseLeave={() => setPairada(null)}
-          />
-        ) : null}
-
-        {/* Anel externo: os projetos, no matiz clareado do seu segmento. */}
-        <g>
-          {arcos.flatMap((f) =>
-            f.filhos.map((c) => (
+        <defs>
+          {arcos.map((f) => {
+            const meio = (f.inicio + f.fim) / 2;
+            // Na metade de baixo o texto inverte, para nunca correr de cabeça
+            // para baixo ao acompanhar a curva.
+            const inverter = Math.sin(meio) > 0;
+            const [de, para] = inverter ? [f.fim, f.inicio] : [f.inicio, f.fim];
+            return (
               <path
-                key={c.id}
-                d={setor(c.inicio + VAO, c.fim - VAO, RAIO_MEIO, RAIO_EXTERNO)}
-                fill={c.cor}
-                fillOpacity={aceso(c.id, f.id) ? 1 : 0.25}
-                stroke="var(--color-papel)"
-                strokeWidth={0.5}
-                className="cursor-pointer transition-[fill-opacity] duration-150"
-                onMouseEnter={() =>
-                  setPairada({ rotulo: c.rotulo, valor: c.valor, cor: f.cor })
-                }
-                onMouseLeave={() => setPairada(null)}
-                onClick={() => onSelecionar?.(c.id)}
+                key={f.id}
+                id={`arco-fatia-${f.id}`}
+                d={arcoTexto(de, para, inverter ? RAIO_ROTULO + 12 : RAIO_ROTULO)}
+                fill="none"
               />
-            )),
-          )}
-        </g>
+            );
+          })}
+        </defs>
 
-        {/* Anel interno: os segmentos, na cor cheia. */}
-        <g>
-          {arcos.map((f) => (
+        <g transform={`translate(${CENTRO.x},${CENTRO.y})`}>
+          {/* Teto ainda não captado: fecha o anel para que o vão se leia como
+              dado, e não como defeito de renderização. */}
+          {restante > 0 ? (
             <path
-              key={f.id}
-              d={setor(f.inicio + VAO, f.fim - VAO, RAIO_INTERNO, RAIO_MEIO)}
-              fill={f.cor}
-              fillOpacity={aceso(f.id) ? 1 : 0.25}
+              d={setor(inicioRestante + VAO, Math.PI * 1.5 - VAO, RAIO_INTERNO, RAIO_EXTERNO)}
+              fill="var(--color-tinta-fraca)"
+              fillOpacity={0.1}
               stroke="var(--color-papel)"
-              strokeWidth={0.6}
-              className="cursor-pointer transition-[fill-opacity] duration-150"
+              strokeWidth={TRACO}
+              className="cursor-help"
               onMouseEnter={() =>
-                setPairada({ rotulo: f.rotulo, valor: f.valor, cor: f.cor })
+                setPairada({
+                  rotulo: "Teto ainda não captado",
+                  valor: restante,
+                  cor: "#8a8a92",
+                })
               }
-              onMouseLeave={() => setPairada(null)}
-              onClick={() => onSelecionar?.(f.id)}
+              onMouseMove={mover}
             />
-          ))}
-        </g>
+          ) : null}
 
-        {/* Nome e valor da fatia mais larga de cada lado, fora do anel. */}
-        <g className="pointer-events-none">
-          {arcos
-            .filter((f) => f.fim - f.inicio > 0.22)
-            .map((f) => {
-              const meio = (f.inicio + f.fim) / 2;
-              const raio = RAIO_EXTERNO + 9;
-              const x = Math.cos(meio) * raio;
-              const y = Math.sin(meio) * raio;
-              const cor = escurecer(f.cor);
-              const acima = Math.sin(meio) < 0;
+          {/* Anel externo: os projetos, no matiz clareado do seu segmento. */}
+          <g>
+            {arcos.flatMap((f) =>
+              f.filhos.map((c) => {
+                const marcada = selecionada(c.id, f.id);
+                return (
+                  <path
+                    key={c.id}
+                    d={setor(c.inicio + VAO, c.fim - VAO, RAIO_MEIO, RAIO_EXTERNO)}
+                    fill={c.cor}
+                    stroke={marcada ? escurecer(f.cor, 0.35) : "var(--color-papel)"}
+                    strokeWidth={marcada ? TRACO_SELECIONADO : TRACO}
+                    className="cursor-pointer"
+                    onMouseEnter={() =>
+                      setPairada({ rotulo: c.rotulo, valor: c.valor, cor: f.cor })
+                    }
+                    onMouseMove={mover}
+                    onClick={() => onSelecionar?.(c.id)}
+                  />
+                );
+              }),
+            )}
+          </g>
+
+          {/* Anel interno: os segmentos, na cor cheia. */}
+          <g>
+            {arcos.map((f) => {
+              const marcada = selecionada(f.id);
+              return (
+                <path
+                  key={f.id}
+                  d={setor(f.inicio + VAO, f.fim - VAO, RAIO_INTERNO, RAIO_MEIO)}
+                  fill={f.cor}
+                  stroke={marcada ? escurecer(f.cor, 0.35) : "var(--color-papel)"}
+                  strokeWidth={marcada ? TRACO_SELECIONADO : TRACO}
+                  className="cursor-pointer"
+                  onMouseEnter={() =>
+                    setPairada({ rotulo: f.rotulo, valor: f.valor, cor: f.cor })
+                  }
+                  onMouseMove={mover}
+                  onClick={() => onSelecionar?.(f.id)}
+                />
+              );
+            })}
+          </g>
+
+          {/* Nome da linguagem correndo pelo próprio arco, como no original.
+              Onde o nome não cabe em corpo cheio ele encolhe até um piso de
+              leitura; abaixo disso some, e a fatia segue identificável pela cor
+              e pela lista ao lado. Encolher é melhor que truncar: "Audiov…" não
+              nomeia nada. */}
+          <g className="pointer-events-none">
+            {arcos.map((f) => {
+              const arco = (f.fim - f.inicio) * RAIO_ROTULO;
+              const corpo = Math.min(
+                ROTULO_ARCO,
+                (arco - 12) / (f.rotulo.length * PROPORCAO_GLIFO),
+              );
+              if (corpo < ROTULO_ARCO_MINIMO) return null;
               return (
                 <text
-                  key={`r-${f.id}`}
-                  x={x}
-                  y={y}
-                  textAnchor="middle"
-                  fill={cor}
-                  style={{ fontSize: 5.6, fontWeight: 600 }}
+                  key={`t-${f.id}`}
+                  fill={escurecer(f.cor, 0.55)}
+                  style={{ fontSize: Number(corpo.toFixed(1)), fontWeight: 500 }}
+                  dominantBaseline="middle"
                 >
-                  <tspan x={x} dy={acima ? -3 : 3}>
-                    {recortar(f.rotulo, 28)}
-                  </tspan>
-                  <tspan x={x} dy={7} style={{ fontWeight: 500 }}>
-                    {brlCurto(f.valor)}
-                  </tspan>
+                  <textPath href={`#arco-fatia-${f.id}`} startOffset="50%" textAnchor="middle">
+                    {f.rotulo}
+                  </textPath>
                 </text>
               );
             })}
-        </g>
+          </g>
 
-        {/* Miolo com o total do exercício. */}
-        <circle r={RAIO_INTERNO - 1.5} fill="var(--color-papel)" />
-        <text textAnchor="middle" className="pointer-events-none">
-          <tspan x="0" y="-6" fill="var(--color-tinta-fraca)" style={{ fontSize: 6.5 }}>
-            {titulo}
-          </tspan>
-          <tspan x="0" y="8" fill="var(--color-tinta)" style={{ fontSize: 15, fontWeight: 600 }}>
-            {brlCurto(total)}
-          </tspan>
-        </text>
+          {/* Miolo com o total do exercício. */}
+          <circle r={RAIO_INTERNO - TRACO} fill="var(--color-papel)" />
+          <text textAnchor="middle" className="pointer-events-none">
+            <tspan
+              x="0"
+              y="-14"
+              fill="var(--color-tinta-fraca)"
+              style={{ fontSize: MIOLO_ROTULO, fontWeight: 500 }}
+            >
+              {titulo}
+            </tspan>
+            <tspan
+              x="0"
+              y="22"
+              fill="var(--color-tinta)"
+              style={{ fontSize: MIOLO_VALOR, fontWeight: 600 }}
+            >
+              {brlCurto(total)}
+            </tspan>
+          </text>
+        </g>
       </svg>
 
-      {/* Cartão de leitura: borda e nome na cor da fatia, como no original. */}
+      {/* Tooltip do original: bordado, não sombreado, e acompanha o ponteiro. */}
       {pairada ? (
         <div
-          className="pointer-events-none absolute left-1/2 top-4 -translate-x-1/2 rounded-lg border-2 bg-papel px-3 py-1.5 text-center shadow-sm"
-          style={{ borderColor: pairada.cor }}
+          className="pointer-events-none absolute z-[1000] max-w-[240px] rounded-[4px] border border-[#ccc] bg-white px-2 py-1 text-[12px] leading-snug text-neutral-800"
+          style={{
+            left: ponteiro.x,
+            top: ponteiro.y,
+            transform: "translate(-50%, calc(-100% - 10px))",
+          }}
         >
-          <p
-            className="text-xs font-semibold"
-            style={{ color: escurecer(pairada.cor) }}
-          >
-            {pairada.rotulo}
-          </p>
-          <p
-            className="tabular text-[11px]"
-            style={{ color: escurecer(pairada.cor, 0.2) }}
-          >
+          <span className="font-semibold">{pairada.rotulo}</span>
+          <span className="tabular block text-neutral-600">
             {brl(pairada.valor)}
-          </p>
+            {total > 0 ? ` · ${percentual(pairada.valor / total, 1)} do teto` : null}
+          </span>
         </div>
       ) : null}
     </div>
   );
 }
+
+/* Medidas do original (docs/referencia-civlab.md). Absolutas, não em fração,
+   porque o viewBox aqui é o mesmo `0 0 800 750` de lá. */
+const CENTRO = { x: 400, y: 355 };
+const RAIO_EXTERNO = 320;
+const RAIO_MEIO = 250.667;
+const RAIO_INTERNO = 181.333;
+/** Meio do anel interno, onde o nome da linguagem corre pelo arco. */
+const RAIO_ROTULO = (RAIO_INTERNO + RAIO_MEIO) / 2;
+const TRACO = 1.5;
+const TRACO_SELECIONADO = 2;
+const ROTULO_ARCO = 16;
+/** Abaixo disso o nome não se lê no arco e é melhor não desenhá-lo. */
+const ROTULO_ARCO_MINIMO = 9.5;
+const MIOLO_ROTULO = 14;
+const MIOLO_VALOR = 34;
+/** Largura média de um glifo por px de corpo, para caber o nome no arco. */
+const PROPORCAO_GLIFO = 0.525;
+const VAO = 0.002;
 
 /** Caminho de um setor anelar entre dois raios. */
 function setor(inicio: number, fim: number, rInterno: number, rExterno: number): string {
@@ -234,4 +297,11 @@ function setor(inicio: number, fim: number, rInterno: number, rExterno: number):
   ].join(" ");
 }
 
-const recortar = (s: string, n: number) => (s.length > n ? `${s.slice(0, n - 1)}…` : s);
+/** Arco simples entre dois ângulos, para o rótulo correr por cima. */
+function arcoTexto(de: number, para: number, raio: number): string {
+  const p = (a: number) =>
+    `${(Math.cos(a) * raio).toFixed(2)} ${(Math.sin(a) * raio).toFixed(2)}`;
+  const varredura = para > de ? 1 : 0;
+  const grande = Math.abs(para - de) > Math.PI ? 1 : 0;
+  return `M ${p(de)} A ${raio} ${raio} 0 ${grande} ${varredura} ${p(para)}`;
+}

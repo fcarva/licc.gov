@@ -6,10 +6,12 @@ import type { EntityDetail, Graph, GraphNode } from "@/types/graph";
 import { NODE_KINDS } from "@/ontology/nodes";
 import { EDGE_KINDS } from "@/ontology/edges";
 import { brl, brlCurto, numero, percentual, dataLonga, rotuloStatus } from "@/lib/format";
-import { Cartao, TituloSecao, Trilha, Segmentado, Metrica } from "./Coluna";
+import { Cartao, TituloSecao, Trilha, Metrica } from "./Coluna";
+import { Segmentado, PainelAba } from "./Abas";
 import { CanvasVisualizacao } from "./CanvasVisualizacao";
 import { AlocacaoProporcional, type LinhaAlocacao } from "./AlocacaoProporcional";
 import { SeloProveniencia } from "./SeloProveniencia";
+import { Glifo } from "./Glifo";
 
 type Aba = "noticias" | "conexoes" | "orcamento";
 
@@ -45,10 +47,12 @@ export function EntidadeVista({
 
   const [aba, setAba] = useState<Aba>(abasDisponiveis[0]?.id ?? "conexoes");
   const [selecionado, setSelecionado] = useState<GraphNode | null>(null);
+  const idAbas = `entidade-${node.slug}`;
+  const comAbas = abasDisponiveis.length > 1;
 
   return (
-    <div className="mx-auto grid max-w-[1700px] gap-5 px-4 py-5 lg:grid-cols-[minmax(0,30rem)_minmax(0,1fr)] lg:items-start">
-      <div className="rolagem-fina flex flex-col gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1">
+    <div className="mx-auto grid max-w-[1700px] gap-5 px-4 py-5 lg:grid-cols-[minmax(400px,40%)_minmax(0,1fr)] lg:items-start">
+      <div className="rolagem-fina order-2 flex flex-col gap-4 lg:order-1 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1">
         <Trilha itens={trilha} />
 
         <Cartao>
@@ -91,7 +95,7 @@ export function EntidadeVista({
             <span
               className="inline-flex items-center gap-1.5 rounded-md bg-papel-fundo px-2 py-0.5 text-[11px] text-tinta-suave"
             >
-              <span aria-hidden="true" className="h-1.5 w-1.5 rounded-full" style={{ background: spec.cor }} />
+              <Glifo kind={node.kind} />
               {spec.rotulo}
             </span>
             <SeloProveniencia proveniencia={node.proveniencia} />
@@ -111,10 +115,18 @@ export function EntidadeVista({
           <VinculoPrincipal detalhe={detalhe} />
         </Cartao>
 
-        {abasDisponiveis.length > 1 ? (
-          <Segmentado opcoes={abasDisponiveis} valor={aba} onMudar={setAba} className="self-start" />
+        {comAbas ? (
+          <Segmentado
+            opcoes={abasDisponiveis}
+            valor={aba}
+            onMudar={setAba}
+            idBase={idAbas}
+            rotulo="Vistas desta entidade"
+            className="self-start"
+          />
         ) : null}
 
+        <PainelAba idBase={idAbas} id={aba} rotulado={comAbas} className="flex flex-col gap-4">
         {aba === "orcamento" && temOrcamento ? (
           <Cartao>
             <TituloSecao>Orçamento</TituloSecao>
@@ -187,6 +199,7 @@ export function EntidadeVista({
             </ul>
           </Cartao>
         ) : null}
+        </PainelAba>
 
         {node.fontes?.length ? (
           <Cartao>
@@ -208,7 +221,7 @@ export function EntidadeVista({
         ) : null}
       </div>
 
-      <div className="h-[62vh] min-h-[26rem] lg:sticky lg:top-[4.5rem] lg:h-[calc(100vh-6rem)]">
+      <div className="order-1 h-[62vh] min-h-[26rem] lg:order-2 lg:sticky lg:top-[4.5rem] lg:h-[calc(100vh-6rem)]">
         <CanvasVisualizacao
           grafo={grafo}
           selecionado={selecionado ?? node}
@@ -243,11 +256,7 @@ function VinculoPrincipal({ detalhe }: { detalhe: EntityDetail }) {
         href={`/entidade/${vinculo.node.slug}`}
         className="flex items-center gap-2.5 rounded-xl border border-borda p-3 transition-colors hover:bg-papel-fundo"
       >
-        <span
-          aria-hidden="true"
-          className="h-2 w-2 shrink-0 rounded-full"
-          style={{ background: NODE_KINDS[vinculo.node.kind].cor }}
-        />
+        <Glifo kind={vinculo.node.kind} className="text-base" />
         <span className="min-w-0 flex-1">
           <span className="block truncate text-sm text-tinta">{vinculo.node.nome}</span>
           <span className="block text-[11px] text-tinta-fraca">
@@ -289,11 +298,7 @@ function CartaoConexoes({ vizinhos }: { vizinhos: EntityDetail["vizinhos"] }) {
                       href={`/entidade/${v.node.slug}`}
                       className="flex h-full items-start gap-2 rounded-xl border border-borda px-2.5 py-2 transition-colors hover:bg-papel-fundo"
                     >
-                      <span
-                        aria-hidden="true"
-                        className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                        style={{ background: NODE_KINDS[v.node.kind].cor }}
-                      />
+                      <Glifo kind={v.node.kind} className="mt-0.5" />
                       <span className="min-w-0 flex-1">
                         <span className="block truncate text-xs text-tinta">{v.node.nome}</span>
                         <span className="tabular block text-[11px] text-tinta-fraca">

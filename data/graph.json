@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-08-27T02:20:58.383Z",
+    "geradoEm": "2026-08-31T11:52:50.228Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -562,7 +562,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#c2566f",
-        "corPastel": "#f3c2ce",
         "slugSegmento": "musica"
       },
       "fundamentos": [
@@ -602,7 +601,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#c07344",
-        "corPastel": "#f7d5bb",
         "slugSegmento": "audiovisual"
       },
       "fundamentos": [
@@ -644,7 +642,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#a55fae",
-        "corPastel": "#ecc9ef",
         "slugSegmento": "artes-cenicas"
       },
       "fundamentos": [
@@ -686,7 +683,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#96754a",
-        "corPastel": "#e6d4bb",
         "slugSegmento": "patrimonio"
       },
       "fundamentos": [
@@ -727,7 +723,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#5f7ec2",
-        "corPastel": "#c8d5f2",
         "slugSegmento": "literatura"
       },
       "fundamentos": [
@@ -768,7 +763,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#4a90a8",
-        "corPastel": "#c2dfe9",
         "slugSegmento": "artes-visuais"
       },
       "fundamentos": [
@@ -811,7 +805,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#5d9464",
-        "corPastel": "#c6e2c8",
         "slugSegmento": "culturas-populares"
       },
       "fundamentos": [
@@ -852,7 +845,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#8172c0",
-        "corPastel": "#d5cdee",
         "slugSegmento": "museus-memoria"
       },
       "fundamentos": [
@@ -893,7 +885,6 @@
       "proveniencia": "derivado",
       "meta": {
         "cor": "#6d7a8a",
-        "corPastel": "#d3d9e0",
         "slugSegmento": "cultura-digital"
       },
       "fundamentos": [

@@ -11,10 +11,11 @@ export interface Segmento {
    * depender de um campo próprio da SECULT.
    */
   termosMapaCultural: string[];
-  /** Cor forte: traço do vértice e texto do rótulo de setor. */
+  /**
+   * Cor da linguagem: traço do vértice, texto do rótulo de setor e, a 50% de
+   * opacidade sobre branco, o preenchimento aceso — como no HTML do CivLab.
+   */
   cor: string;
-  /** Preenchimento pastel, na mesma família da paleta aferida do CivLab. */
-  corPastel: string;
 }
 
 /**
@@ -35,7 +36,6 @@ export const SEGMENTOS: Segmento[] = [
       "Shows, festivais, gravação e circulação musical, formação e bandas.",
     termosMapaCultural: ["Música"],
     cor: "#c2566f",
-    corPastel: "#f3c2ce",
   },
   {
     id: "seg-audiovisual",
@@ -45,7 +45,6 @@ export const SEGMENTOS: Segmento[] = [
       "Cinema, séries, documentários, mostras, festivais e formação audiovisual.",
     termosMapaCultural: ["Audiovisual", "Cinema", "Fotografia"],
     cor: "#c07344",
-    corPastel: "#f7d5bb",
   },
   {
     id: "seg-artes-cenicas",
@@ -54,7 +53,6 @@ export const SEGMENTOS: Segmento[] = [
     descricao: "Teatro, dança, circo, ópera e artes performativas.",
     termosMapaCultural: ["Teatro", "Dança", "Circo", "Artes Cênicas", "Ópera"],
     cor: "#a55fae",
-    corPastel: "#ecc9ef",
   },
   {
     id: "seg-patrimonio",
@@ -70,7 +68,6 @@ export const SEGMENTOS: Segmento[] = [
       "Arqueologia",
     ],
     cor: "#96754a",
-    corPastel: "#e6d4bb",
   },
   {
     id: "seg-literatura",
@@ -84,7 +81,6 @@ export const SEGMENTOS: Segmento[] = [
       "Leitura",
     ],
     cor: "#5f7ec2",
-    corPastel: "#c8d5f2",
   },
   {
     id: "seg-artes-visuais",
@@ -93,7 +89,6 @@ export const SEGMENTOS: Segmento[] = [
     descricao: "Exposições, artes plásticas, design, moda e arte urbana.",
     termosMapaCultural: ["Artes Visuais", "Design", "Moda", "Arte Urbana"],
     cor: "#4a90a8",
-    corPastel: "#c2dfe9",
   },
   {
     id: "seg-culturas-populares",
@@ -110,7 +105,6 @@ export const SEGMENTOS: Segmento[] = [
       "Gastronomia",
     ],
     cor: "#5d9464",
-    corPastel: "#c6e2c8",
   },
   {
     id: "seg-museus-memoria",
@@ -119,7 +113,6 @@ export const SEGMENTOS: Segmento[] = [
     descricao: "Museus, arquivos, acervos e centros de memória.",
     termosMapaCultural: ["Museu", "Arquivo", "Memória", "Biblioteca"],
     cor: "#8172c0",
-    corPastel: "#d5cdee",
   },
   {
     id: "seg-cultura-digital",
@@ -134,7 +127,6 @@ export const SEGMENTOS: Segmento[] = [
       "Economia Criativa",
     ],
     cor: "#6d7a8a",
-    corPastel: "#d3d9e0",
   },
 ];
 

@@ -1,7 +1,19 @@
 import type { Metadata, Viewport } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { Cabecalho } from "@/components/Cabecalho";
 import { obterGrafo } from "@/lib/dados";
+
+/**
+ * Inter é a fonte do SF Government Graph — `type-header-1` 30/33 600,
+ * `type-paragraph-2` 16/22,4. Servida pelo próprio Next, sem requisição ao
+ * Google no cliente, o que também evita expor quem lê o sítio.
+ */
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--fonte-inter",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -37,7 +49,7 @@ export default function RootLayout({
   const temDemo = meta.contagemPorProveniencia.demonstracao > 0;
 
   return (
-    <html lang="pt-BR">
+    <html lang="pt-BR" className={inter.variable}>
       <body className="min-h-full">
         <a
           href="#conteudo"

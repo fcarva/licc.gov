@@ -192,10 +192,17 @@ captura de respostas de rede. Detalhes em `tools/scrape-civlab/README.md`.
 
 ## Paleta
 
-As cores não foram escolhidas: foram **aferidas por amostragem de pixels** dos
-quadros de uma gravação do SF Government Graph. Fundo `#ebeae4`, centro
-`#f5ccba`, anéis `#f6c4cc`, `#e2c1f8` e `#d2c9e5`. Em repouso o vértice é só
-contorno; o preenchimento pastel entra quando ele acende.
+As cores não foram escolhidas: vêm do **HTML do SF Government Graph**. A regra
+é uma cor só por categoria — traço na cor cheia, preenchimento com a **mesma
+cor a 50%** sobre branco. Não há pastel guardado em lugar nenhum; ele é
+derivado no desenho.
+
+Centro `#f27836`, anéis `#f2686f`, `#c15ef2`, `#f25eef` e `#826dc8`, sobre o
+fundo `#ebeae4`. A correspondência com o original é por **posição no anel**.
+
+Houve uma versão com a paleta amostrada de pixels de uma gravação: ela media o
+vértice *aceso* — a cor já misturada com o branco — e guardava o efeito como se
+fosse a causa. O registro completo está em `docs/referencia-civlab.md`.
 
 ## Stack
 

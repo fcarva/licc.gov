@@ -127,7 +127,7 @@ function transformar(coleta: Coleta, ano: number): { nodes: GraphNode[]; edges: 
       descricao: seg.descricao,
       nomesAlternativos: seg.termosMapaCultural,
       proveniencia: "derivado",
-      meta: { cor: seg.cor, corPastel: seg.corPastel, slugSegmento: seg.slug },
+      meta: { cor: seg.cor, slugSegmento: seg.slug },
     });
   }
   for (const mun of MUNICIPIOS) {

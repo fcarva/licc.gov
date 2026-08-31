@@ -38,8 +38,8 @@ export function HomeGrafo({
   };
 
   return (
-    <div className="mx-auto grid max-w-[1700px] gap-5 px-4 py-5 lg:grid-cols-[minmax(0,26rem)_minmax(0,1fr)] lg:items-start">
-      <div className="rolagem-fina flex flex-col gap-4 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1">
+    <div className="mx-auto grid max-w-[1700px] gap-5 px-4 py-5 lg:grid-cols-[minmax(400px,40%)_minmax(0,1fr)] lg:items-start">
+      <div className="rolagem-fina order-2 flex flex-col gap-4 lg:order-1 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1">
         {selecionado ? (
           <PainelSelecao
             no={selecionado}
@@ -60,7 +60,7 @@ export function HomeGrafo({
         )}
       </div>
 
-      <div className="h-[62vh] min-h-[26rem] lg:sticky lg:top-[4.5rem] lg:h-[calc(100vh-6rem)]">
+      <div className="order-1 h-[62vh] min-h-[26rem] lg:order-2 lg:sticky lg:top-[4.5rem] lg:h-[calc(100vh-6rem)]">
         <CanvasVisualizacao
           grafo={grafo}
           selecionado={selecionado}

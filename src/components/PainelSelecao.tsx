@@ -6,8 +6,10 @@ import type { EntityDetail, GraphNode } from "@/types/graph";
 import { NODE_KINDS } from "@/ontology/nodes";
 import { EDGE_KINDS } from "@/ontology/edges";
 import { brl, brlCurto, percentual, dataCurta, rotuloStatus } from "@/lib/format";
-import { Cartao, Metrica, Segmentado } from "./Coluna";
+import { Cartao, Metrica } from "./Coluna";
+import { Segmentado, PainelAba } from "./Abas";
 import { SeloProveniencia } from "./SeloProveniencia";
+import { Glifo } from "./Glifo";
 
 type Aba = "noticias" | "conexoes" | "orcamento";
 
@@ -63,16 +65,14 @@ export function PainelSelecao({
     ...(temOrcamento ? [{ id: "orcamento" as const, rotulo: "Orçamento" }] : []),
   ];
   const abaAtiva = abas.some((a) => a.id === aba) ? aba : abas[0].id;
+  const idAbas = `selecao-${no.slug}`;
+  const comAbas = abas.length > 1;
 
   return (
     <>
       <Cartao>
         <div className="flex items-start gap-2.5">
-          <span
-            aria-hidden="true"
-            className="mt-1.5 h-2.5 w-2.5 shrink-0 rounded-full"
-            style={{ background: spec.cor }}
-          />
+          <Glifo kind={no.kind} className="mt-1 text-[1.15rem]" />
           <div className="min-w-0 flex-1">
             <p className="text-[11px] uppercase tracking-wide text-tinta-fraca">
               {spec.rotulo}
@@ -138,18 +138,29 @@ export function PainelSelecao({
         </div>
       </Cartao>
 
-      <Segmentado opcoes={abas} valor={abaAtiva} onMudar={setAba} className="self-start" />
+      {comAbas ? (
+        <Segmentado
+          opcoes={abas}
+          valor={abaAtiva}
+          onMudar={setAba}
+          idBase={idAbas}
+          rotulo="Vistas do vértice selecionado"
+          className="self-start"
+        />
+      ) : null}
 
       <Cartao>
-        {!detalhe ? (
-          <p className="py-6 text-center text-sm text-tinta-fraca">Carregando…</p>
-        ) : abaAtiva === "noticias" ? (
-          <Noticias detalhe={detalhe} />
-        ) : abaAtiva === "conexoes" ? (
-          <Conexoes detalhe={detalhe} />
-        ) : (
-          <Orcamento no={no} detalhe={detalhe} />
-        )}
+        <PainelAba idBase={idAbas} id={abaAtiva} rotulado={comAbas}>
+          {!detalhe ? (
+            <p className="py-6 text-center text-sm text-tinta-fraca">Carregando…</p>
+          ) : abaAtiva === "noticias" ? (
+            <Noticias detalhe={detalhe} />
+          ) : abaAtiva === "conexoes" ? (
+            <Conexoes detalhe={detalhe} />
+          ) : (
+            <Orcamento no={no} detalhe={detalhe} />
+          )}
+        </PainelAba>
 
         <p className="mt-4 border-t border-borda pt-3">
           <Link
@@ -233,11 +244,7 @@ function Conexoes({ detalhe }: { detalhe: EntityDetail }) {
                     href={`/entidade/${v.node.slug}`}
                     className="flex h-full items-start gap-2 rounded-lg border border-borda px-2.5 py-2 transition-colors hover:bg-papel-fundo"
                   >
-                    <span
-                      aria-hidden="true"
-                      className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full"
-                      style={{ background: NODE_KINDS[v.node.kind].cor }}
-                    />
+                    <Glifo kind={v.node.kind} className="mt-0.5" />
                     <span className="min-w-0 flex-1">
                       <span className="block truncate text-xs text-tinta">{v.node.nome}</span>
                       {v.edge.peso ? (

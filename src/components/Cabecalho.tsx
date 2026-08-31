@@ -16,7 +16,7 @@ export function Cabecalho({ ano }: { ano: number }) {
       <div className="mx-auto flex h-14 max-w-[1700px] items-center gap-3 px-4">
         <Link
           href="/"
-          className="flex shrink-0 items-baseline gap-2 rounded-full bg-papel px-4 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.05),0_4px_16px_-6px_rgba(15,23,42,0.10)]"
+          className="flex shrink-0 items-baseline gap-2 rounded-full bg-papel px-4 py-2"
         >
           <span aria-hidden="true" className="text-[var(--color-publico)]">✳</span>
           <span className="font-mono text-sm font-semibold tracking-tight text-tinta">

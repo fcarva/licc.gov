@@ -69,11 +69,24 @@ devolveria o desenho à condição de taxonomia. `municipio`, `evento`, `espaco`
 `pessoa`, `edital` e `fundamento` também têm `anel: null`: aparecem nas páginas
 e no `/monitor`, não no desenho do fluxo.
 
-**A paleta é aferida, não escolhida.** Fundo `#ebeae4`, centro `#f5ccba`,
-anéis `#f6c4cc`, `#e2c1f8` e `#d2c9e5` — amostrados por contagem de pixels dos
-quadros da gravação do CivLab. Em repouso o vértice é **só contorno**; o
-preenchimento pastel entra quando ele acende. Cada categoria tem `cor` (traço e
-texto) e `corPastel` (preenchimento). Não sature a paleta.
+**A paleta vem do HTML do CivLab, não de amostragem.** Houve uma versão
+amostrada por contagem de pixels dos quadros da gravação; estava errada, e a
+razão vale guardar: **o pixel media o vértice aceso**, que já é a cor misturada
+a 50% com o branco. Media-se o efeito e guardava-se como causa.
+
+A regra real é **uma cor por categoria, em três camadas** — base branca, a
+mesma cor a `fill-opacity 0.5`, traço na cor cheia. Por isso `corPastel`
+deixou de existir: um pastel guardado pode divergir da cor de que deriva.
+
+Centro `#f27836`, anéis `#f2686f`, `#c15ef2`, `#f25eef` e `#826dc8`, sobre o
+fundo `#ebeae4` — este sim aferido, porque foi amostrado do plano de fundo e
+não de um vértice. A correspondência com o CivLab é **por posição no anel**
+(People→`publico`, Elected→`governanca`, Commission→`patrocinador`,
+Advisory→`proponente`, Department→`projeto`), não por semelhança de nome.
+
+Medidas, interações e o que se decidiu divergir estão em
+`docs/referencia-civlab.md`. Antes de "corrigir" cor, raio ou traço no olho,
+leia lá.
 
 As cadeias de responsabilização estão em `calcularCadeia()`, e cada tipo conta
 uma história diferente sobre o mesmo mecanismo. Alterar uma delas é alterar o
@@ -91,6 +104,12 @@ argumento da página, não só o desenho.
   uma prop comum, não por `ref`.
 - **A escala de tamanho é interna ao anel**, nunca global. Comparar um projeto
   ao programa inteiro achata todos os projetos no mesmo raio.
+- **A aba inativa usa `cinza-medio`, não `papel-fundo`.** `papel-fundo` é a cor
+  da tela: pintar o controle com ela faz o segmentado sumir sobre o fundo, que
+  foi o que aconteceu. `--color-cinza-medio` existe só para isso.
+- **Controle em coluna rolável precisa de `shrink-0`.** A coluna-documento é um
+  `flex flex-col` com `max-h`; sem isso os cartões esmagam o segmentado a zero
+  de altura, e ele fica no DOM, acessível ao leitor de tela, invisível na tela.
 - **O vão do sunburst é dado, não defeito**: um arco cinza fecha o anel e
   representa o teto ainda não captado. Não o remova para "centralizar" o
   gráfico.
