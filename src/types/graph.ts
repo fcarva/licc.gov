@@ -82,12 +82,24 @@ export interface Fonte {
 }
 
 export interface Orcamento {
-  /** Teto aprovado para captação via renúncia de ICMS (R$). */
-  autorizado: number;
-  /** Montante efetivamente aportado por patrocinadores (R$). */
-  captado: number;
+  /**
+   * Teto aprovado para captação via renúncia de ICMS (R$).
+   *
+   * **Opcional de propósito.** A SECULT não publica valor para todo projeto, e
+   * um campo obrigatório forçaria `0` no lugar da ausência — que é o modo mais
+   * silencioso de mentir num painel financeiro: "não publicado" e "R$ 0" viram
+   * a mesma coisa, e a soma parece completa quando não é.
+   */
+  autorizado?: number;
+  /** Montante efetivamente aportado por patrocinadores (R$). Idem. */
+  captado?: number;
   /** Mesmos valores no exercício anterior, base da variação ano a ano. */
-  anterior?: { autorizado: number; captado: number };
+  anterior?: { autorizado?: number; captado?: number };
+  /**
+   * Quantos projetos entraram na soma e quantos existem, nos nós que agregam.
+   * Sem isso um agregado parcial se lê como total.
+   */
+  cobertura?: { comValor: number; total: number };
 }
 
 export interface Noticia {

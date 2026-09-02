@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-08-31T11:52:50.228Z",
+    "geradoEm": "2026-09-02T17:00:13.331Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -247,7 +247,11 @@
       "url": "https://secult.es.gov.br/sobre-a-licc",
       "orcamento": {
         "autorizado": 25000000,
-        "captado": 13800000
+        "captado": 13800000,
+        "cobertura": {
+          "comValor": 82,
+          "total": 82
+        }
       },
       "proveniencia": "oficial",
       "fundamentos": [
@@ -579,6 +583,10 @@
         "anterior": {
           "autorizado": 2890000,
           "captado": 1498000
+        },
+        "cobertura": {
+          "comValor": 12,
+          "total": 12
         }
       },
       "posicao": {
@@ -618,6 +626,10 @@
         "anterior": {
           "autorizado": 2009000,
           "captado": 1213000
+        },
+        "cobertura": {
+          "comValor": 7,
+          "total": 7
         }
       },
       "posicao": {
@@ -659,6 +671,10 @@
         "anterior": {
           "autorizado": 1869000,
           "captado": 1242000
+        },
+        "cobertura": {
+          "comValor": 8,
+          "total": 8
         }
       },
       "posicao": {
@@ -700,6 +716,10 @@
         "anterior": {
           "autorizado": 2145000,
           "captado": 1289000
+        },
+        "cobertura": {
+          "comValor": 8,
+          "total": 8
         }
       },
       "posicao": {
@@ -740,6 +760,10 @@
         "anterior": {
           "autorizado": 3741000,
           "captado": 2350000
+        },
+        "cobertura": {
+          "comValor": 14,
+          "total": 14
         }
       },
       "posicao": {
@@ -780,6 +804,10 @@
         "anterior": {
           "autorizado": 2649000,
           "captado": 1600000
+        },
+        "cobertura": {
+          "comValor": 10,
+          "total": 10
         }
       },
       "posicao": {
@@ -822,6 +850,10 @@
         "anterior": {
           "autorizado": 954000,
           "captado": 1151000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -862,6 +894,10 @@
         "anterior": {
           "autorizado": 2431000,
           "captado": 1463000
+        },
+        "cobertura": {
+          "comValor": 9,
+          "total": 9
         }
       },
       "posicao": {
@@ -902,6 +938,10 @@
         "anterior": {
           "autorizado": 2980000,
           "captado": 1500000
+        },
+        "cobertura": {
+          "comValor": 11,
+          "total": 11
         }
       },
       "posicao": {
@@ -1116,6 +1156,10 @@
         "anterior": {
           "autorizado": 181000,
           "captado": 65000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1204,6 +1248,10 @@
         "anterior": {
           "autorizado": 352000,
           "captado": 202000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -1229,6 +1277,10 @@
         "anterior": {
           "autorizado": 188000,
           "captado": 193000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1254,6 +1306,10 @@
         "anterior": {
           "autorizado": 276000,
           "captado": 255000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1279,6 +1335,10 @@
         "anterior": {
           "autorizado": 2010000,
           "captado": 827000
+        },
+        "cobertura": {
+          "comValor": 6,
+          "total": 6
         }
       },
       "posicao": {
@@ -1346,6 +1406,10 @@
         "anterior": {
           "autorizado": 193000,
           "captado": 226000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1434,6 +1498,10 @@
         "anterior": {
           "autorizado": 368000,
           "captado": 281000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1480,6 +1548,10 @@
         "anterior": {
           "autorizado": 2053000,
           "captado": 785000
+        },
+        "cobertura": {
+          "comValor": 10,
+          "total": 10
         }
       },
       "posicao": {
@@ -1547,6 +1619,10 @@
         "anterior": {
           "autorizado": 1043000,
           "captado": 792000
+        },
+        "cobertura": {
+          "comValor": 5,
+          "total": 5
         }
       },
       "posicao": {
@@ -1572,6 +1648,10 @@
         "anterior": {
           "autorizado": 257000,
           "captado": 242000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1618,6 +1698,10 @@
         "anterior": {
           "autorizado": 278000,
           "captado": 165000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1706,6 +1790,10 @@
         "anterior": {
           "autorizado": 173000,
           "captado": 30000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1794,6 +1882,10 @@
         "anterior": {
           "autorizado": 155000,
           "captado": 184000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1840,6 +1932,10 @@
         "anterior": {
           "autorizado": 470000,
           "captado": 566000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -1865,6 +1961,10 @@
         "anterior": {
           "autorizado": 267000,
           "captado": 284000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1890,6 +1990,10 @@
         "anterior": {
           "autorizado": 193000,
           "captado": 25000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -1957,6 +2061,10 @@
         "anterior": {
           "autorizado": 577000,
           "captado": 292000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2003,6 +2111,10 @@
         "anterior": {
           "autorizado": 483000,
           "captado": 52000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2049,6 +2161,10 @@
         "anterior": {
           "autorizado": 218000,
           "captado": 6000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2179,6 +2295,10 @@
         "anterior": {
           "autorizado": 501000,
           "captado": 64000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -2204,6 +2324,10 @@
         "anterior": {
           "autorizado": 194000,
           "captado": 233000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2229,6 +2353,10 @@
         "anterior": {
           "autorizado": 357000,
           "captado": 383000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2275,6 +2403,10 @@
         "anterior": {
           "autorizado": 234000,
           "captado": 213000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2321,6 +2453,10 @@
         "anterior": {
           "autorizado": 146000,
           "captado": 180000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2367,6 +2503,10 @@
         "anterior": {
           "autorizado": 564000,
           "captado": 664000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -2392,6 +2532,10 @@
         "anterior": {
           "autorizado": 202000,
           "captado": 40000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2480,6 +2624,10 @@
         "anterior": {
           "autorizado": 2641000,
           "captado": 1231000
+        },
+        "cobertura": {
+          "comValor": 8,
+          "total": 8
         }
       },
       "posicao": {
@@ -2526,6 +2674,10 @@
         "anterior": {
           "autorizado": 209000,
           "captado": 2000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2572,6 +2724,10 @@
         "anterior": {
           "autorizado": 1267000,
           "captado": 1154000
+        },
+        "cobertura": {
+          "comValor": 5,
+          "total": 5
         }
       },
       "posicao": {
@@ -2618,6 +2774,10 @@
         "anterior": {
           "autorizado": 1053000,
           "captado": 1177000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2643,6 +2803,10 @@
         "anterior": {
           "autorizado": 2494000,
           "captado": 1383000
+        },
+        "cobertura": {
+          "comValor": 8,
+          "total": 8
         }
       },
       "posicao": {
@@ -2668,6 +2832,10 @@
         "anterior": {
           "autorizado": 2071000,
           "captado": 1110000
+        },
+        "cobertura": {
+          "comValor": 7,
+          "total": 7
         }
       },
       "posicao": {
@@ -2697,6 +2865,10 @@
         "anterior": {
           "autorizado": 429000,
           "captado": 357000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2726,6 +2898,10 @@
         "anterior": {
           "autorizado": 491000,
           "captado": 177000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -2755,6 +2931,10 @@
         "anterior": {
           "autorizado": 818000,
           "captado": 396000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2784,6 +2964,10 @@
         "anterior": {
           "autorizado": 267000,
           "captado": 284000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -2813,6 +2997,10 @@
         "anterior": {
           "autorizado": 802000,
           "captado": 262000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2842,6 +3030,10 @@
         "anterior": {
           "autorizado": 828000,
           "captado": 339000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2896,6 +3088,10 @@
         "anterior": {
           "autorizado": 928000,
           "captado": 208000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2925,6 +3121,10 @@
         "anterior": {
           "autorizado": 866000,
           "captado": 389000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -2954,6 +3154,10 @@
         "anterior": {
           "autorizado": 585000,
           "captado": 654000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -2983,6 +3187,10 @@
         "anterior": {
           "autorizado": 645000,
           "captado": 564000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3012,6 +3220,10 @@
         "anterior": {
           "autorizado": 697000,
           "captado": 60000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3041,6 +3253,10 @@
         "anterior": {
           "autorizado": 851000,
           "captado": 644000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3070,6 +3286,10 @@
         "anterior": {
           "autorizado": 327000,
           "captado": 335000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3099,6 +3319,10 @@
         "anterior": {
           "autorizado": 762000,
           "captado": 204000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3128,6 +3352,10 @@
         "anterior": {
           "autorizado": 348000,
           "captado": 92000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3157,6 +3385,10 @@
         "anterior": {
           "autorizado": 730000,
           "captado": 750000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3186,6 +3418,10 @@
         "anterior": {
           "autorizado": 831000,
           "captado": 306000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3215,6 +3451,10 @@
         "anterior": {
           "autorizado": 478000,
           "captado": 212000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3244,6 +3484,10 @@
         "anterior": {
           "autorizado": 812000,
           "captado": 834000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3323,6 +3567,10 @@
         "anterior": {
           "autorizado": 678000,
           "captado": 550000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3402,6 +3650,10 @@
         "anterior": {
           "autorizado": 209000,
           "captado": 2000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3431,6 +3683,10 @@
         "anterior": {
           "autorizado": 260000,
           "captado": 308000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3460,6 +3716,10 @@
         "anterior": {
           "autorizado": 188000,
           "captado": 193000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3514,6 +3774,10 @@
         "anterior": {
           "autorizado": 819000,
           "captado": 735000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3543,6 +3807,10 @@
         "anterior": {
           "autorizado": 383000,
           "captado": 226000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3572,6 +3840,10 @@
         "anterior": {
           "autorizado": 843000,
           "captado": 789000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3601,6 +3873,10 @@
         "anterior": {
           "autorizado": 147000,
           "captado": 170000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3630,6 +3906,10 @@
         "anterior": {
           "autorizado": 295000,
           "captado": 262000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3684,6 +3964,10 @@
         "anterior": {
           "autorizado": 901000,
           "captado": 475000
+        },
+        "cobertura": {
+          "comValor": 3,
+          "total": 3
         }
       },
       "posicao": {
@@ -3738,6 +4022,10 @@
         "anterior": {
           "autorizado": 709000,
           "captado": 455000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3767,6 +4055,10 @@
         "anterior": {
           "autorizado": 258000,
           "captado": 12000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3871,6 +4163,10 @@
         "anterior": {
           "autorizado": 234000,
           "captado": 213000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3900,6 +4196,10 @@
         "anterior": {
           "autorizado": 474000,
           "captado": 227000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -3929,6 +4229,10 @@
         "anterior": {
           "autorizado": 533000,
           "captado": 237000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -3958,6 +4262,10 @@
         "anterior": {
           "autorizado": 368000,
           "captado": 281000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -4012,6 +4320,10 @@
         "anterior": {
           "autorizado": 300000,
           "captado": 298000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -4066,6 +4378,10 @@
         "anterior": {
           "autorizado": 345000,
           "captado": 96000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -4095,6 +4411,10 @@
         "anterior": {
           "autorizado": 222000,
           "captado": 204000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -4124,6 +4444,10 @@
         "anterior": {
           "autorizado": 417000,
           "captado": 107000
+        },
+        "cobertura": {
+          "comValor": 2,
+          "total": 2
         }
       },
       "posicao": {
@@ -4153,6 +4477,10 @@
         "anterior": {
           "autorizado": 242000,
           "captado": 33000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {
@@ -4182,6 +4510,10 @@
         "anterior": {
           "autorizado": 348000,
           "captado": 366000
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
         }
       },
       "posicao": {

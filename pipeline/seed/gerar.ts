@@ -344,7 +344,7 @@ export function gerarSeed(opcoes: OpcoesSeed = {}): ResultadoSeed {
         const patr = patrocinadores[indicePatrocinador % patrocinadores.length];
         indicePatrocinador += 1 + Math.floor(rnd() * 3);
         aresta(patr.id, id, "patrocina", { peso: fatia, rotulo: formatarPeso(fatia) });
-        patr.orcamento!.captado += fatia;
+        patr.orcamento!.captado = (patr.orcamento!.captado ?? 0) + fatia;
       }
     }
   }

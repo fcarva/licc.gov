@@ -1,21 +1,81 @@
 # Pipeline de dados
 
 ```
-mapa.cultura.es.gov.br
-        │  /api/{entidade}/find
-        ▼
-pipeline/ingest.ts ─────────────► data/raw/licc-{ano}.json
+anexos da SECULT              mapa.cultura.es.gov.br
+  (PDF, HTML)                    /api/{entidade}/find
         │                                 │
-        │ (sem rede)                      │
+        │ transcrição                     │
         ▼                                 ▼
-pipeline/seed/gerar.ts ────────► pipeline/build-graph.ts
-                                          │
-                                          ▼
-                            data/graph.json + data/stats.json
-                                          │
-                                          ▼
-                        src/lib/dados.ts → app/api/* → interface
+data/raw/habilitados-{ano}.csv    pipeline/ingest.ts
+        │                                 │
+        │   pipeline/importar-habilitados.ts (sem rede)
+        └────────────────┬────────────────┘
+                         ▼
+              data/raw/licc-{ano}.json
+                         │                  pipeline/seed/gerar.ts
+                         └────────┬─────────────────┘  (quando não há coleta)
+                                  ▼
+                        pipeline/build-graph.ts
+                                  ▼
+                    data/graph.json + data/stats.json
+                                  ▼
+                src/lib/dados.ts → app/api/* → interface
 ```
+
+**Quem cria projeto da LICC é a planilha, não a API.** A coleta traz o
+contexto; a substância vem dos anexos. Ver §0.
+
+## 0. A lista de habilitados — `data/raw/habilitados-{ano}.csv`
+
+O que a LICC publica está repartido por três níveis de acesso:
+
+| Dado | Onde vive | Acesso |
+| --- | --- | --- |
+| editais, agentes, espaços, eventos | Mapas Culturais | público |
+| **projetos habilitados** | `registration` da oportunidade | exige JWT |
+| **valores autorizado e captado** | anexos da SECULT | documento |
+| **patrocinadores** | publicações da SECULT | documento |
+
+A API pública dá o **contexto**; não dá a **substância**. Por isso a planilha é
+fonte de primeira classe, e não gambiarra: é a arquitetura honesta para o que o
+Estado de fato publica.
+
+```bash
+cp data/raw/habilitados-exemplo.csv data/raw/habilitados-2025.csv
+# preencha a partir dos anexos, depois:
+npm run importar:habilitados        # sem rede nenhuma
+npm run build:graph
+```
+
+### Colunas
+
+Obrigatórias: `projeto`, `proponente`. Todas as demais são opcionais, e o
+importador aceita variações de cabeçalho (`processo`, `cidade`, `linguagem`,
+`incentivador`…), porque anexo de órgão público raramente sai duas vezes com o
+mesmo nome de coluna.
+
+| Coluna | Observação |
+| --- | --- |
+| `numero_processo` | Vira o id estável do projeto. Sem ele, usa-se o nome. |
+| `projeto`, `proponente` | Obrigatórias. |
+| `cnpj_cpf` | Identidade do proponente. 11 dígitos = pessoa física, 14 = jurídica. Sem documento, duas grafias do mesmo agente viram dois vértices — e o relatório mostra quantos ficaram assim. |
+| `municipio`, `segmento` | Resolvidos pela ontologia. Sem casamento, o campo fica **ausente** e o nome aparece no relatório. |
+| `valor_autorizado`, `valor_captado` | `R$ 1.234.567,89` ou `1234567.89`. |
+| `patrocinador` | Vários separados por `;`. |
+| `pautado`, `continuado` | `sim`/`não`. Em branco = não sabido, e a cota não conta a linha. |
+| `status` | Um dos estados da tramitação (`habilitado`, `captando`, `concluido`…). |
+| `fonte_url`, `fonte_pagina` | **O endereço para conferir.** |
+
+### As duas regras do importador
+
+1. **Célula vazia é ausência, nunca zero.** `valor_captado` em branco significa
+   "a fonte não publicou", que é diferente de "captou R$ 0". Somar o segundo no
+   lugar do primeiro produz indicador que mente com aparência de precisão. Por
+   isso `Orcamento.autorizado` e `Orcamento.captado` são **opcionais** no tipo:
+   um campo obrigatório forçaria o `0`.
+2. **Sem `fonte_url` a linha não é oficial.** Ela entra marcada `demonstracao`
+   e o relatório diz quantas foram assim. Nada é descartado em silêncio, e nada
+   é carimbado de oficial sem endereço para conferir.
 
 ## 1. Coleta — `pipeline/ingest.ts`
 
@@ -43,12 +103,22 @@ LICC no Mapa Cultural do ES são **2317** (2026) e **1878** (2025).
 do CivLab, que acompanha o que acontece na cidade e nos bairros. Aqui a unidade
 é o município: onde há equipamento cultural, onde há agenda, onde não há nada.
 
-### O que a API não entrega
+### `project` do Mapa Cultural **não** é projeto da LICC
 
-As **inscrições** (`registration`) de uma oportunidade exigem autenticação por
-JWT — não são públicas. Como os valores autorizado e captado de cada projeto da
-LICC vivem ali, eles **não são preenchidos** pela coleta. O campo fica ausente,
-nunca estimado. Preenchê-lo depende dos anexos que a SECULT publica.
+É qualquer projeto cultural que um agente cadastrou na plataforma. Houve aqui
+uma versão que transformava cada um deles em `kind: "projeto"` com
+`proveniencia: "oficial"` e fundamento na Lei 11.246/2021 — ou seja, afirmava
+que todo projeto cultural do Espírito Santo é incentivado pela LICC. Era pior
+que o conjunto de demonstração, que ao menos se identifica como fictício.
+
+Hoje esses registros formam um **índice de enriquecimento**: quando o nome casa
+com uma linha da lista de habilitados (por `nomesCorrespondem()`, em
+`src/lib/text.ts`), o projeto ganha URL, descrição e o id da plataforma. Nunca a
+existência, nunca a base legal, nunca um valor.
+
+Sem `data/raw/habilitados-{ano}.csv`, a coleta produz o grafo institucional e a
+camada territorial, **zero projetos**, e diz isso em voz alta. Um grafo que
+admite não saber vale mais que um que preenche a lacuna com dado alheio.
 
 ## 2. Consolidação — `pipeline/build-graph.ts`
 

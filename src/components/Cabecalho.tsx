@@ -3,6 +3,7 @@ import { BuscaGlobal } from "./BuscaGlobal";
 
 const NAV = [
   { href: "/orcamento", rotulo: "Orçamento" },
+  { href: "/indicadores", rotulo: "Indicadores" },
   { href: "/segmentos", rotulo: "Segmentos" },
   { href: "/municipios", rotulo: "Municípios" },
   { href: "/monitor", rotulo: "Monitor" },

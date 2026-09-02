@@ -59,9 +59,37 @@ export interface Estatisticas {
   cotas: RelatorioCotas[];
   /** Proponentes que atingiram o limite de projetos no exercício. */
   proponentesNoLimite: string[];
+  cobertura: Cobertura;
 }
 
-/** Soma os orçamentos dos projetos para dentro dos nós que os agrupam. */
+/**
+ * O que se sabe, campo a campo.
+ *
+ * Existe porque num projeto de transparência a lacuna medida é conteúdo. Um
+ * total de R$ 13,8 mi apurado sobre 40 dos 82 projetos não é o mesmo número
+ * que o mesmo total apurado sobre os 82 — e sem este bloco a página apresenta
+ * os dois do mesmo jeito.
+ */
+export interface Cobertura {
+  projetos: number;
+  /** Projetos vindos de fonte oficial com endereço para conferir. */
+  oficiais: number;
+  comValorAutorizado: number;
+  comValorCaptado: number;
+  comMunicipio: number;
+  comSegmento: number;
+  comPatrocinador: number;
+}
+
+/**
+ * Soma os orçamentos dos projetos para dentro dos nós que os agrupam.
+ *
+ * O agregado soma **só o que existe** e guarda em `cobertura` quantos projetos
+ * entraram na conta. Um segmento com 12 projetos dos quais a SECULT publicou
+ * valor de 4 tem um total legítimo — o dos 4 —, e quem lê precisa saber que é
+ * de 4. Sem isso, um agregado parcial se apresenta como total e a página mente
+ * sem escrever nenhum número falso.
+ */
 function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
   const porId = new Map(nodes.map((n) => [n.id, n]));
   const zerar = (n: GraphNode) => {
@@ -70,23 +98,36 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
       autorizado: 0,
       captado: 0,
       anterior: { autorizado: 0, captado: 0 },
+      cobertura: { comValor: 0, total: 0 },
     };
   };
   nodes.forEach(zerar);
 
   const somar = (alvo: GraphNode | undefined, o: Orcamento) => {
-    if (!alvo?.orcamento) return;
-    alvo.orcamento.autorizado += o.autorizado;
-    alvo.orcamento.captado += o.captado;
-    if (alvo.orcamento.anterior && o.anterior) {
-      alvo.orcamento.anterior.autorizado += o.anterior.autorizado;
-      alvo.orcamento.anterior.captado += o.anterior.captado;
+    const a = alvo?.orcamento;
+    if (!a) return;
+    const temValor = o.autorizado !== undefined || o.captado !== undefined;
+    if (a.cobertura) {
+      a.cobertura.total += 1;
+      if (temValor) a.cobertura.comValor += 1;
+    }
+    if (o.autorizado !== undefined) a.autorizado = (a.autorizado ?? 0) + o.autorizado;
+    if (o.captado !== undefined) a.captado = (a.captado ?? 0) + o.captado;
+    if (a.anterior && o.anterior) {
+      if (o.anterior.autorizado !== undefined) {
+        a.anterior.autorizado = (a.anterior.autorizado ?? 0) + o.anterior.autorizado;
+      }
+      if (o.anterior.captado !== undefined) {
+        a.anterior.captado = (a.anterior.captado ?? 0) + o.anterior.captado;
+      }
     }
   };
 
   for (const projeto of nodes) {
-    if (projeto.kind !== "projeto" || !projeto.orcamento) continue;
-    const o = projeto.orcamento;
+    if (projeto.kind !== "projeto") continue;
+    // Projeto sem orçamento publicado ainda conta para a cobertura: é
+    // justamente ele que o denominador precisa enxergar.
+    const o = projeto.orcamento ?? {};
     somar(porId.get(String(projeto.meta?.segmentoId ?? "")), o);
     somar(porId.get(String(projeto.meta?.municipioId ?? "")), o);
     somar(porId.get(String(projeto.meta?.proponenteId ?? "")), o);
@@ -101,12 +142,23 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     if (e.kind !== "patrocina" || !e.peso) continue;
     const patr = porId.get(e.source);
     if (!patr?.orcamento) continue;
-    patr.orcamento.captado += e.peso;
+    patr.orcamento.captado = (patr.orcamento.captado ?? 0) + e.peso;
     // O aporte do patrocinador acompanha a variação do projeto que ele banca.
-    const projeto = porId.get(e.target);
-    const proj = projeto?.orcamento;
-    if (patr.orcamento.anterior && proj?.anterior && proj.captado > 0) {
-      patr.orcamento.anterior.captado += (e.peso * proj.anterior.captado) / proj.captado;
+    const proj = porId.get(e.target)?.orcamento;
+    const captadoProj = proj?.captado;
+    const captadoAntes = proj?.anterior?.captado;
+    if (patr.orcamento.anterior && captadoProj && captadoAntes !== undefined) {
+      patr.orcamento.anterior.captado =
+        (patr.orcamento.anterior.captado ?? 0) + (e.peso * captadoAntes) / captadoProj;
+    }
+  }
+
+  // Cobertura só existe onde há algo a cobrir. Um município sem projeto
+  // algum não tem "0 de 0 com valor" — não tem denominador, e emitir o campo
+  // vazio enche o artefato de afirmação sobre nada.
+  for (const n of nodes) {
+    if (n.orcamento?.cobertura && n.orcamento.cobertura.total === 0) {
+      delete n.orcamento.cobertura;
     }
   }
 
@@ -117,6 +169,10 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     licc.orcamento = {
       autorizado: TETO_AUTORIZADO,
       captado: projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0),
+      cobertura: {
+        comValor: projetos.filter((p) => p.orcamento?.captado !== undefined).length,
+        total: projetos.length,
+      },
     };
   }
 }
@@ -155,7 +211,7 @@ function posicionarEVariar(nodes: GraphNode[]): void {
 }
 
 /** Confere as cotas de 30% / 10% / 10% e o limite por proponente. */
-function apurarEstatisticas(nodes: GraphNode[]): Estatisticas {
+function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatisticas {
   const projetos = nodes.filter((n) => n.kind === "projeto");
   const rmgv = new Set(MUNICIPIOS.filter((m) => m.rmgv).map((m) => m.id));
 
@@ -199,6 +255,19 @@ function apurarEstatisticas(nodes: GraphNode[]): Estatisticas {
     projetos.map((p) => String(p.meta?.municipioId ?? "")).filter(Boolean),
   );
 
+  const comPatrocinio = new Set(
+    edges.filter((e) => e.kind === "patrocina").map((e) => e.target),
+  );
+  const cobertura: Cobertura = {
+    projetos: projetos.length,
+    oficiais: projetos.filter((p) => p.proveniencia === "oficial").length,
+    comValorAutorizado: projetos.filter((p) => p.orcamento?.autorizado !== undefined).length,
+    comValorCaptado: projetos.filter((p) => p.orcamento?.captado !== undefined).length,
+    comMunicipio: projetos.filter((p) => p.meta?.municipioId).length,
+    comSegmento: projetos.filter((p) => p.meta?.segmentoId).length,
+    comPatrocinador: projetos.filter((p) => comPatrocinio.has(p.id)).length,
+  };
+
   return {
     totalProjetos: projetos.length,
     totalProponentes: nodes.filter((n) => n.kind === "proponente").length,
@@ -210,6 +279,7 @@ function apurarEstatisticas(nodes: GraphNode[]): Estatisticas {
     execucao: autorizado > 0 ? captado / autorizado : 0,
     cotas,
     proponentesNoLimite,
+    cobertura,
   };
 }
 
@@ -290,7 +360,7 @@ export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: E
   edges = [...edges, ...criarArestasFundamento(nodes, edges)];
   propagarAgregados(nodes, edges);
   posicionarEVariar(nodes);
-  const stats = apurarEstatisticas(nodes);
+  const stats = apurarEstatisticas(nodes, edges);
 
   const grafo: Graph = {
     meta: {
@@ -333,6 +403,17 @@ function main(): void {
   console.log(`  captado ................. ${brl(stats.captado)} (${pct(stats.execucao)} do autorizado)`);
   console.log(`  projetos ................ ${stats.totalProjetos}`);
   console.log(`  municípios atendidos .... ${stats.totalMunicipiosAtendidos} de 78`);
+  const cob = stats.cobertura;
+  const daCobertura = (n: number) =>
+    cob.projetos ? `${n} (${Math.round((n / cob.projetos) * 100)}%)` : "—";
+  console.log(`\n  cobertura, sobre ${cob.projetos} projetos:`);
+  console.log(`    de fonte oficial ........ ${daCobertura(cob.oficiais)}`);
+  console.log(`    com valor autorizado .... ${daCobertura(cob.comValorAutorizado)}`);
+  console.log(`    com valor captado ....... ${daCobertura(cob.comValorCaptado)}`);
+  console.log(`    com município ........... ${daCobertura(cob.comMunicipio)}`);
+  console.log(`    com segmento ............ ${daCobertura(cob.comSegmento)}`);
+  console.log(`    com patrocinador ........ ${daCobertura(cob.comPatrocinador)}`);
+
   console.log("\n  cotas:");
   for (const c of stats.cotas) {
     console.log(

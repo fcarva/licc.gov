@@ -1,0 +1,5 @@
+numero_processo,projeto,proponente,cnpj_cpf,municipio,segmento,valor_autorizado,valor_captado,patrocinador,pautado,continuado,status,fonte_url,fonte_pagina
+LICC/2025/0001,Mostra Alfa de Cinema Capixaba,Produtora Alfa,12.345.678/0001-90,Vitória,Audiovisual,"R$ 480.000,00","R$ 320.000,00",Empresa Sigma Celulose,sim,não,captando,https://secult.es.gov.br/EXEMPLO-substitua-pela-url-do-anexo,12
+LICC/2025/0002,Festival Beta de Música do Interior,Instituto Beta,98.765.432/0001-10,Cachoeiro de Itapemirim,Música,"R$ 300.000,00",,Empresa Ômega Mineração; Empresa Sigma Celulose,não,sim,aprovado,https://secult.es.gov.br/EXEMPLO-substitua-pela-url-do-anexo,13
+LICC/2025/0003,Circuito Gama de Teatro,Coletivo Gama,,Colatina,Artes Cênicas,,,,,,habilitado,https://secult.es.gov.br/EXEMPLO-substitua-pela-url-do-anexo,13
+LICC/2025/0004,Acervo Delta de Memória Oral,Associação Delta,11.222.333/0001-44,Linhares,Patrimônio Cultural,"R$ 150.000,00","R$ 150.000,00",Empresa Ômega Mineração,não,não,concluido,,

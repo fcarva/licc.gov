@@ -16,6 +16,7 @@ npm run typecheck      # tsc --noEmit — rode antes de qualquer commit
 npm run build          # 549 páginas estáticas
 npm run build:graph    # regenera data/graph.json e data/stats.json
 npm run ingest         # coleta o Mapa Cultural do ES (ver bloqueio abaixo)
+npm run importar:habilitados   # planilha da SECULT → grafo, sem rede nenhuma
 ```
 
 A aplicação sobe sem nenhum passo de dados: se `data/graph.json` não existir,
@@ -37,6 +38,25 @@ reais — e este é um projeto de transparência. Daí decorrem três regras:
 3. **Registros fictícios usam letras gregas** (`Empresa Sigma Celulose`,
    `Produtora Alfa`) para que jamais sejam confundidos com agentes reais.
    Não troque por nomes plausíveis, por mais que a demo fique mais bonita.
+
+## O que cria projeto da LICC
+
+**A lista de habilitados, não a API.** `data/raw/habilitados-{ano}.csv`,
+transcrita dos anexos da SECULT, com `fonte_url` em cada linha. O esquema está
+em `docs/pipeline.md`; o molde versionado, em `data/raw/habilitados-exemplo.csv`.
+
+`project` do Mapa Cultural **não** é projeto da LICC — é qualquer projeto
+cultural cadastrado na plataforma. Houve uma versão que carimbava cada um deles
+como `oficial` com fundamento na Lei 11.246/2021; era pior que o seed, que ao
+menos se identifica como fictício. Hoje eles só **enriquecem** (URL, descrição,
+id) o que a lista já criou. Sem a planilha, `npm run ingest` produz zero
+projetos e avisa.
+
+**Célula vazia é ausência, nunca zero.** É por isso que `Orcamento.autorizado` e
+`Orcamento.captado` são opcionais: campo obrigatório forçaria `0` no lugar da
+ausência, e "não publicado" viraria "R$ 0" — a forma mais silenciosa de mentir
+num painel financeiro. Os agregados somam só o que existe e guardam
+`orcamento.cobertura` com quantos entraram na conta.
 
 Normas e regras trazem também `verificado: boolean`. `false` significa "citada
 por fonte secundária, ainda não conferida no texto oficial" — hoje é o caso do
@@ -107,6 +127,18 @@ argumento da página, não só o desenho.
 - **A aba inativa usa `cinza-medio`, não `papel-fundo`.** `papel-fundo` é a cor
   da tela: pintar o controle com ela faz o segmentado sumir sobre o fundo, que
   foi o que aconteceu. `--color-cinza-medio` existe só para isso.
+- **Não importe valor de módulo `"use client"` para componente de servidor.**
+  O Next entrega *toda* exportação de um módulo cliente como referência de
+  cliente, não como valor. As cores dos gráficos moravam em
+  `GraficosIndicadores.tsx` e chegavam `undefined` na página — a legenda saía
+  com os quadradinhos transparentes enquanto o gráfico ao lado pintava certo.
+  Valor compartilhado mora em módulo sem diretiva (`src/ontology/paleta-grafico.ts`).
+- **A paleta do orçamento não serve como paleta de gráfico.** Ela é fiel ao
+  CivLab e funciona na rosca — fatias largas, traço branco entre elas, nome no
+  arco. Como marca fina reprova no validador: acima da banda de luminosidade,
+  abaixo do piso de croma, e `#c9b3fc` com `#ffb3c9` a ΔE 10,7, indistinguíveis
+  mesmo com visão normal. Os gráficos de `/indicadores` usam
+  `src/ontology/paleta-grafico.ts`, conferida nos dois temas.
 - **Controle em coluna rolável precisa de `shrink-0`.** A coluna-documento é um
   `flex flex-col` com `max-h`; sem isso os cartões esmagam o segmentado a zero
   de altura, e ele fica no DOM, acessível ao leitor de tela, invisível na tela.
@@ -141,6 +173,8 @@ próprio Playwright (por isso ele não está nas dependências da raiz).
 | --- | --- |
 | `src/ontology/` | A verdade do modelo: 12 categorias, 15 relações, segmentos, municípios, normas |
 | `src/lib/radial.ts` | Geometria dos anéis e cadeias de responsabilização |
+| `src/lib/indicadores.ts` | Os quatro indicadores; devolvem `null` sobre zero observações |
+| `pipeline/habilitados.ts` | Leitura da planilha oficial: CSV → vértices |
 | `src/lib/dados.ts` | Acesso pelo servidor: índices, vizinhança, busca, panorama |
 | `pipeline/sources/` | Cliente da API do Mapas Culturais |
 | `pipeline/seed/` | Conjunto de demonstração determinístico (`mulberry32`) |

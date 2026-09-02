@@ -37,7 +37,7 @@ export function EntidadeVista({
 }) {
   const { node, agregado, noticias, vizinhos } = detalhe;
   const spec = NODE_KINDS[node.kind];
-  const temOrcamento = agregado.autorizado > 0 || agregado.captado > 0;
+  const temOrcamento = (agregado.autorizado ?? 0) > 0 || (agregado.captado ?? 0) > 0;
 
   const abasDisponiveis: Array<{ id: Aba; rotulo: string; contagem?: number }> = [
     ...(noticias.length ? [{ id: "noticias" as const, rotulo: "Notícias", contagem: noticias.length }] : []),

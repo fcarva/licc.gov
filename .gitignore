@@ -9,7 +9,11 @@ next-env.d.ts
 .env*.local
 .DS_Store
 npm-debug.log*
-data/raw/
+data/raw/*
+# …menos o molde da planilha de habilitados, que é documentação executável.
+# (é `data/raw/*`, não `data/raw/`: o git não desce em diretório ignorado,
+#  então a negação abaixo só funciona ignorando o conteúdo.)
+!data/raw/habilitados-exemplo.csv
 tools/scrape-civlab/saida/
 tools/scrape-civlab/node_modules/
 tools/scrape-civlab/package*.json

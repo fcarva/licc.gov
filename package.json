@@ -11,6 +11,7 @@
     "typecheck": "tsc --noEmit",
     "ingest": "tsx --env-file-if-exists=.env pipeline/ingest.ts",
     "build:graph": "tsx --env-file-if-exists=.env pipeline/build-graph.ts",
+    "importar:habilitados": "tsx --env-file-if-exists=.env pipeline/importar-habilitados.ts",
     "data": "npm run ingest && npm run build:graph",
     "scrape:secult": "tsx --env-file-if-exists=.env pipeline/scrape-secult.ts",
     "merge:patrocinadores": "tsx --env-file-if-exists=.env pipeline/importar-patrocinadores.ts"

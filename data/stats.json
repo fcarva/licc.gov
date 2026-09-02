@@ -50,5 +50,14 @@
     "prop-agente-zeta-2",
     "prop-produtora-teta-2",
     "prop-produtora-miu-2"
-  ]
+  ],
+  "cobertura": {
+    "projetos": 82,
+    "oficiais": 0,
+    "comValorAutorizado": 82,
+    "comValorCaptado": 82,
+    "comMunicipio": 82,
+    "comSegmento": 82,
+    "comPatrocinador": 80
+  }
 }

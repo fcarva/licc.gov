@@ -19,7 +19,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join } from "node:path";
 import type { GraphNode, GraphEdge } from "@/types/graph";
-import { slugificar, normalizar } from "@/lib/text";
+import { slugificar, normalizar, nomesCorrespondem } from "@/lib/text";
 import type { PatrocinadoresColeta } from "./scrape-secult";
 
 const DIR_BRUTO = join(process.cwd(), "data", "raw");
@@ -38,38 +38,6 @@ interface LiccBruto {
 // ---------------------------------------------------------------------------
 // Correspondência fuzzy de projetos por nome
 // ---------------------------------------------------------------------------
-
-/**
- * Verifica se dois nomes de projeto se correspondem.
- * Critérios (em ordem de preferência):
- *   1. Igualdade exata após normalizar
- *   2. Um contém o outro (ambos com ≥ 8 chars normalizados)
- *   3. Jaccard sobre bigrams ≥ 0,4
- */
-function nomesCorrespondem(a: string, b: string): boolean {
-  const na = normalizar(a);
-  const nb = normalizar(b);
-
-  if (na === nb) return true;
-
-  const minLen = Math.min(na.length, nb.length);
-  if (minLen >= 8 && (na.includes(nb) || nb.includes(na))) return true;
-
-  const bigrams = (s: string): Set<string> => {
-    const set = new Set<string>();
-    for (let i = 0; i < s.length - 1; i++) set.add(s.slice(i, i + 2));
-    return set;
-  };
-
-  const ba = bigrams(na);
-  const bb = bigrams(nb);
-  if (ba.size === 0 || bb.size === 0) return false;
-
-  let intersecao = 0;
-  for (const bg of ba) if (bb.has(bg)) intersecao++;
-  const jaccard = intersecao / (ba.size + bb.size - intersecao);
-  return jaccard >= 0.4;
-}
 
 // ---------------------------------------------------------------------------
 // main

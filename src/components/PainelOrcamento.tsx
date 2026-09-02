@@ -1,7 +1,10 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
 import type { Graph, GraphNode } from "@/types/graph";
+import { concentracaoDoCapital, desigualdadeTerritorial } from "@/lib/indicadores";
+import { CORES_GRAFICO } from "@/ontology/paleta-grafico";
 import { brl, numero, percentual } from "@/lib/format";
 import { Cartao, TituloSecao, Metrica } from "./Coluna";
 import { AlocacaoProporcional, type LinhaAlocacao } from "./AlocacaoProporcional";
@@ -51,6 +54,12 @@ export function PainelOrcamento({
     .sort((a, b) => b.valor - a.valor);
 
   const naoCaptado = Math.max(0, teto - totais.captado);
+
+  // Os dois achados que a rosca não mostra: quem concentra o aporte e quem
+  // ficou de fora do território. Aqui só a manchete — a apuração inteira, com
+  // denominador e tabela, mora em /indicadores.
+  const capital = useMemo(() => concentracaoDoCapital(grafo), [grafo]);
+  const territorio = useMemo(() => desigualdadeTerritorial(grafo), [grafo]);
 
   return (
     <>
@@ -125,6 +134,55 @@ export function PainelOrcamento({
           ))}
         </ul>
       </Cartao>
+
+      {capital || territorio ? (
+        <Cartao>
+          <TituloSecao
+            acao={
+              <Link
+                href="/indicadores"
+                className="text-xs text-realce underline-offset-2 hover:underline"
+              >
+                Ver indicadores
+              </Link>
+            }
+          >
+            O que os números dizem
+          </TituloSecao>
+          <ul className="space-y-3">
+            {capital ? (
+              <li>
+                <p className="text-sm leading-relaxed text-tinta-suave">
+                  <strong
+                    className="tabular font-semibold"
+                    style={{ color: CORES_GRAFICO.capital }}
+                  >
+                    {numero(capital.dados.empresasParaMetade)} das{" "}
+                    {numero(capital.dados.empresas.length)} empresas
+                  </strong>{" "}
+                  respondem por metade de tudo que foi aportado.
+                </p>
+              </li>
+            ) : null}
+            {territorio ? (
+              <li>
+                <p className="text-sm leading-relaxed text-tinta-suave">
+                  <strong
+                    className="tabular font-semibold"
+                    style={{ color: CORES_GRAFICO.interior }}
+                  >
+                    {numero(territorio.dados.semProjeto)} dos{" "}
+                    {numero(territorio.dados.municipios.length)} municípios
+                  </strong>{" "}
+                  não receberam nenhum projeto no exercício, e{" "}
+                  <span className="tabular">{percentual(territorio.dados.fracaoNaRmgv, 1)}</span>{" "}
+                  do valor ficou na Região Metropolitana.
+                </p>
+              </li>
+            ) : null}
+          </ul>
+        </Cartao>
+      ) : null}
 
       <Cartao>
         <TituloSecao>Alocação por linguagem</TituloSecao>

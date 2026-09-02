@@ -49,6 +49,8 @@ financia sem que o segmento vire um anel próprio.
 | Ontologia | `src/ontology/` | 12 categorias de vértice, 15 relações, 9 segmentos, 78 municípios, 5 normas, 4 regras auditadas |
 | Geometria | `src/lib/radial.ts` | Layout radial e cadeias de responsabilização |
 | Coleta | `pipeline/sources/` | Cliente da API REST do Mapas Culturais |
+| Lista oficial | `pipeline/habilitados.ts` | Planilha dos anexos da SECULT → projetos da LICC |
+| Indicadores | `src/lib/indicadores.ts` | Concentração, território, conversão e perfil de quem executa |
 | Consolidação | `pipeline/build-graph.ts` | Agregados, posição, variação anual, conferência de cotas |
 | Demonstração | `pipeline/seed/` | Grafo determinístico para rodar sem rede |
 | API | `app/api/` | 8 rotas JSON |

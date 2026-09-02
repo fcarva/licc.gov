@@ -5,7 +5,7 @@ import { NODE_KINDS } from "@/ontology/nodes";
 import { numero } from "@/lib/format";
 import { EntidadeVista } from "@/components/EntidadeVista";
 import type { LinhaAlocacao } from "@/components/AlocacaoProporcional";
-import type { EntityDetail } from "@/types/graph";
+import type { EntityDetail, GraphNode } from "@/types/graph";
 
 /**
  * Endereço estável de cada vértice do grafo.
@@ -111,6 +111,7 @@ function montarMetricaChave(detalhe: EntityDetail) {
  */
 function montarAlocacao(detalhe: EntityDetail): LinhaAlocacao[] {
   const { node, vizinhos } = detalhe;
+  const captadoDe = (n: GraphNode) => n.orcamento?.captado ?? 0;
 
   const porAresta = vizinhos
     .filter((v) => v.edge.peso && v.edge.peso > 0)
@@ -122,12 +123,15 @@ function montarAlocacao(detalhe: EntityDetail): LinhaAlocacao[] {
     }));
   if (porAresta.length) return ordenar(porAresta);
 
+  // A alocação só aceita linha com valor: projeto cujo valor a SECULT não
+  // publicou não é uma fatia de zero, é uma fatia desconhecida — e desenhá-la
+  // como zero afirmaria algo que a fonte não diz.
   const porProjeto = vizinhos
-    .filter((v) => v.node.kind === "projeto" && (v.node.orcamento?.captado ?? 0) > 0)
+    .filter((v) => v.node.kind === "projeto" && captadoDe(v.node) > 0)
     .map((v) => ({
       id: v.node.id,
       rotulo: v.node.nome,
-      valor: v.node.orcamento!.captado,
+      valor: captadoDe(v.node),
       cor: NODE_KINDS.projeto.cor,
     }));
   if (porProjeto.length) return ordenar(porProjeto);
@@ -138,11 +142,11 @@ function montarAlocacao(detalhe: EntityDetail): LinhaAlocacao[] {
     const campo = node.kind === "segmento" ? "segmentoId" : "municipioId";
     return ordenar(
       listarNos("projeto")
-        .filter((p) => p.meta?.[campo] === node.id && (p.orcamento?.captado ?? 0) > 0)
+        .filter((p) => p.meta?.[campo] === node.id && captadoDe(p) > 0)
         .map((p) => ({
           id: p.id,
           rotulo: p.nome,
-          valor: p.orcamento!.captado,
+          valor: captadoDe(p),
           cor: NODE_KINDS.projeto.cor,
         })),
     );
