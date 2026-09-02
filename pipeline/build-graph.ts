@@ -221,10 +221,18 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
   const somaSe = (teste: (p: GraphNode) => boolean) =>
     projetos.filter(teste).reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0);
 
+  const pautado = (p: GraphNode) => Boolean(p.meta?.pautado);
+  const continuado = (p: GraphNode) => Boolean(p.meta?.continuado);
+  const foraDaRmgv = (p: GraphNode) => !rmgv.has(String(p.meta?.municipioId ?? ""));
+
   const alocadoPorRegra: Record<string, number> = {
-    "cota-pautados": somaSe((p) => Boolean(p.meta?.pautado)),
-    "cota-fora-rmgv": somaSe((p) => !rmgv.has(String(p.meta?.municipioId ?? ""))),
-    "cota-continuados": somaSe((p) => Boolean(p.meta?.continuado)),
+    "cota-pautados": somaSe(pautado),
+    "cota-fora-rmgv": somaSe(foraDaRmgv),
+    "cota-continuados": somaSe(continuado),
+    // A quarta reserva do art. 18 é o complemento: o que não se enquadra em
+    // nenhuma das três. Sem ela, as cotas somavam 50% e a outra metade do teto
+    // aparecia como se não tivesse destinação normativa.
+    "cota-demais": somaSe((p) => !pautado(p) && !continuado(p) && !foraDaRmgv(p)),
   };
 
   const cotas: RelatorioCotas[] = REGRAS.filter((r) => r.cota !== undefined).map(

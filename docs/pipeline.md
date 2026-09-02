@@ -58,6 +58,25 @@ de 2025 há pelo menos seis listas publicadas, todas rotuladas "ANO 2025":
 Cada um declara a própria contagem no cabeçalho ("Quantidade: 74"), o que dá um
 conferidor embutido: se a transcrição render outro número, faltou linha.
 
+### A ferramenta que faz isso por você
+
+`tools/anexos-secult/` baixa os anexos e os converte no CSV, rodando **na sua
+máquina** (aqui o host é bloqueado):
+
+```bash
+cd tools/anexos-secult && npm init -y && npm i pdfjs-dist
+node baixar.mjs      # descobre e baixa os PDFs, guardando a URL de cada um
+node extrair.mjs     # PDF → CSV, por posição geométrica
+cp csv/*.csv ../../data/raw/
+```
+
+A extração é posicional, não por modelo de linguagem: um modelo que arredonda
+valor ou pula linha produz em silêncio exatamente o erro que este projeto
+existe para não cometer. Dois conferidores travam a gravação — a contagem
+declarada no anexo e o formato de cada valor. O segundo existe porque o
+primeiro não basta: em teste, a contagem bateu (5 de 5) com **todos** os
+valores truncados. Detalhes em `tools/anexos-secult/README.md`.
+
 Por isso o importador lê **qualquer** `habilitados-{ano}*.csv` e mescla:
 
 ```bash

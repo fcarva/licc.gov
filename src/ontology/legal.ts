@@ -115,41 +115,54 @@ export interface RegraLICC {
 export const REGRAS: RegraLICC[] = [
   {
     id: "cota-pautados",
-    titulo: "30% para projetos pautados",
+    titulo: "30% para eventos calendarizados com mais de 10 anos",
     descricao:
-      "Trinta por cento dos recursos são reservados a projetos pautados pela SECULT-ES.",
+      "Trinta por cento dos recursos são destinados a projetos de eventos calendarizados com mais de 10 anos de existência.",
     cota: 0.3,
     fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
-      rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
-      url: "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
+      rotulo: "SECULT-ES — Recurso financeiro captado 2025 (art. 18 da IN 01/2025)",
+      url: "https://secult.es.gov.br/licc",
+    },
+  },
+  {
+    id: "cota-continuados",
+    titulo: "10% para planos plurianuais",
+    descricao:
+      "Dez por cento dos recursos são destinados a projetos de planos plurianuais cujo objeto trata de formação continuada, manutenção de equipamentos culturais e corpos estáveis.",
+    cota: 0.1,
+    fundamentoId: "in-licc-001-2025",
+    verificado: true,
+    fonte: {
+      rotulo: "SECULT-ES — Recurso financeiro captado 2025 (art. 18 da IN 01/2025)",
+      url: "https://secult.es.gov.br/licc",
     },
   },
   {
     id: "cota-fora-rmgv",
     titulo: "10% fora da Região Metropolitana",
     descricao:
-      "Dez por cento dos recursos são reservados a projetos executados fora da Região Metropolitana da Grande Vitória.",
+      "Dez por cento dos recursos são destinados a projetos cuja sede do agente cultural e cujos locais de execução estejam em região do Estado diferente da metropolitana.",
     cota: 0.1,
     fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
-      rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
-      url: "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
+      rotulo: "SECULT-ES — Recurso financeiro captado 2025 (art. 18 da IN 01/2025)",
+      url: "https://secult.es.gov.br/licc",
     },
   },
   {
-    id: "cota-continuados",
-    titulo: "10% para programas continuados",
+    id: "cota-demais",
+    titulo: "50% para os demais projetos",
     descricao:
-      "Dez por cento dos recursos são reservados a programas de caráter continuado.",
-    cota: 0.1,
+      "Metade dos recursos é destinada aos projetos que não se enquadram nas três reservas anteriores. Faltava no modelo: sem ela as três cotas somavam 50% e o restante do teto aparecia como se não tivesse destinação normativa.",
+    cota: 0.5,
     fundamentoId: "in-licc-001-2025",
     verificado: true,
     fonte: {
-      rotulo: "SECULT-ES — LICC 2026: inscrições abertas",
-      url: "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
+      rotulo: "SECULT-ES — Recurso financeiro captado 2025 (art. 18 da IN 01/2025)",
+      url: "https://secult.es.gov.br/licc",
     },
   },
   {

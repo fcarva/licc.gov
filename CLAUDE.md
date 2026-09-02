@@ -115,6 +115,12 @@ Medidas, interações e o que se decidiu divergir estão em
 `docs/referencia-civlab.md`. Antes de "corrigir" cor, raio ou traço no olho,
 leia lá.
 
+**As cotas são quatro, não três.** O art. 18 da IN 01/2025, transcrito no
+anexo de recurso captado: 30% eventos calendarizados com mais de 10 anos, 10%
+planos plurianuais, 10% fora da região metropolitana e **50% os demais**. A
+quarta faltava, e sem ela metade do teto aparecia sem destinação normativa. Ela
+é o complemento — projeto que não se enquadra em nenhuma das outras três.
+
 As cadeias de responsabilização estão em `calcularCadeia()`, e cada tipo conta
 uma história diferente sobre o mesmo mecanismo. Alterar uma delas é alterar o
 argumento da página, não só o desenho.
@@ -174,8 +180,16 @@ consertar, não retente 4xx (o cliente já foi escrito para não fazê-lo). O gr
 segue servido pelo conjunto de demonstração. Contornar a política de egresso não
 é opção; a orientação do próprio proxy é reportar o host bloqueado.
 
-`tools/scrape-civlab/` **roda na máquina do usuário**, não aqui, e instala o
-próprio Playwright (por isso ele não está nas dependências da raiz).
+`tools/scrape-civlab/` e `tools/anexos-secult/` **rodam na máquina do usuário**,
+não aqui, e instalam a própria dependência (por isso Playwright e `pdfjs-dist`
+não estão nas dependências da raiz).
+
+O segundo baixa os anexos de habilitados e os converte em CSV por leitura
+**posicional** do PDF. Não use modelo de linguagem para transcrever tabela
+financeira: ele arredonda valor e pula linha em silêncio. Dois conferidores
+travam a gravação — a contagem que o anexo declara e o formato de cada valor.
+O segundo não é redundante: em teste a contagem bateu, 5 de 5, com todos os
+valores truncados por quebra de linha dentro da célula.
 
 ## Onde ficam as coisas
 
@@ -190,6 +204,7 @@ próprio Playwright (por isso ele não está nas dependências da raiz).
 | `pipeline/seed/` | Conjunto de demonstração determinístico (`mulberry32`) |
 | `pipeline/build-graph.ts` | Agregados, posição, variação anual, conferência de cotas |
 | `tools/scrape-civlab/` | Medição do CivLab — executa fora deste ambiente |
+| `tools/anexos-secult/` | Anexos da SECULT → CSV — executa fora deste ambiente |
 | `data/*.json` | Artefatos versionados de propósito: o diff entre coletas é auditável |
 
 `data/raw/` é ignorado pelo git. Quando `data/raw/licc-{ano}.json` existe, o
@@ -233,6 +248,15 @@ carimbado `demonstracao` de qualquer forma.
    Até lá, ausentes.
 4. **Conferir a regra dos 3 projetos** na instrução normativa vigente e, se
    confirmada, marcar `verificado: true` em `src/ontology/legal.ts`.
+5. **Resolver a atribuição ambígua dos termos de patrocínio.** O anexo
+   "RECURSO FINANCEIRO CAPTADO 2025" tem uma linha por termo, e o termo que
+   não repete título nem proponente é ambíguo: pode ser um segundo aporte do
+   projeto acima ou o primeiro de outro. Em 5 dos 81 projetos a leitura por
+   geometria produz captado acima do autorizado, o que é impossível.
+   `tools/anexos-secult/extrair-captados.mjs` sinaliza e **não grava**. Resolver
+   exige olho humano no PDF — afirmar que uma entidade nomeada captou acima do
+   teto com base em palpite geométrico é exatamente o dano que este projeto
+   existe para não causar.
 
 ## Convenções
 

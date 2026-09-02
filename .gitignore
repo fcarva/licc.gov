@@ -17,3 +17,9 @@ data/raw/*
 tools/scrape-civlab/saida/
 tools/scrape-civlab/node_modules/
 tools/scrape-civlab/package*.json
+# A ferramenta dos anexos também instala a própria dependência e guarda os
+# PDFs baixados — nenhum dos dois é fonte, e o CSV extraído vai para data/raw/.
+tools/anexos-secult/saida/
+tools/anexos-secult/csv/
+tools/anexos-secult/node_modules/
+tools/anexos-secult/package*.json
