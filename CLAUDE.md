@@ -127,6 +127,39 @@ argumento da página, não só o desenho.
 
 ## Armadilhas já pagas
 
+- **No anexo da SECULT o rótulo do projeto é centralizado sobre o grupo de
+  termos**, não impresso na primeira linha dele. Num grupo de três, o primeiro
+  termo fica *acima* do próprio rótulo; num grupo par, o rótulo cai no vão
+  entre as duas linhas centrais. Ler por "âncora mais próxima acima" atribuía o
+  aporte da Perfil Alumínio à escola de samba da linha de cima, publicando que
+  ela captou R$ 611 mil contra R$ 492 mil habilitados. A leitura certa é uma
+  partição contígua que minimiza |y_rótulo − centro(grupo)|: resíduo médio de
+  0,4pt sobre 63 projetos.
+- **A ordem dos testes em `ehMoldura` é conserto, não estilo.** O cabeçalho de
+  cota carrega o teto da cota na banda do valor habilitado
+  (`x=175 "Valor: R$ 12.500.000,00"`). Enquanto o guarda "linha com dinheiro
+  nunca é moldura" vinha primeiro, a seção virava um projeto fantasma de
+  R$ 12,5 mi que roubava termo do vizinho.
+- **Ausência não é `false`.** `Boolean(p.meta?.pautado)` e
+  `!rmgv.has(municipioId ?? "")` liam "a fonte não diz" como "não se enquadra" e
+  como "fica fora da região metropolitana" — o painel declarou 1112% de
+  cumprimento de uma cota territorial sobre 63 projetos sem município nenhum.
+  Classificador de cota devolve `boolean | undefined`, e cota sem projeto
+  classificável é `atendida: null`, exibida como "sem dado".
+- **Ressalva fixa vira mentira ao avesso.** A frase de abertura de
+  `/indicadores` afirmava que os gráficos liam o conjunto de demonstração;
+  quando os 63 projetos passaram a ser oficiais, ela seguiu afirmando. Texto que
+  qualifica dado tem de ser condicionado ao dado.
+- **A camada territorial mora em `nosFixos`, não no seed.** Os 78 municípios e
+  os segmentos são ontologia, não demonstração. Enquanto o seed os emitia,
+  trocá-lo pelo anexo real levava os dois embora: `/monitor` passou a listar
+  zero municípios. A lacuna que importa mostrar é "nenhum projeto chegou aqui",
+  e para isso o município precisa existir.
+- **Dinheiro no artefato versionado é arredondado a centavo.**
+  `arredondarDinheiro()` roda depois de toda agregação, num passe só. Sem ele,
+  `27802174.470000006` vira ruído de diff entre coletas e precisão que a fonte
+  não tem. Razões (`execucao`, `comprometimentoDoTeto`) **não** se arredondam:
+  a cauda ali é da divisão, é determinística, e cortá-la perderia precisão real.
 - **Posições são calculadas, não simuladas.** Houve uma versão com
   `react-force-graph-2d` + `d3-force`; foi removida. A física produzia um miolo
   comprimido ilegível e arremessava para fora da tela todo vértice que perdia
@@ -224,13 +257,31 @@ a oportunidade 1878 encerrou. A LICC 2026 segue com inscrições até 30/06/2026
 seus números seriam parciais. `normaDoExercicio(ano)` resolve qual IN rege cada
 ano; use-a em vez de fixar o id da norma.
 
-O grafo carregado tem 82 projetos, 22 patrocinadores, 54 proponentes, 78
-municípios, 68 espaços e 127 eventos. Teto de R$ 25 milhões, 96% comprometido em
-tetos de projeto, 58% desse valor efetivamente captado.
+**O grafo não tem mais nenhum registro de demonstração.** Os projetos de 2025
+vêm do anexo "RECURSO FINANCEIRO CAPTADO 2025", transcrito por
+`tools/anexos-secult/extrair-captados.mjs` e versionado em
+`data/oficial/captados-2025.csv`:
 
-O número 82 vem da lista de habilitados de **2026** e serve só para calibrar a
-ordem de grandeza — não é contagem conferida de 2025, e todo projeto sai
-carimbado `demonstracao` de qualquer forma.
+| | |
+| --- | --- |
+| projetos | 63 |
+| proponentes | 52 |
+| patrocinadores | 28 empresas, 46 CNPJs de estabelecimento |
+| termos de patrocínio | 95 |
+| autorizado | R$ 27.802.174,47 |
+| captado | **R$ 25.000.000,00** — o teto inteiro |
+
+`contagemPorProveniencia` fecha em `{oficial: 533, derivado: 159,
+demonstracao: 0}`, e a faixa de aviso sumiu sozinha, como previsto.
+
+A soma dos tetos por projeto (R$ 27,8 mi) passar do teto de renúncia
+(R$ 25 mi) **não é erro**: a SECULT habilita mais teto do que há renúncia, e a
+disputa por patrocinador decide quem capta. Em 2025 a conta fechou em 100%.
+
+O que o anexo de captados **não** publica fica ausente, e a lacuna é medida:
+município 0%, segmento 0%, e por isso as quatro cotas do art. 18 aparecem como
+`sem dado` em vez de `✗`. Preencher exige o anexo de habilitados, que traz esses
+campos e mescla por cima campo a campo (`mesclarLinhas`).
 
 ## Próximos passos
 
@@ -239,24 +290,24 @@ carimbado `demonstracao` de qualquer forma.
    que gera `docs/referencia-civlab.md` com raios, contagens, formas e paleta
    aferidos. Hoje `FRACAO_POR_ANEL` em `src/lib/radial.ts` está por impressão
    visual dos quadros do vídeo.
-2. **Coleta real.** `npm run ingest` num ambiente sem bloqueio substitui o
-   conjunto de demonstração. A faixa de aviso some sozinha quando não restar
-   registro `demonstracao`.
+2. **Município e segmento por projeto.** É a maior lacuna medida: 0% dos 63
+   projetos, e é o que trava dois dos quatro indicadores e as quatro cotas. Vem
+   do anexo de **habilitados** (não o de captados, que não traz esses campos);
+   `tools/anexos-secult/extrair.mjs` já o lê, e `mesclarLinhas` completa o
+   projeto campo a campo sem perder o que o anexo de captados trouxe.
 3. **Valores por projeto.** A API pública do Mapas Culturais não expõe as
    inscrições (`registration`) de uma oportunidade — exige JWT — e é ali que
    vivem os valores da LICC. Precisam vir dos anexos publicados pela SECULT.
    Até lá, ausentes.
 4. **Conferir a regra dos 3 projetos** na instrução normativa vigente e, se
    confirmada, marcar `verificado: true` em `src/ontology/legal.ts`.
-5. **Resolver a atribuição ambígua dos termos de patrocínio.** O anexo
-   "RECURSO FINANCEIRO CAPTADO 2025" tem uma linha por termo, e o termo que
-   não repete título nem proponente é ambíguo: pode ser um segundo aporte do
-   projeto acima ou o primeiro de outro. Em 5 dos 81 projetos a leitura por
-   geometria produz captado acima do autorizado, o que é impossível.
-   `tools/anexos-secult/extrair-captados.mjs` sinaliza e **não grava**. Resolver
-   exige olho humano no PDF — afirmar que uma entidade nomeada captou acima do
-   teto com base em palpite geométrico é exatamente o dano que este projeto
-   existe para não causar.
+5. **O anexo de 2026 usa outro desenho de página e ainda não entra.** Ali o
+   valor habilitado se repete em várias linhas de termo (99 de 129), então
+   "linha com autorizado" deixa de identificar projeto e a partição por
+   centralização não fecha: 3 projetos com captado acima do autorizado e a soma
+   R$ 69.371,00 abaixo dos totais impressos. A ferramenta recusa gravar, e está
+   certa. 2026 é exercício **aberto** — números parciais por definição —, então
+   isto não bloqueia nada.
 
 ## Convenções
 

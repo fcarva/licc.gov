@@ -42,7 +42,10 @@ export interface RelatorioCotas {
   alocado: number;
   /** `alocado / reservado`. Abaixo de 1 significa cota não preenchida. */
   cumprimento: number;
-  atendida: boolean;
+  /** `null` quando a fonte não publica o campo que classifica esta cota. */
+  atendida: boolean | null;
+  /** Projetos que a fonte permite classificar nesta cota, sobre o total. */
+  classificaveis: { comDado: number; total: number };
 }
 
 export interface Estatisticas {
@@ -90,6 +93,33 @@ export interface Cobertura {
  * de 4. Sem isso, um agregado parcial se apresenta como total e a página mente
  * sem escrever nenhum número falso.
  */
+/**
+ * Arredonda para centavo todo valor monetário do grafo.
+ *
+ * Somar reais em ponto flutuante devolve `27802174.470000006`, e este é um
+ * artefato **versionado**: a cauda binária vira ruído de diff entre coletas e,
+ * na tela, precisão que a fonte não tem. O anexo da SECULT é impresso em
+ * centavos; o grafo não pode afirmar mais casas do que ele.
+ *
+ * Roda depois de toda soma, num passe só, para não depender de cada caminho de
+ * agregação lembrar de arredondar.
+ */
+function arredondarDinheiro(nodes: GraphNode[], edges: GraphEdge[]): void {
+  const cents = (n: number | undefined) =>
+    n === undefined ? undefined : Math.round(n * 100) / 100;
+  for (const n of nodes) {
+    const o = n.orcamento;
+    if (!o) continue;
+    o.autorizado = cents(o.autorizado);
+    o.captado = cents(o.captado);
+    if (o.anterior) {
+      o.anterior.autorizado = cents(o.anterior.autorizado);
+      o.anterior.captado = cents(o.anterior.captado);
+    }
+  }
+  for (const e of edges) e.peso = cents(e.peso);
+}
+
 function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
   const porId = new Map(nodes.map((n) => [n.id, n]));
   const zerar = (n: GraphNode) => {
@@ -168,7 +198,7 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     const projetos = nodes.filter((n) => n.kind === "projeto");
     licc.orcamento = {
       autorizado: TETO_AUTORIZADO,
-      captado: projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0),
+      captado: Math.round(projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0) * 100) / 100,
       cobertura: {
         comValor: projetos.filter((p) => p.orcamento?.captado !== undefined).length,
         total: projetos.length,
@@ -215,30 +245,47 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
   const projetos = nodes.filter((n) => n.kind === "projeto");
   const rmgv = new Set(MUNICIPIOS.filter((m) => m.rmgv).map((m) => m.id));
 
-  const autorizado = projetos.reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0);
-  const captado = projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0);
+  const centavos = (n: number) => Math.round(n * 100) / 100;
+  const autorizado = centavos(projetos.reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0));
+  const captado = centavos(projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0));
 
   const somaSe = (teste: (p: GraphNode) => boolean) =>
-    projetos.filter(teste).reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0);
+    centavos(projetos.filter(teste).reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0));
 
-  const pautado = (p: GraphNode) => Boolean(p.meta?.pautado);
-  const continuado = (p: GraphNode) => Boolean(p.meta?.continuado);
-  const foraDaRmgv = (p: GraphNode) => !rmgv.has(String(p.meta?.municipioId ?? ""));
+  // Três estados, não dois. `undefined` é "a fonte não diz", e lê-lo como
+  // `false` foi o que jogou os 63 projetos do anexo de captados inteiros na
+  // cota do interior: nenhum deles traz município publicado, e "sem município"
+  // virou "fora da região metropolitana", com o painel declarando 1112% de
+  // cumprimento de uma cota territorial que a fonte não permite avaliar.
+  const pautado = (p: GraphNode) => p.meta?.pautado;
+  const continuado = (p: GraphNode) => p.meta?.continuado;
+  const foraDaRmgv = (p: GraphNode) =>
+    p.meta?.municipioId === undefined ? undefined : !rmgv.has(p.meta.municipioId);
+  // A quarta reserva do art. 18 é o complemento: o que não se enquadra em
+  // nenhuma das três. Sem ela, as cotas somavam 50% e a outra metade do teto
+  // aparecia como se não tivesse destinação normativa. Como é complemento,
+  // exige as três conhecidas — uma só ausente já impede a conclusão.
+  const demais = (p: GraphNode) => {
+    const testes = [pautado(p), continuado(p), foraDaRmgv(p)];
+    if (testes.some((t) => t === undefined)) return undefined;
+    return testes.every((t) => t === false);
+  };
 
-  const alocadoPorRegra: Record<string, number> = {
-    "cota-pautados": somaSe(pautado),
-    "cota-fora-rmgv": somaSe(foraDaRmgv),
-    "cota-continuados": somaSe(continuado),
-    // A quarta reserva do art. 18 é o complemento: o que não se enquadra em
-    // nenhuma das três. Sem ela, as cotas somavam 50% e a outra metade do teto
-    // aparecia como se não tivesse destinação normativa.
-    "cota-demais": somaSe((p) => !pautado(p) && !continuado(p) && !foraDaRmgv(p)),
+  const classificador: Record<string, (p: GraphNode) => boolean | undefined> = {
+    "cota-pautados": pautado,
+    "cota-continuados": continuado,
+    "cota-fora-rmgv": foraDaRmgv,
+    "cota-demais": demais,
   };
 
   const cotas: RelatorioCotas[] = REGRAS.filter((r) => r.cota !== undefined).map(
     (r) => {
+      const classifica = classificador[r.id];
       const reservado = TETO_AUTORIZADO * r.cota!;
-      const alocado = alocadoPorRegra[r.id] ?? 0;
+      const comDado = classifica
+        ? projetos.filter((p) => classifica(p) !== undefined).length
+        : 0;
+      const alocado = classifica ? somaSe((p) => classifica(p) === true) : 0;
       return {
         regraId: r.id,
         titulo: r.titulo,
@@ -246,7 +293,10 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
         reservado,
         alocado,
         cumprimento: reservado > 0 ? alocado / reservado : 0,
-        atendida: alocado >= reservado,
+        // Sem nenhum projeto classificável não há o que atender nem o que
+        // deixar de atender: o certo é dizer que não se sabe.
+        atendida: comDado === 0 ? null : alocado >= reservado,
+        classificaveis: { comDado, total: projetos.length },
       };
     },
   );
@@ -367,6 +417,7 @@ export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: E
   edges = podarArestas(nodes, edges);
   edges = [...edges, ...criarArestasFundamento(nodes, edges)];
   propagarAgregados(nodes, edges);
+  arredondarDinheiro(nodes, edges);
   posicionarEVariar(nodes);
   const stats = apurarEstatisticas(nodes, edges);
 
@@ -424,9 +475,18 @@ function main(): void {
 
   console.log("\n  cotas:");
   for (const c of stats.cotas) {
-    console.log(
-      `   ${c.atendida ? "✓" : "✗"} ${c.titulo}: ${brl(c.alocado)} de ${brl(c.reservado)} (${pct(c.cumprimento)})`,
-    );
+    const marca = c.atendida === null ? "–" : c.atendida ? "✓" : "✗";
+    // Cota sem projeto classificável não é cota descumprida. Imprimir "✗ R$ 0"
+    // ali seria acusar a SECULT de furar uma reserva que a fonte lida não
+    // permite sequer avaliar.
+    const valores =
+      c.atendida === null
+        ? `sem dado (0 de ${c.classificaveis.total} projetos classificáveis)`
+        : `${brl(c.alocado)} de ${brl(c.reservado)} (${pct(c.cumprimento)})` +
+          (c.classificaveis.comDado < c.classificaveis.total
+            ? `, sobre ${c.classificaveis.comDado} de ${c.classificaveis.total} projetos`
+            : "");
+    console.log(`   ${marca} ${c.titulo}: ${valores}`);
   }
   console.log("\n  proveniência:", JSON.stringify(grafo.meta.contagemPorProveniencia));
 }

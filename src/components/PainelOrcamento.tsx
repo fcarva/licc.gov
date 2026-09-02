@@ -16,7 +16,8 @@ export interface CotaResumo {
   reservado: number;
   alocado: number;
   cumprimento: number;
-  atendida: boolean;
+  atendida: boolean | null;
+  classificaveis?: { comDado: number; total: number };
 }
 
 /**
@@ -118,17 +119,25 @@ export function PainelOrcamento({
                 <span className="text-xs text-tinta">{c.titulo}</span>
                 <span
                   className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-medium ${
-                    c.atendida
-                      ? "bg-emerald-600/10 text-emerald-800 dark:text-emerald-300"
-                      : "bg-amber-600/10 text-amber-800 dark:text-amber-300"
+                    c.atendida === null
+                      ? "bg-cinza-medio text-tinta-fraca"
+                      : c.atendida
+                        ? "bg-emerald-600/10 text-emerald-800 dark:text-emerald-300"
+                        : "bg-amber-600/10 text-amber-800 dark:text-amber-300"
                   }`}
                 >
-                  {c.atendida ? "atendida" : "abaixo"}
+                  {c.atendida === null ? "sem dado" : c.atendida ? "atendida" : "abaixo"}
                 </span>
               </div>
               <p className="tabular mt-0.5 text-[11px] text-tinta-fraca">
-                {brl(c.alocado)} de {brl(c.reservado)} · {percentual(c.cumprimento)}{" "}
-                da reserva
+                {c.atendida === null ? (
+                  <>a fonte não publica o campo que classifica esta cota</>
+                ) : (
+                  <>
+                    {brl(c.alocado)} de {brl(c.reservado)} · {percentual(c.cumprimento)}{" "}
+                    da reserva
+                  </>
+                )}
               </p>
             </li>
           ))}

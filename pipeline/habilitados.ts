@@ -43,6 +43,21 @@ import { normalizar, slugificar } from "@/lib/text";
 // Esquema da planilha
 // ---------------------------------------------------------------------------
 
+/**
+ * Um termo de patrocínio: a empresa, o CNPJ do estabelecimento que assinou e
+ * o valor daquele aporte.
+ *
+ * O anexo "RECURSO FINANCEIRO CAPTADO" tem uma linha por termo, não por
+ * projeto. Quando ele é a fonte, o rateio entre patrocinadores **está**
+ * publicado, e a aresta `patrocina` carrega peso real em vez de ficar sem —
+ * que é exatamente o que o indicador de concentração do capital precisa.
+ */
+export interface Aporte {
+  patrocinador: string;
+  cnpj?: string;
+  valor?: number;
+}
+
 /** Uma linha da planilha, já convertida e sem nada inventado. */
 export interface LinhaHabilitado {
   /** Índice da linha no arquivo, para a mensagem de erro apontar onde. */
@@ -57,6 +72,12 @@ export interface LinhaHabilitado {
   valorCaptado?: number;
   /** Um ou vários, separados por `;` na célula. */
   patrocinadores: string[];
+  /**
+   * Um por termo, quando a fonte os discrimina. Ausente não significa projeto
+   * sem patrocinador: significa que a fonte publicou só os nomes, e eles estão
+   * em `patrocinadores`.
+   */
+  aportes?: Aporte[];
   pautado?: boolean;
   continuado?: boolean;
   status?: ProjetoStatus;
@@ -109,6 +130,7 @@ const COLUNAS: Record<keyof Omit<LinhaHabilitado, "linha" | "patrocinadores">, s
   valorAutorizado: ["valor_autorizado", "autorizado", "valor_aprovado", "teto", "valor"],
   valorCaptado: ["valor_captado", "captado", "valor_arrecadado", "arrecadado"],
   patrocinadores: ["patrocinador", "patrocinadores", "incentivador", "incentivadores", "empresa"],
+  aportes: ["aportes", "termos", "termos_de_patrocinio"],
   pautado: ["pautado", "projeto_pautado", "cota_pautados"],
   continuado: ["continuado", "programa_continuado", "cota_continuados"],
   status: ["status", "situacao"],
@@ -206,6 +228,30 @@ const STATUS_VALIDOS: ProjetoStatus[] = [
 ];
 
 /** Converte a planilha em linhas tipadas, relatando o que não deu para ler. */
+/**
+ * `cnpj|nome|valor; cnpj|nome|valor` → um aporte por termo de patrocínio.
+ *
+ * É o que `tools/anexos-secult/extrair-captados.mjs` grava na coluna
+ * `aportes`. Campo vazio fica ausente: termo sem valor legível é termo sem
+ * valor, nunca termo de R$ 0.
+ */
+export function lerAportes(bruto: string | undefined): Aporte[] {
+  if (!bruto?.trim()) return [];
+  return bruto
+    .split(";")
+    .map((t) => t.trim())
+    .filter(Boolean)
+    .map((termo) => {
+      const [cnpj, nome, valor] = termo.split("|").map((c) => c.trim());
+      return {
+        patrocinador: nome || cnpj || "",
+        ...(cnpj && /\d/.test(cnpj) ? { cnpj } : {}),
+        valor: dinheiro(valor),
+      };
+    })
+    .filter((a) => a.patrocinador);
+}
+
 export function lerHabilitados(texto: string): {
   linhas: LinhaHabilitado[];
   problemas: Problema[];
@@ -275,6 +321,7 @@ export function lerHabilitados(texto: string): {
         .split(/[;|]/)
         .map((p) => p.trim())
         .filter(Boolean),
+      aportes: lerAportes(celula(l, idx.aportes)),
       pautado: booleano(celula(l, idx.pautado)),
       continuado: booleano(celula(l, idx.continuado)),
       status,
@@ -350,6 +397,16 @@ export function mesclarLinhas(
     todos.set(normalizar(nome), nome);
   }
   mesclada.patrocinadores = [...todos.values()];
+
+  // Aportes idem, e a chave é `cnpj|valor` porque um termo assinado não muda
+  // de valor depois: a dupla identifica o termo. Chavear só pelo CNPJ
+  // descartaria o segundo aporte de uma empresa que patrocinou o mesmo projeto
+  // duas vezes — perder dinheiro em silêncio, o pior modo de errar aqui.
+  const termos = new Map<string, Aporte>();
+  for (const a of [...(antiga.aportes ?? []), ...(nova.aportes ?? [])]) {
+    termos.set(`${a.cnpj ?? normalizar(a.patrocinador)}|${a.valor ?? ""}`, a);
+  }
+  if (termos.size) mesclada.aportes = [...termos.values()];
 
   return { mesclada, conflitos };
 }
@@ -500,24 +557,47 @@ export function montarHabilitados(
     if (mun) ligar(idProj, mun.id, "ocorre_em", "derivado");
     if (idEdital) ligar(idProj, idEdital, "inscrito_em", proveniencia);
 
-    for (const nome of l.patrocinadores) {
-      const idPatr = `patr-${slugificar(nome)}`;
+    // Quando a fonte discrimina os termos, cada aporte traz o seu valor. Quando
+    // publica só os nomes, o peso só entra se houver um patrocinador único: com
+    // dois nomes na célula o rateio não está publicado, e dividir por igual
+    // seria inventar a divisão.
+    const aportes: Aporte[] = l.aportes?.length
+      ? l.aportes
+      : l.patrocinadores.map((patrocinador) => ({
+          patrocinador,
+          valor: l.patrocinadores.length === 1 ? l.valorCaptado : undefined,
+        }));
+
+    // Dois termos da mesma empresa viram **uma** aresta com a soma, não duas
+    // arestas de mesmo id. Foi o caso real do "Carna Surpresa 2024", que
+    // recebeu dois aportes da Realmar por estabelecimentos diferentes.
+    const porEmpresa = new Map<string, { nome: string; valor?: number; cnpjs: Set<string> }>();
+    for (const a of aportes) {
+      const chave = slugificar(a.patrocinador);
+      const atual = porEmpresa.get(chave) ?? { nome: a.patrocinador, cnpjs: new Set<string>() };
+      if (a.valor !== undefined) atual.valor = (atual.valor ?? 0) + a.valor;
+      if (a.cnpj) atual.cnpjs.add(a.cnpj);
+      porEmpresa.set(chave, atual);
+    }
+
+    for (const [slug, empresa] of porEmpresa) {
+      const idPatr = `patr-${slug}`;
+      const cnpj = empresa.cnpjs.size === 1 ? [...empresa.cnpjs][0] : undefined;
       adicionar({
         id: idPatr,
-        slug: slugificar(nome),
+        slug,
         kind: "patrocinador",
-        nome,
+        nome: empresa.nome,
         proveniencia,
         fontes,
         fundamentos: ["lei-11246-2021"],
+        ...(cnpj ? { meta: { cnpj } } : {}),
       });
-      // O peso só entra quando há um patrocinador só: com dois nomes na
-      // célula, o rateio entre eles não está publicado, e dividir por igual
-      // seria inventar a divisão.
+      // Soma em centavos: `92032.52 + 85944.60` em ponto flutuante devolve
+      // `177977.11999999998`, e o grafo é um artefato versionado — a cauda
+      // binária viraria diff e precisão falsa na tela.
       const peso =
-        l.patrocinadores.length === 1 && l.valorCaptado !== undefined
-          ? l.valorCaptado
-          : undefined;
+        empresa.valor === undefined ? undefined : Math.round(empresa.valor * 100) / 100;
       ligar(idPatr, idProj, "patrocina", proveniencia, peso);
     }
   }

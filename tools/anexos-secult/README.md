@@ -52,12 +52,48 @@ cp csv/*.csv ../../data/raw/
 cd ../.. && npm run importar:habilitados && npm run build:graph
 ```
 
-## Os dois conferidores
+## O anexo de captados: o rótulo é centralizado sobre o grupo
+
+`extrair-captados.mjs` lê o anexo "RECURSO FINANCEIRO CAPTADO", que tem **uma
+linha por termo de patrocínio**, não por projeto. Proponente, título e valor
+habilitado são impressos uma vez e **centrados verticalmente no intervalo das
+linhas de termo daquele projeto**:
+
+```
+y=235  GRÊMIO…BOA VISTA │ CARNAVAL CAPIXABA │ R$ 492.000,00 │ Realmar
+y=270                                                      │ Perfil Alumínio
+y=298  LEONARDO CAETANO │ 207ª FESTA DIVINO │ R$ 358.109,86 │ Dist. Pomar
+y=325                                                      │ L&A Alimentos
+```
+
+O termo da Perfil Alumínio é do projeto **de baixo**, e fica acima do rótulo
+dele. Duas leituras ingênuas erram aqui, e as duas foram tentadas: "âncora mais
+próxima acima" e "linha sem título é continuação da anterior". As duas davam o
+aporte à escola de samba, publicando que ela captou 24% acima do teto.
+
+A leitura correta é uma **partição contígua** dos termos entre os rótulos que
+minimiza |y_rótulo − centro(grupo)|. Sobre o anexo de 2025 o resíduo médio fica
+em 0,4pt para 63 projetos, com pior caso de 5,8pt — um modelo errado não acerta
+o centro por acaso 63 vezes.
+
+## Os conferidores
 
 **Contagem de linhas.** Todo anexo declara a própria quantidade
 ("Quantidade: 74"). Se a extração render outro número, o script não grava.
 
 **Formato de valor.** Todo `valor_autorizado` precisa se parecer com dinheiro.
+
+**Soma contra o total impresso.** O anexo de captados imprime `Total Captado`
+por cota. A soma extraída tem de bater com algum deles; em 2025 bate em
+R$ 25.000.000,00 exatos.
+
+**Teto por projeto.** A LICC autoriza um teto por projeto, então captar acima do
+autorizado é impossível. Quando aparece, é aporte pendurado no projeto errado —
+defeito do leitor, nunca achado sobre o proponente.
+
+**Resíduo de centralização.** Cada rótulo tem de cair a menos de meia linha do
+centro do grupo que lhe coube. Acima disso o desenho da página deixou de ser o
+que o leitor supõe, e a atribuição vira palpite.
 
 O segundo existe porque o primeiro não basta, e isso foi medido: no primeiro
 teste desta ferramenta a contagem bateu — 5 de 5 — enquanto **todos** os

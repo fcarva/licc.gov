@@ -9,6 +9,8 @@
 import type { GraphEdge, GraphNode, Noticia } from "@/types/graph";
 import {
   FUNDAMENTOS,
+  MUNICIPIOS,
+  SEGMENTOS,
   TETO_AUTORIZADO,
   FONTE_TETO,
   normaDoExercicio,
@@ -254,6 +256,49 @@ export function nosFixos(ano: number): GraphNode[] {
         publicadoEm: f.publicadoEm,
         verificado: f.verificado,
       },
+    });
+  }
+
+  // Camada territorial e de linguagens.
+  //
+  // Mora aqui, e não no conjunto de demonstração, porque não é demonstração
+  // nenhuma: são os 78 municípios do Espírito Santo e a taxonomia de área da
+  // plataforma Mapas Culturais. Enquanto o seed os emitia, trocar o seed pelo
+  // anexo real da SECULT levava os dois embora junto — `/monitor` passou a
+  // listar zero municípios e `/municipios` esvaziou, como se o Estado tivesse
+  // deixado de ter território. A lacuna que importa mostrar é "nenhum projeto
+  // chegou aqui", e para mostrá-la o município precisa existir.
+  for (const seg of SEGMENTOS) {
+    nos.push({
+      id: seg.id,
+      slug: seg.slug,
+      kind: "segmento",
+      nome: seg.nome,
+      descricao: seg.descricao,
+      nomesAlternativos: seg.termosMapaCultural,
+      proveniencia: "derivado",
+      meta: { cor: seg.cor, slugSegmento: seg.slug },
+      fundamentos: [normaDoExercicio(ano)],
+      fontes: [
+        {
+          rotulo: "Taxonomia de área — plataforma Mapas Culturais",
+          url: "https://docs.mapasculturais.org/mc_config_api/",
+        },
+      ],
+    });
+  }
+
+  for (const mun of MUNICIPIOS) {
+    nos.push({
+      id: mun.id,
+      slug: mun.slug,
+      kind: "municipio",
+      nome: mun.nome,
+      descricao: `Município capixaba — microrregião ${mun.regiao}${
+        mun.rmgv ? ", integrante da Região Metropolitana da Grande Vitória" : ""
+      }.`,
+      proveniencia: "derivado",
+      meta: { regiao: mun.regiao, regiaoMetropolitana: mun.rmgv },
     });
   }
 

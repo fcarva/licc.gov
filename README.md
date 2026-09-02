@@ -190,7 +190,11 @@ captura de respostas de rede. Detalhes em `tools/scrape-civlab/README.md`.
   enquanto não vierem, ficam ausentes.
 - O recorte por microrregião varia conforme a fonte oficial; aqui serve como
   agrupamento de leitura. A marcação de RMGV, essa sim, é normativa.
-- Sem coleta real disponível, o que se vê é o conjunto de demonstração.
+- Os 63 projetos de 2025 vêm do anexo "RECURSO FINANCEIRO CAPTADO" da SECULT e
+  são `oficial`; o conjunto de demonstração não está mais em uso. O que aquele
+  anexo não publica — município e linguagem cultural por projeto — fica
+  **ausente**, e é por isso que as cotas do art. 18 aparecem como "sem dado" em
+  vez de descumpridas. Esses campos vêm do anexo de habilitados.
 
 ## Paleta
 

@@ -1,72 +1,76 @@
 {
-  "totalProjetos": 82,
-  "totalProponentes": 54,
-  "totalPatrocinadores": 22,
-  "totalMunicipiosAtendidos": 32,
-  "autorizado": 23997000,
-  "captado": 13800000,
-  "comprometimentoDoTeto": 0.95988,
-  "execucao": 0.5750718839854981,
+  "totalProjetos": 63,
+  "totalProponentes": 52,
+  "totalPatrocinadores": 28,
+  "totalMunicipiosAtendidos": 0,
+  "autorizado": 27802174.47,
+  "captado": 25000000,
+  "comprometimentoDoTeto": 1.1120869787999998,
+  "execucao": 0.8992102408024346,
   "cotas": [
     {
       "regraId": "cota-pautados",
       "titulo": "30% para eventos calendarizados com mais de 10 anos",
       "cota": 0.3,
       "reservado": 7500000,
-      "alocado": 8622000,
-      "cumprimento": 1.1496,
-      "atendida": true
+      "alocado": 0,
+      "cumprimento": 0,
+      "atendida": null,
+      "classificaveis": {
+        "comDado": 0,
+        "total": 63
+      }
     },
     {
       "regraId": "cota-continuados",
       "titulo": "10% para planos plurianuais",
       "cota": 0.1,
       "reservado": 2500000,
-      "alocado": 3416000,
-      "cumprimento": 1.3664,
-      "atendida": true
+      "alocado": 0,
+      "cumprimento": 0,
+      "atendida": null,
+      "classificaveis": {
+        "comDado": 0,
+        "total": 63
+      }
     },
     {
       "regraId": "cota-fora-rmgv",
       "titulo": "10% fora da Região Metropolitana",
       "cota": 0.1,
       "reservado": 2500000,
-      "alocado": 8922000,
-      "cumprimento": 3.5688,
-      "atendida": true
+      "alocado": 0,
+      "cumprimento": 0,
+      "atendida": null,
+      "classificaveis": {
+        "comDado": 0,
+        "total": 63
+      }
     },
     {
       "regraId": "cota-demais",
       "titulo": "50% para os demais projetos",
       "cota": 0.5,
       "reservado": 12500000,
-      "alocado": 8678000,
-      "cumprimento": 0.69424,
-      "atendida": false
+      "alocado": 0,
+      "cumprimento": 0,
+      "atendida": null,
+      "classificaveis": {
+        "comDado": 0,
+        "total": 63
+      }
     }
   ],
   "proponentesNoLimite": [
-    "prop-agente-alfa",
-    "prop-prefeitura-de-ibatiba",
-    "prop-produtora-epsilon",
-    "prop-instituto-zeta",
-    "prop-produtora-teta",
-    "prop-agente-iota",
-    "prop-instituto-niu",
-    "prop-agente-omicron",
-    "prop-coletivo-sigma",
-    "prop-produtora-psi",
-    "prop-agente-zeta-2",
-    "prop-produtora-teta-2",
-    "prop-produtora-miu-2"
+    "prop-caju-producoes-ltda-me"
   ],
   "cobertura": {
-    "projetos": 82,
-    "oficiais": 0,
-    "comValorAutorizado": 82,
-    "comValorCaptado": 82,
-    "comMunicipio": 82,
-    "comSegmento": 82,
-    "comPatrocinador": 80
+    "projetos": 63,
+    "oficiais": 63,
+    "comValorAutorizado": 63,
+    "comValorCaptado": 63,
+    "comMunicipio": 0,
+    "comSegmento": 0,
+    "comPatrocinador": 63
   }
 }

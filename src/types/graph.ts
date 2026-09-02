@@ -156,6 +156,12 @@ export interface NodeMeta {
   projetosNoAno?: number;
   // patrocinador
   setor?: string;
+  /**
+   * Do estabelecimento que assinou o termo. Fica ausente quando os termos da
+   * mesma empresa vieram de estabelecimentos diferentes: escolher um deles
+   * seria afirmar que o aporte todo saiu daquela filial.
+   */
+  cnpj?: string;
   // municipio
   regiao?: string;
   regiaoMetropolitana?: boolean;

@@ -25,7 +25,35 @@ data/raw/habilitados-{ano}.csv    pipeline/ingest.ts
 **Quem cria projeto da LICC é a planilha, não a API.** A coleta traz o
 contexto; a substância vem dos anexos. Ver §0.
 
-## 0. A lista de habilitados — `data/raw/habilitados-{ano}.csv`
+## 0. A lista de habilitados — `data/oficial/` e `data/raw/`
+
+Os lotes de um exercício são lidos de dois lugares, nesta ordem:
+
+- **`data/oficial/`** é versionado. Ali entra transcrição de anexo que passou
+  pelos conferidores de `tools/anexos-secult/` — o diff entre coletas fica
+  auditável no git, que é boa parte da razão de este repositório existir.
+  Hoje contém `captados-2025.csv`.
+- **`data/raw/`** é ignorado pelo git, e é onde cai a extração local de quem tem
+  os PDFs. Vem depois porque **completa** o versionado, não o contrário.
+
+Casam com o exercício os arquivos `habilitados-{ano}*.csv` e
+`captados-{ano}*.csv` dos dois diretórios.
+
+### Os dois anexos publicam coisas diferentes
+
+| | habilitados | recurso financeiro captado |
+| --- | --- | --- |
+| projeto, proponente | ✓ | ✓ |
+| valor autorizado | ✓ | ✓ |
+| município, segmento | ✓ | — |
+| cotas (pautado, continuado) | ✓ | — |
+| **valor por patrocinador, com CNPJ** | — | ✓ |
+
+Nenhum dos dois basta: o primeiro diz *onde* e *de que linguagem*, o segundo diz
+*quem pagou quanto*. Por isso o importador mescla campo a campo em vez de deixar
+um lote sobrescrever o outro.
+
+## A planilha — `habilitados-{ano}.csv`
 
 O que a LICC publica está repartido por três níveis de acesso:
 
@@ -116,7 +144,8 @@ mesmo nome de coluna.
 | `cnpj_cpf` | Identidade do proponente. 11 dígitos = pessoa física, 14 = jurídica. Sem documento, duas grafias do mesmo agente viram dois vértices — e o relatório mostra quantos ficaram assim. |
 | `municipio`, `segmento` | Resolvidos pela ontologia. Sem casamento, o campo fica **ausente** e o nome aparece no relatório. |
 | `valor_autorizado`, `valor_captado` | `R$ 1.234.567,89` ou `1234567.89`. |
-| `patrocinador` | Vários separados por `;`. |
+| `patrocinador` | Vários separados por `;`. Só os nomes: sem valor por empresa, a aresta `patrocina` fica sem peso, a menos que haja um patrocinador só. |
+| `aportes` | Um termo por entrada, `cnpj\|nome\|valor`, separados por `;`. É o que o anexo de captados publica, e é o que dá **peso real** à aresta `patrocina`. Dois termos da mesma empresa viram uma aresta com a soma. |
 | `pautado`, `continuado` | `sim`/`não`. Em branco = não sabido, e a cota não conta a linha. |
 | `status` | Um dos estados da tramitação (`habilitado`, `captando`, `concluido`…). |
 | `fonte_url`, `fonte_pagina` | **O endereço para conferir.** |

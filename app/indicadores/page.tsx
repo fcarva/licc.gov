@@ -341,6 +341,11 @@ function CoberturaDosDados({
   ano: number;
 }) {
   const c = stats.cobertura;
+  // A ressalva tem de acompanhar o dado. Enquanto esta frase foi fixa, ela
+  // seguiu dizendo que os gráficos liam o conjunto de demonstração depois que
+  // os 63 projetos de 2025 passaram a vir do anexo da SECULT — um aviso que
+  // não acompanha a fonte deixa de ser cautela e vira desinformação ao avesso.
+  const todosOficiais = c.projetos > 0 && c.oficiais === c.projetos;
   const linhas = [
     { rotulo: "de fonte oficial, com endereço para conferir", valor: c.oficiais, grave: true },
     { rotulo: "com valor autorizado publicado", valor: c.comValorAutorizado },
@@ -363,9 +368,22 @@ function CoberturaDosDados({
       </TituloSecao>
       <p className="mb-4 max-w-3xl text-xs leading-relaxed text-tinta-suave">
         Todo indicador desta página é tão bom quanto a linha correspondente
-        aqui. A primeira é a que mais pesa: enquanto ela não subir, os gráficos
-        abaixo exercitam a leitura sobre o conjunto de demonstração, não sobre a
-        LICC.
+        aqui.{" "}
+        {todosOficiais ? (
+          <>
+            A primeira está cheia: os gráficos abaixo leem a LICC {ano} pelos
+            anexos publicados pela SECULT, com endereço de origem em cada
+            registro. As linhas que não fecham dizem quais perguntas esses
+            anexos ainda não respondem — e nenhum indicador que dependa delas é
+            estimado para preencher a lacuna.
+          </>
+        ) : (
+          <>
+            A primeira é a que mais pesa: enquanto ela não subir, os gráficos
+            abaixo exercitam a leitura sobre o conjunto de demonstração, não
+            sobre a LICC.
+          </>
+        )}
       </p>
       <ul className="grid gap-x-8 gap-y-2.5 sm:grid-cols-2">
         {linhas.map((l) => {

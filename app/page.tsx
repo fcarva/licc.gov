@@ -177,8 +177,17 @@ export default function PaginaInicial() {
                 <ul className="mt-1 space-y-0.5">
                   {stats.cotas.map((c) => (
                     <li key={c.regraId} className="flex items-baseline gap-1.5 text-[11px]">
-                      <span className={c.atendida ? "text-[var(--color-patrocinador)]" : "text-[var(--color-projeto)]"}>
-                        {c.atendida ? "✓" : "✗"}
+                      <span
+                        className={
+                          c.atendida === null
+                            ? "text-tinta-suave"
+                            : c.atendida
+                              ? "text-[var(--color-patrocinador)]"
+                              : "text-[var(--color-projeto)]"
+                        }
+                        title={c.atendida === null ? "a fonte não publica o campo que classifica esta cota" : undefined}
+                      >
+                        {c.atendida === null ? "–" : c.atendida ? "✓" : "✗"}
                       </span>
                       <span className="truncate text-tinta-fraca">{c.titulo}</span>
                     </li>

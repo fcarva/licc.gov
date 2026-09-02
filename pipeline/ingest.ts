@@ -73,6 +73,7 @@ import {
 } from "./habilitados";
 
 const DIR_BRUTO = join(process.cwd(), "data", "raw");
+const DIR_OFICIAL = join(process.cwd(), "data", "oficial");
 
 interface Coleta {
   agentes: AgenteBruto[];
@@ -421,11 +422,20 @@ export function carregarHabilitados(
  * todos os lotes menos um.
  */
 export function lotesDoExercicio(ano: number): string[] {
-  if (!existsSync(DIR_BRUTO)) return [];
-  return readdirSync(DIR_BRUTO)
-    .filter((f) => f.startsWith(`habilitados-${ano}`) && f.toLowerCase().endsWith(".csv"))
-    .sort()
-    .map((f) => join(DIR_BRUTO, f));
+  // Dois lugares, nesta ordem. `data/oficial/` é versionado: transcrição de
+  // anexo que passou pelos conferidores de `tools/anexos-secult/`, e cujo diff
+  // entre coletas fica auditável no git — é a razão de o repositório existir.
+  // `data/raw/` é ignorado, e é onde cai a extração local de quem tem os PDFs;
+  // vem depois porque completa o versionado, não o contrário.
+  const doDiretorio = (dir: string) => {
+    if (!existsSync(dir)) return [];
+    const casa = new RegExp(`^(habilitados|captados)-${ano}`);
+    return readdirSync(dir)
+      .filter((f) => casa.test(f) && f.toLowerCase().endsWith(".csv"))
+      .sort()
+      .map((f) => join(dir, f));
+  };
+  return [...doDiretorio(DIR_OFICIAL), ...doDiretorio(DIR_BRUTO)];
 }
 
 /** Imprime a cobertura da planilha — o que entrou e, sobretudo, o que faltou. */
