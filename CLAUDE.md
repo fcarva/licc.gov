@@ -41,9 +41,16 @@ reais — e este é um projeto de transparência. Daí decorrem três regras:
 
 ## O que cria projeto da LICC
 
-**A lista de habilitados, não a API.** `data/raw/habilitados-{ano}.csv`,
+**A lista de habilitados, não a API.** `data/raw/habilitados-{ano}*.csv`,
 transcrita dos anexos da SECULT, com `fonte_url` em cada linha. O esquema está
 em `docs/pipeline.md`; o molde versionado, em `data/raw/habilitados-exemplo.csv`.
+
+**São vários arquivos de propósito.** A comissão da LICC é permanente e a SECULT
+publica em **lotes** — só 2025 tem pelo menos seis anexos, com 28, 33, 35, 37,
+41 e 74 projetos, todos rotulados "ANO 2025". As URLs estão em
+`docs/pipeline.md`. Quando o mesmo projeto reaparece, o lote novo **completa** o
+antigo campo a campo; conflito de valor prevalece pelo mais recente e é
+relatado. Assumir um arquivo por exercício descartaria cinco lotes em silêncio.
 
 `project` do Mapa Cultural **não** é projeto da LICC — é qualquer projeto
 cultural cadastrado na plataforma. Houve uma versão que carimbava cada um deles
@@ -156,8 +163,11 @@ argumento da página, não só o desenho.
 
 ## Rede: o que está bloqueado
 
-O egresso deste ambiente bloqueia `mapa.cultura.es.gov.br`, `civlab.org`,
-`api.firecrawl.dev` e `r.jina.ai`.
+O egresso deste ambiente bloqueia `mapa.cultura.es.gov.br`, `secult.es.gov.br`,
+`civlab.org`, `api.firecrawl.dev` e `r.jina.ai`. O bloqueio é **da organização,
+não do contêiner**: o `WebFetch` responde `EGRESS_BLOCKED` para os mesmos hosts.
+`WebSearch` funciona e serve para **localizar** documento, não para lê-lo — foi
+assim que as URLs dos anexos em `docs/pipeline.md` foram achadas.
 
 `npm run ingest` **falha com HTTP 403 e isso é esperado** — não é bug, não tente
 consertar, não retente 4xx (o cliente já foi escrito para não fazê-lo). O grafo

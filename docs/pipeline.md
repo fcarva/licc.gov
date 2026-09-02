@@ -40,12 +40,48 @@ A API pública dá o **contexto**; não dá a **substância**. Por isso a planil
 fonte de primeira classe, e não gambiarra: é a arquitetura honesta para o que o
 Estado de fato publica.
 
+### A SECULT publica em lotes, não uma lista anual
+
+A comissão julgadora da LICC é **permanente**: a habilitação acontece ao longo
+de todo o período de inscrição, e os anexos saem em lotes. Só para o exercício
+de 2025 há pelo menos seis listas publicadas, todas rotuladas "ANO 2025":
+
+| Projetos | Anexo |
+| --- | --- |
+| 74 | `secult.es.gov.br/Media/Secult/2024_2/LISTA DE PROJETOS HABILITADOS.pdf` |
+| 41 | `secult.es.gov.br/Media/Secult/2025/LISTA DE PROJETOS HABILITADOS .pdf` |
+| 37 | `.../LISTA DE PROJETOS HABILITADOS (5)-1.pdf` |
+| 35 | `.../LISTA DE PROJETOS HABILITADOS. (1).pdf` |
+| 33 | `.../LISTA DE PROJETOS HABILITADOS (10).pdf` |
+| 28 | `.../LISTA DE PROJETOS HABILITADOS.xlsx.pdf` |
+
+Cada um declara a própria contagem no cabeçalho ("Quantidade: 74"), o que dá um
+conferidor embutido: se a transcrição render outro número, faltou linha.
+
+Por isso o importador lê **qualquer** `habilitados-{ano}*.csv` e mescla:
+
 ```bash
-cp data/raw/habilitados-exemplo.csv data/raw/habilitados-2025.csv
-# preencha a partir dos anexos, depois:
+cp data/raw/habilitados-exemplo.csv data/raw/habilitados-2025-lote1.csv
+cp data/raw/habilitados-exemplo.csv data/raw/habilitados-2025-lote2.csv
+# preencha cada um a partir do seu anexo, depois:
 npm run importar:habilitados        # sem rede nenhuma
 npm run build:graph
 ```
+
+### O que acontece quando um projeto reaparece
+
+Um projeto habilitado em março reaparece no anexo de agosto, agora com valor
+captado. O lote posterior **completa** o anterior campo a campo
+(`mesclarLinhas()`), em vez de vencer inteiro ou ser descartado — descartar
+jogaria fora número que a SECULT publicou.
+
+Onde os dois anexos trazem valores **diferentes** para o mesmo campo, prevalece
+o mais recente e o desacordo é relatado nominalmente. Divergência entre anexos
+oficiais é achado, não ruído para engolir em silêncio.
+
+`fonte_url` e `fonte_pagina` são exceção: lote diferente tem fonte diferente
+por construção, e tratá-los como conflito encheria o relatório de falso alarme.
+O projeto fica com a fonte do anexo de onde veio o dado mais recente.
 
 ### Colunas
 

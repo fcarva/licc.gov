@@ -25,14 +25,19 @@
  * o nome casa com uma linha da lista de habilitados, o projeto da LICC ganha
  * URL, descrição e o id da plataforma. Nunca a existência, nunca a base legal.
  *
- * Quem cria projeto aqui é `data/raw/habilitados-{ano}.csv`, lido por
- * `./habilitados`. Sem essa planilha a coleta produz o grafo institucional e a
- * camada territorial, **zero projetos**, e diz isso em voz alta. Um grafo que
- * admite não saber vale mais que um que preenche a lacuna com dado alheio.
+ * Quem cria projeto aqui são os `data/raw/habilitados-{ano}*.csv`, lidos por
+ * `./habilitados`. São vários porque a SECULT publica em **lotes**: a comissão
+ * julgadora da LICC é permanente e habilita ao longo de todo o período de
+ * inscrição, então o exercício de 2025 sai em anexos separados, cada um com sua
+ * própria contagem.
+ *
+ * Sem nenhuma dessas planilhas a coleta produz o grafo institucional e a camada
+ * territorial, **zero projetos**, e diz isso em voz alta. Um grafo que admite
+ * não saber vale mais que um que preenche a lacuna com dado alheio.
  */
 
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
 import type { GraphEdge, GraphNode } from "@/types/graph";
 import {
   segmentoPorTermo,
@@ -58,7 +63,14 @@ import {
   type EventoBruto,
 } from "./sources/mapas-culturais";
 import { nosFixos, arestasFixas } from "./seed/institucional";
-import { lerHabilitados, montarHabilitados, type RelatorioHabilitados } from "./habilitados";
+import {
+  lerHabilitados,
+  montarHabilitados,
+  mesclarLinhas,
+  type LinhaHabilitado,
+  type Problema,
+  type RelatorioHabilitados,
+} from "./habilitados";
 
 const DIR_BRUTO = join(process.cwd(), "data", "raw");
 
@@ -341,21 +353,97 @@ function dataDe(v: { date: string } | string | null | undefined): string | undef
 export function carregarHabilitados(
   ano: number,
 ): { nodes: GraphNode[]; edges: GraphEdge[]; relatorio?: RelatorioHabilitados } {
-  const arquivo = join(DIR_BRUTO, `habilitados-${ano}.csv`);
-  if (!existsSync(arquivo)) return { nodes: [], edges: [] };
+  const arquivos = lotesDoExercicio(ano);
+  if (!arquivos.length) return { nodes: [], edges: [] };
 
-  const { linhas, problemas } = lerHabilitados(readFileSync(arquivo, "utf8"));
-  for (const pb of problemas) {
-    console.warn(`  ! linha ${pb.linha}, ${pb.campo}: ${pb.motivo}`);
+  const problemas: Problema[] = [];
+  const conflitos: Array<{ projeto: string; campo: string; antes: string; depois: string }> = [];
+  // Ordem de leitura preservada: o mapa mantém a sequência de inserção, então
+  // os projetos saem na ordem em que a SECULT os habilitou.
+  const porProjeto = new Map<string, LinhaHabilitado>();
+  let duplicadas = 0;
+
+  for (const arquivo of arquivos) {
+    const nome = basename(arquivo);
+    const lidas = lerHabilitados(readFileSync(arquivo, "utf8"));
+    for (const pb of lidas.problemas) {
+      console.warn(`  ! ${nome}, linha ${pb.linha}, ${pb.campo}: ${pb.motivo}`);
+    }
+    problemas.push(...lidas.problemas);
+
+    for (const l of lidas.linhas) {
+      // O mesmo projeto reaparece entre lotes. O novo completa o antigo em vez
+      // de substituí-lo ou de ser descartado — ver `mesclarLinhas`.
+      const chave = normalizar(l.numeroProcesso ?? l.projeto);
+      const anterior = porProjeto.get(chave);
+      if (!anterior) {
+        porProjeto.set(chave, l);
+        continue;
+      }
+      duplicadas++;
+      const { mesclada, conflitos: novos } = mesclarLinhas(anterior, l);
+      porProjeto.set(chave, mesclada);
+      for (const c of novos) {
+        conflitos.push({ projeto: l.projeto, ...c });
+        console.warn(
+          `  ! anexos discordam sobre "${l.projeto}" em ${c.campo}: ` +
+            `${c.antes} → ${c.depois} (prevalece ${nome}, o mais recente)`,
+        );
+      }
+    }
+    console.log(`  ${nome}: ${lidas.linhas.length} linhas`);
   }
-  const montado = montarHabilitados(linhas, ano);
-  return { ...montado, relatorio: { ...montado.relatorio, problemas } };
+
+  const montado = montarHabilitados([...porProjeto.values()], ano);
+  return {
+    ...montado,
+    relatorio: {
+      ...montado.relatorio,
+      problemas,
+      lotes: arquivos.map((f) => basename(f)),
+      duplicadas,
+      conflitos,
+    },
+  };
+}
+
+/**
+ * Os lotes de habilitados de um exercício.
+ *
+ * A SECULT **não publica uma lista anual**: a comissão julgadora da LICC é
+ * permanente, a habilitação acontece ao longo de todo o período de inscrição, e
+ * os anexos saem em lotes ao longo do ano — em 2025 são pelo menos seis, com
+ * 28, 33, 35, 37, 41 e 74 projetos, todos rotulados "ANO 2025".
+ *
+ * Por isso qualquer `habilitados-{ano}*.csv` entra: `habilitados-2025.csv`,
+ * `habilitados-2025-lote3.csv`, `habilitados-2025-marco.csv`. Assumir um
+ * arquivo por exercício, como esta função fazia antes, descartaria em silêncio
+ * todos os lotes menos um.
+ */
+export function lotesDoExercicio(ano: number): string[] {
+  if (!existsSync(DIR_BRUTO)) return [];
+  return readdirSync(DIR_BRUTO)
+    .filter((f) => f.startsWith(`habilitados-${ano}`) && f.toLowerCase().endsWith(".csv"))
+    .sort()
+    .map((f) => join(DIR_BRUTO, f));
 }
 
 /** Imprime a cobertura da planilha — o que entrou e, sobretudo, o que faltou. */
 export function relatar(r: RelatorioHabilitados, ano: number): void {
   const pct = (n: number) => (r.lidas ? `${Math.round((n / r.lidas) * 100)}%` : "—");
-  console.log(`\n  lista de habilitados ${ano}: ${r.lidas} linhas`);
+  const lotes = r.lotes?.length
+    ? ` em ${r.lotes.length} lote${r.lotes.length > 1 ? "s" : ""}`
+    : "";
+  console.log(`\n  lista de habilitados ${ano}: ${r.lidas} projetos${lotes}`);
+  if (r.duplicadas) {
+    console.log(`    ${r.duplicadas} projeto(s) repetido(s) entre lotes, mesclados`);
+  }
+  if (r.conflitos?.length) {
+    console.log(`    ! ${r.conflitos.length} campo(s) em que anexos oficiais discordam:`);
+    for (const c of r.conflitos.slice(0, 5)) {
+      console.log(`      "${c.projeto}" · ${c.campo}: ${c.antes} → ${c.depois}`);
+    }
+  }
   console.log(`    com valor autorizado ... ${r.comValorAutorizado} (${pct(r.comValorAutorizado)})`);
   console.log(`    com valor captado ...... ${r.comValorCaptado} (${pct(r.comValorCaptado)})`);
   console.log(`    município resolvido .... ${r.municipiosResolvidos} (${pct(r.municipiosResolvidos)})`);

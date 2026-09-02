@@ -17,22 +17,25 @@
  * das colunas em `docs/pipeline.md`.
  */
 
-import { existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { mkdirSync, writeFileSync } from "node:fs";
+import { basename, join } from "node:path";
 import { EXERCICIO_PADRAO } from "@/ontology";
 import { nosFixos, arestasFixas } from "./seed/institucional";
-import { carregarHabilitados, relatar } from "./ingest";
+import { carregarHabilitados, lotesDoExercicio, relatar } from "./ingest";
 
 const DIR_BRUTO = join(process.cwd(), "data", "raw");
 
 function main(): void {
   const ano = Number(process.env.LICC_ANO ?? EXERCICIO_PADRAO);
-  const planilha = join(DIR_BRUTO, `habilitados-${ano}.csv`);
+  const lotes = lotesDoExercicio(ano);
 
-  if (!existsSync(planilha)) {
-    console.error(`✗ não encontrei ${planilha}`);
+  if (!lotes.length) {
+    console.error(`✗ nenhum data/raw/habilitados-${ano}*.csv encontrado`);
     console.error("\n  Copie o molde e preencha a partir dos anexos da SECULT:");
-    console.error(`    cp data/raw/habilitados-exemplo.csv ${planilha}`);
+    console.error(`    cp data/raw/habilitados-exemplo.csv data/raw/habilitados-${ano}.csv`);
+    console.error("\n  A SECULT publica em lotes, e cada anexo pode virar um arquivo:");
+    console.error(`    data/raw/habilitados-${ano}-lote1.csv, -lote2.csv, …`);
+    console.error("  Todos que casarem com o prefixo são lidos e mesclados.");
     console.error("\n  Colunas mínimas: projeto, proponente.");
     console.error("  Preencha fonte_url em cada linha — sem endereço para conferir,");
     console.error("  a linha entra marcada como demonstração, não como oficial.");
@@ -40,7 +43,7 @@ function main(): void {
     return;
   }
 
-  console.log(`→ lendo ${planilha}`);
+  console.log(`→ lendo ${lotes.length} lote(s): ${lotes.map((l) => basename(l)).join(", ")}`);
   const habilitados = carregarHabilitados(ano);
   if (!habilitados.relatorio) {
     console.error("✗ a planilha não produziu nenhuma linha utilizável.");

@@ -73,6 +73,12 @@ export interface Problema {
 export interface RelatorioHabilitados {
   lidas: number;
   aceitas: number;
+  /** Nomes dos arquivos de lote que compuseram o exercício. */
+  lotes?: string[];
+  /** Projetos que reapareceram num lote posterior e foram mesclados. */
+  duplicadas?: number;
+  /** Campos em que dois anexos oficiais discordam sobre o mesmo projeto. */
+  conflitos?: Array<{ projeto: string; campo: string; antes: string; depois: string }>;
   /** Linhas sem `fonte_url`, importadas como demonstração. */
   semFonte: number;
   comValorAutorizado: number;
@@ -278,6 +284,74 @@ export function lerHabilitados(texto: string): {
   });
 
   return { linhas, problemas };
+}
+
+// ---------------------------------------------------------------------------
+// Mesclagem entre lotes
+// ---------------------------------------------------------------------------
+
+/** Um campo em que dois lotes discordam sobre o mesmo projeto. */
+export interface Conflito {
+  campo: string;
+  antes: string;
+  depois: string;
+}
+
+/**
+ * Funde a linha de um lote posterior sobre a de um anterior.
+ *
+ * A SECULT publica os habilitados em lotes ao longo do exercício, e o mesmo
+ * projeto reaparece: primeiro habilitado sem valor de captação, depois com. Se
+ * a primeira aparição vencesse, o número publicado no lote seguinte seria
+ * jogado fora — perder-se-ia dado real por ordem de leitura.
+ *
+ * Então o lote novo **completa** o antigo campo a campo. Onde os dois trazem
+ * valores diferentes, prevalece o mais recente (é a publicação mais atual) e o
+ * desacordo vira um `Conflito` relatado — divergência entre anexos oficiais é
+ * achado, não ruído para engolir em silêncio.
+ */
+export function mesclarLinhas(
+  antiga: LinhaHabilitado,
+  nova: LinhaHabilitado,
+): { mesclada: LinhaHabilitado; conflitos: Conflito[] } {
+  const conflitos: Conflito[] = [];
+  const mesclada: LinhaHabilitado = { ...antiga };
+
+  const campos: Array<keyof LinhaHabilitado> = [
+    "numeroProcesso", "cnpjCpf", "municipio", "segmento",
+    "valorAutorizado", "valorCaptado", "pautado", "continuado",
+    "status", "fonteUrl", "fontePagina",
+  ];
+  // Lote diferente tem fonte diferente — é o esperado, não desacordo. Tratá-los
+  // como conflito encheria o relatório de falso alarme e enterraria o
+  // desacordo que importa, que é sobre valor, município ou situação.
+  const ESPERA_SE_DIFERENTE = new Set<keyof LinhaHabilitado>(["fonteUrl", "fontePagina"]);
+
+  for (const campo of campos) {
+    const a = antiga[campo];
+    const b = nova[campo];
+    if (b === undefined) continue;
+    if (a === undefined) {
+      (mesclada[campo] as unknown) = b;
+      continue;
+    }
+    if (a !== b) {
+      if (!ESPERA_SE_DIFERENTE.has(campo)) {
+        conflitos.push({ campo, antes: String(a), depois: String(b) });
+      }
+      (mesclada[campo] as unknown) = b;
+    }
+  }
+
+  // Patrocinadores se acumulam: um projeto pode ganhar aporte de mais empresas
+  // entre um anexo e o seguinte, e o segundo anexo não revoga o primeiro.
+  const todos = new Map<string, string>();
+  for (const nome of [...antiga.patrocinadores, ...nova.patrocinadores]) {
+    todos.set(normalizar(nome), nome);
+  }
+  mesclada.patrocinadores = [...todos.values()];
+
+  return { mesclada, conflitos };
 }
 
 // ---------------------------------------------------------------------------
