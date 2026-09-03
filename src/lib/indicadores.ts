@@ -364,8 +364,15 @@ export interface QuemExecuta {
   distribuicao: Array<{ projetos: number; proponentes: number }>;
   /** Proponentes que atingiram o limite da norma. */
   noLimite: Array<{ id: string; nome: string; slug: string; projetos: number }>;
-  /** Limite de projetos por proponente, e se já foi conferido na norma. */
-  limite: { valor: number; verificado: boolean; fonte?: Fonte };
+  /** Limite de projetos por proponente, e o que se sabe sobre auditá-lo. */
+  limite: {
+    valor: number;
+    /** A norma foi lida no texto oficial? */
+    verificado: boolean;
+    /** Por que o cumprimento não é apurável aqui, quando não for. */
+    naoApuravel?: string;
+    fonte?: Fonte;
+  };
   /** Proponentes sem natureza jurídica conhecida. */
   semNatureza: number;
 }
@@ -381,11 +388,18 @@ const ROTULO_NATUREZA: Record<string, string> = {
 /**
  * Quem propõe, e com que reincidência.
  *
- * O limite de projetos por proponente vem de `REGRAS`, com o próprio
- * `verificado` junto: hoje ele é `false` — a regra está citada por fonte
- * secundária e não foi conferida no texto da instrução normativa. O indicador
- * carrega esse estado em vez de escondê-lo, porque apontar quem "estourou o
- * limite" com base em regra não conferida seria acusar sem fonte.
+ * O limite de projetos por proponente vem de `REGRAS`, com **dois** estados
+ * junto, porque são duas limitações independentes:
+ *
+ * - `verificado` — a norma foi lida no texto oficial? Hoje `false`: está
+ *   citada por fonte secundária. Resolve-se lendo a instrução normativa.
+ * - `naoApuravel` — mesmo lida, dá para calcular o cumprimento? Aqui não, e
+ *   permanentemente: o parágrafo único soma pessoas jurídicas com sócios ou
+ *   dirigentes em comum, e o grafo enxerga CNPJ isolado, não malha societária.
+ *
+ * Carregar só o primeiro era uma armadilha: bastaria alguém conferir a norma e
+ * virar `verificado: true` para a tela trocar "quem alcançou o número" por
+ * "quem descumpriu a norma" — acusação que este dado nunca sustentou.
  */
 export function quemExecuta(grafo: Graph): Indicador<QuemExecuta> | null {
   const proponentes = grafo.nodes.filter((n) => n.kind === "proponente");
@@ -434,7 +448,12 @@ export function quemExecuta(grafo: Graph): Indicador<QuemExecuta> | null {
           projetos: projetosPor.get(p.id) ?? 0,
         }))
         .sort((a, b) => b.projetos - a.projetos),
-      limite: { valor: limite, verificado: regra?.verificado ?? false, fonte: regra?.fonte },
+      limite: {
+        valor: limite,
+        verificado: regra?.verificado ?? false,
+        ...(regra?.naoApuravel ? { naoApuravel: regra.naoApuravel } : {}),
+        fonte: regra?.fonte,
+      },
       semNatureza: proponentes.filter((p) => !p.meta?.natureza).length,
     },
     confianca: confiar(

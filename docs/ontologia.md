@@ -162,13 +162,33 @@ Vila Velha, Vitória), e é por exclusão dela que se apura a cota de 10%.
 
 ## Normas e regras
 
-`src/ontology/legal.ts` traz 5 normas e 4 regras estruturais, cada uma com
-`verificado` e `fonte`.
+`src/ontology/legal.ts` traz 7 normas e 7 regras estruturais, cada uma com
+`fonte` e com **dois selos que respondem perguntas diferentes**.
 
-`verificado: false` significa "citada por fonte secundária, ainda não conferida
-no texto oficial" — hoje é o caso do limite de 3 projetos por proponente. A
-interface exibe esse estado em vez de escondê-lo: o elo com a norma só vale
-alguma coisa se for auditável.
+| campo | pergunta | como sai desse estado |
+| --- | --- | --- |
+| `verificado: false` | li a norma no texto oficial? | lendo o texto |
+| `naoApuravel: "…"` | consigo calcular o cumprimento? | às vezes nunca |
+
+O segundo guarda a **razão**, não um booleano, para a interface poder dizer o
+quê. E os dois são independentes: uma regra pode estar conferida e continuar
+inapurável.
+
+O limite de 3 projetos por proponente é o caso que obrigou a separação. Ele está
+`verificado: false` — citado por compilação secundária —, mas mesmo depois de
+alguém ler a instrução normativa ele segue inapurável aqui: o parágrafo único
+soma as pessoas jurídicas com sócios ou dirigentes em comum, e o Quadro de
+Sócios e Administradores da Receita Federal não é consultável deste ambiente. O
+grafo enxerga CNPJ isolado, não malha societária.
+
+Sem essa distinção, virar `verificado: true` faria a tela trocar "quem alcançou
+o número" por "quem descumpriu a norma". As duas tarjas — "não conferida" e "não
+apurável aqui" — aparecem separadas em `/sobre` por isso.
+
+Entre as normas há uma **federal**, a Lei nº 14.903/2024 (Marco Regulatório do
+Fomento à Cultura), cujo desenho de controle — verificação do resultado cultural
+— tensiona o das instruções normativas estaduais. `/indicadores` exibe os dois
+lados ao pé do indicador de quem executa, sem arbitrar entre eles.
 
 As regras com `cota` viram barras de conferência no painel de orçamento; a com
 `limite` sinaliza proponentes no teto.

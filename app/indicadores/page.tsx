@@ -12,6 +12,7 @@ import {
   BarrasSimples,
 } from "@/components/GraficosIndicadores";
 import { CORES_GRAFICO } from "@/ontology/paleta-grafico";
+import { fundamentoPorId } from "@/ontology";
 import {
   concentracaoDoCapital,
   desigualdadeTerritorial,
@@ -262,14 +263,21 @@ export default function PaginaIndicadores() {
                 <>
                   A norma limita cada proponente a {execucao.dados.limite.valor}{" "}
                   projetos por exercício.{" "}
-                  {execucao.dados.limite.verificado ? (
-                    <>Regra conferida no texto oficial.</>
-                  ) : (
+                  {!execucao.dados.limite.verificado ? (
                     <strong className="font-medium text-tinta-suave">
                       Regra ainda não conferida na fonte primária — está citada por
                       fonte secundária, e por isso a lista abaixo descreve quem
                       alcançou o número, não quem descumpriu a norma.
                     </strong>
+                  ) : execucao.dados.limite.naoApuravel ? (
+                    <strong className="font-medium text-tinta-suave">
+                      Regra conferida no texto oficial, mas este painel não pode
+                      apurar o cumprimento dela: {execucao.dados.limite.naoApuravel}.
+                      A lista abaixo descreve quem alcançou o número
+                      individualmente, sem julgar associação societária invisível.
+                    </strong>
+                  ) : (
+                    <>Regra conferida no texto oficial.</>
                   )}
                 </>
               }
@@ -320,8 +328,82 @@ export default function PaginaIndicadores() {
             </Grafico>
           </Cartao>
         ) : null}
+
+        <TensaoNormativa />
       </div>
     </Pagina>
+  );
+}
+
+/**
+ * Norma contra norma, ao pé do indicador de quem executa.
+ *
+ * Fica aqui, e não junto da concentração do capital, porque a tensão é sobre
+ * **controle de proponente**: o que está em disputa são o limite de projetos, a
+ * vedação ao fracionamento e as sanções — exatamente as regras do indicador 4.
+ * Sendo o último bloco da página, emoldura o conjunto.
+ *
+ * Declara norma, não motivo. Nenhuma frase aqui atribui intenção a empresa ou a
+ * gestor, e nenhuma interpreta os números acima: eles ficam onde estão. Assinar
+ * conclusão por eles trocaria transparência por editorial.
+ */
+function TensaoNormativa() {
+  const estadual = fundamentoPorId("in-licc-2026");
+  const federal = fundamentoPorId("lei-14903-2024");
+  if (!estadual || !federal) return null;
+
+  // A tarja segue a **afirmação do bloco**, não o `verificado` do fundamento.
+  //
+  // São coisas diferentes, e confundi-las aqui daria o selo errado: a IN 2026
+  // está conferida na identidade — número e data vêm da página da própria
+  // SECULT —, mas o que este bloco diz sobre o conteúdo dela (diligência,
+  // indeferimento liminar, Cadin-ES) foi lido em compilação secundária. Herdar
+  // `estadual.verificado` mostraria um lado sem tarja e o outro com, como se a
+  // prosa estadual tivesse sido checada no texto oficial. Nenhuma das duas foi.
+  const lados = [
+    {
+      fundamento: estadual,
+      titulo: "O controle da instrução normativa estadual",
+      texto:
+        "Acompanhamento processual com prazo de diligência, indeferimento liminar do projeto e possibilidade de inscrição do proponente no cadastro estadual de inadimplentes. O eixo do controle é a regularidade documental da prestação de contas.",
+    },
+    {
+      fundamento: federal,
+      titulo: "O controle do marco regulatório federal",
+      texto:
+        "Orienta a administração pública dos estados e municípios a dirigir o controle à verificação do resultado cultural alcançado, em vez da sanção por falha procedimental periférica na prestação monetária.",
+    },
+  ];
+
+  return (
+    <Cartao>
+      <TituloSecao>Sob qual norma</TituloSecao>
+      <p className="mb-4 max-w-3xl text-xs leading-relaxed text-tinta-suave">
+        As regras que o indicador acima audita vêm de dois desenhos de controle
+        que não coincidem. O painel exibe os dois e não arbitra entre eles.
+      </p>
+      <div className="grid gap-x-8 gap-y-4 sm:grid-cols-2">
+        {lados.map((l) => (
+          <div key={l.fundamento.id} className="border-t border-borda pt-3">
+            <p className="text-xs font-medium text-tinta">{l.titulo}</p>
+            <p className="mt-1.5 text-[11px] leading-relaxed text-tinta-fraca">
+              {l.texto}
+            </p>
+            <p className="mt-2 flex flex-wrap items-baseline gap-2">
+              <Link
+                href={`/entidade/${l.fundamento.slug}`}
+                className="text-[11px] text-realce underline-offset-2 hover:underline"
+              >
+                {l.fundamento.norma}
+              </Link>
+              <span className="rounded bg-amber-600/10 px-1.5 py-0.5 text-[10px] text-amber-800 dark:text-amber-300">
+                conteúdo não conferido no texto oficial
+              </span>
+            </p>
+          </div>
+        ))}
+      </div>
+    </Cartao>
   );
 }
 

@@ -188,15 +188,34 @@ npm run data        # os dois passos em sequência`}
                 <li key={r.id} className="p-3">
                   <p className="text-sm font-medium text-tinta">
                     {r.titulo}
+                    {/*
+                      Duas tarjas, porque são dois estados independentes: uma
+                      regra pode estar conferida no texto e ainda assim ser
+                      inapurável com o que o grafo tem, e a recíproca também
+                      vale. Fundi-las esconderia justamente o caso que importa.
+                    */}
                     {!r.verificado ? (
                       <span className="ml-2 rounded bg-amber-600/10 px-1.5 py-0.5 text-[11px] font-normal text-amber-800 dark:text-amber-300">
                         não conferida
+                      </span>
+                    ) : null}
+                    {r.naoApuravel ? (
+                      <span className="ml-2 rounded bg-cinza-medio px-1.5 py-0.5 text-[11px] font-normal text-tinta-fraca">
+                        não apurável aqui
                       </span>
                     ) : null}
                   </p>
                   <p className="mt-0.5 text-xs leading-relaxed text-tinta-fraca">
                     {r.descricao}
                   </p>
+                  {r.naoApuravel ? (
+                    <p className="mt-1 text-[11px] leading-relaxed text-tinta-fraca">
+                      <span className="text-tinta-suave">
+                        Este painel não apura o cumprimento:
+                      </span>{" "}
+                      {r.naoApuravel}.
+                    </p>
+                  ) : null}
                   <p className="mt-1 text-[11px] text-tinta-fraca">
                     Fonte:{" "}
                     {r.fonte.url ? (

@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-09-02T22:08:41.361Z",
+    "geradoEm": "2026-09-03T03:47:14.660Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -18,7 +18,7 @@
       }
     ],
     "contagemPorProveniencia": {
-      "oficial": 533,
+      "oficial": 535,
       "derivado": 159,
       "demonstracao": 0
     }
@@ -5203,6 +5203,72 @@
       "posicao": {
         "lugar": 45,
         "total": 52
+      },
+      "variacaoAnual": null
+    },
+    {
+      "id": "decreto-5035-r-2021",
+      "slug": "decreto-5035-r-2021",
+      "kind": "fundamento",
+      "nome": "Decreto nº 5.035-R/2021",
+      "sigla": "Decreto nº 5.035-R/2021",
+      "descricao": "Regulamento do incentivo fiscal da LICC — Dispõe sobre a regulamentação do incentivo fiscal concedido nos termos dos arts. 5º-B, IX, da Lei nº 7.000, de 27 de dezembro de 2001, com o objetivo de estimular a realização de projetos culturais no Estado. É o elo que faltava entre a lei e as instruções normativas: prevê que a SECULT expeça instrução normativa com os procedimentos e requisitos de cadastramento do proponente.",
+      "nomesAlternativos": [
+        "Regulamento do incentivo fiscal da LICC"
+      ],
+      "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc",
+      "proveniencia": "oficial",
+      "fontes": [
+        {
+          "rotulo": "SECULT-ES — Legislação LICC",
+          "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc"
+        }
+      ],
+      "meta": {
+        "norma": "Decreto nº 5.035-R/2021",
+        "publicadoEm": "2021-12-15",
+        "verificado": false
+      },
+      "orcamento": {
+        "autorizado": 0,
+        "captado": 0,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        }
+      },
+      "variacaoAnual": null
+    },
+    {
+      "id": "lei-14903-2024",
+      "slug": "lei-14903-2024",
+      "kind": "fundamento",
+      "nome": "Lei Federal nº 14.903/2024",
+      "sigla": "Lei Federal nº 14.903/2024",
+      "descricao": "Marco Regulatório do Fomento à Cultura — Estabelece o marco regulatório do fomento à cultura, no âmbito da administração pública da União, dos Estados, do Distrito Federal e dos Municípios. Orienta o controle a mirar o resultado cultural alcançado, e não a punição por falha procedimental na prestação de contas — o que tensiona o desenho das instruções normativas estaduais.",
+      "nomesAlternativos": [
+        "Marco Regulatório do Fomento à Cultura"
+      ],
+      "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html",
+      "proveniencia": "oficial",
+      "fontes": [
+        {
+          "rotulo": "Câmara dos Deputados — publicação original",
+          "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html"
+        }
+      ],
+      "meta": {
+        "norma": "Lei Federal nº 14.903/2024",
+        "publicadoEm": "2024-06-27",
+        "verificado": false
+      },
+      "orcamento": {
+        "autorizado": 0,
+        "captado": 0,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        }
       },
       "variacaoAnual": null
     },

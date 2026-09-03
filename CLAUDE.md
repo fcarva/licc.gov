@@ -160,6 +160,17 @@ argumento da página, não só o desenho.
   `27802174.470000006` vira ruído de diff entre coletas e precisão que a fonte
   não tem. Razões (`execucao`, `comprometimentoDoTeto`) **não** se arredondam:
   a cauda ali é da divisão, é determinística, e cortá-la perderia precisão real.
+- **`verificado` e `naoApuravel` são perguntas diferentes.** O primeiro é "li a
+  norma?" e se resolve lendo o texto; o segundo é "consigo calcular o
+  cumprimento?" e para algumas regras é permanente. Enquanto só existia o
+  primeiro, bastaria conferir a IN para a interface passar de "quem alcançou o
+  número" a "quem descumpriu a norma" — acusação que o dado nunca sustentou. As
+  duas tarjas aparecem separadas em `/sobre` de propósito.
+- **Tarja de bloco de texto segue a afirmação, não o registro citado.** No bloco
+  de tensão normativa de `/indicadores`, herdar `verificado` do fundamento
+  deixava o lado estadual sem tarja — a IN 2026 está conferida na *identidade* —
+  como se a prosa sobre diligência e Cadin-ES tivesse sido lida no texto oficial.
+  Não foi.
 - **Posições são calculadas, não simuladas.** Houve uma versão com
   `react-force-graph-2d` + `d3-force`; foi removida. A física produzia um miolo
   comprimido ilegível e arremessava para fora da tela todo vértice que perdia
@@ -202,11 +213,26 @@ argumento da página, não só o desenho.
 
 ## Rede: o que está bloqueado
 
-O egresso deste ambiente bloqueia `mapa.cultura.es.gov.br`, `secult.es.gov.br`,
-`civlab.org`, `api.firecrawl.dev` e `r.jina.ai`. O bloqueio é **da organização,
-não do contêiner**: o `WebFetch` responde `EGRESS_BLOCKED` para os mesmos hosts.
-`WebSearch` funciona e serve para **localizar** documento, não para lê-lo — foi
-assim que as URLs dos anexos em `docs/pipeline.md` foram achadas.
+O egresso **não é uma lista de hosts bloqueados — é permissão por allowlist**, e
+praticamente nada externo passa. Medido: além de `mapa.cultura.es.gov.br`,
+`secult.es.gov.br`, `civlab.org`, `api.firecrawl.dev` e `r.jina.ai`, respondem
+`EGRESS_BLOCKED` ou HTTP 000 também `planalto.gov.br`, `www2.camara.leg.br`,
+`www3.sefaz.es.gov.br`, `legisweb.com.br` e `servicodados.ibge.gov.br`. Não
+adianta procurar espelho: presuma bloqueado até provar o contrário. O bloqueio é
+**da organização, não do contêiner** — `curl` e `WebFetch` falham igual.
+
+Duas saídas funcionam, e **as duas só localizam, nenhuma lê**:
+
+- `WebSearch` — foi assim que as URLs dos anexos em `docs/pipeline.md` foram
+  achadas.
+- `mcp__Firecrawl__firecrawl_search` — não passa pelo proxy de egresso. Devolve
+  título, URL e descrição; nesta sessão **não há `firecrawl_scrape`**.
+
+Daí a regra prática: essas buscas **auditam identidade de norma** — número,
+data, ementa, URL oficial, e o trecho que o buscador expõe — e **não auditam
+texto de norma**. Foi assim que o Decreto nº 5.035-R/2021 entrou na ontologia e
+que a IN 2026 ganhou número e data. Nenhuma delas promove nada a
+`verificado: true`, que significa "conferida no texto oficial".
 
 `npm run ingest` **falha com HTTP 403 e isso é esperado** — não é bug, não tente
 consertar, não retente 4xx (o cliente já foi escrito para não fazê-lo). O grafo
@@ -300,7 +326,12 @@ campos e mescla por cima campo a campo (`mesclarLinhas`).
    vivem os valores da LICC. Precisam vir dos anexos publicados pela SECULT.
    Até lá, ausentes.
 4. **Conferir a regra dos 3 projetos** na instrução normativa vigente e, se
-   confirmada, marcar `verificado: true` em `src/ontology/legal.ts`.
+   confirmada, marcar `verificado: true` em `src/ontology/legal.ts` — mas
+   **sem remover o `naoApuravel`**. Os dois campos são independentes: conferir a
+   norma não torna o cumprimento apurável, porque o parágrafo único soma pessoas
+   jurídicas com sócios ou dirigentes em comum e o QSA da Receita não é
+   consultável daqui. Apagar o segundo ao preencher o primeiro faz a tela trocar
+   "quem alcançou o número" por "quem descumpriu a norma".
 5. **O anexo de 2026 usa outro desenho de página e ainda não entra.** Ali o
    valor habilitado se repete em várias linhas de termo (99 de 129), então
    "linha com autorizado" deixa de identificar projeto e a partição por
