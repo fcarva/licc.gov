@@ -189,17 +189,29 @@ export function desigualdadeTerritorial(grafo: Graph): Indicador<DesigualdadeTer
   const projetos = projetosDe(grafo);
   if (!projetos.length) return null;
 
+  // Duas contagens diferentes, de propósito.
+  //
+  // Um projeto pode ser executado em vários municípios — a lista de
+  // habilitados publica "Cachoeiro de Itapemirim; Mimoso do Sul" —, e o rateio
+  // do dinheiro entre eles **não** é publicado. Então a **presença** conta em
+  // todos os municípios nomeados, e o **valor** só é atribuído quando a fonte
+  // nomeia um. Somar o valor cheio em cada município contaria a mesma renúncia
+  // mais de uma vez e faria o mapa somar acima do teto do exercício.
   const porMunicipio = new Map<string, { projetos: number; captado: number; comValor: number }>();
-  for (const p of projetos) {
-    const id = String(p.meta?.municipioId ?? "");
-    if (!id) continue;
+  const doMunicipio = (id: string) => {
     const atual = porMunicipio.get(id) ?? { projetos: 0, captado: 0, comValor: 0 };
-    atual.projetos += 1;
-    if (p.orcamento?.captado !== undefined) {
+    porMunicipio.set(id, atual);
+    return atual;
+  };
+  for (const p of projetos) {
+    for (const id of p.meta?.municipiosIds ?? []) doMunicipio(id).projetos += 1;
+
+    const idValor = String(p.meta?.municipioId ?? "");
+    if (idValor && p.orcamento?.captado !== undefined) {
+      const atual = doMunicipio(idValor);
       atual.captado += p.orcamento.captado;
       atual.comValor += 1;
     }
-    porMunicipio.set(id, atual);
   }
 
   const municipios: LinhaMunicipio[] = MUNICIPIOS.map((m) => {
@@ -237,8 +249,11 @@ export function desigualdadeTerritorial(grafo: Graph): Indicador<DesigualdadeTer
       fracaoNaRmgv: total > 0 ? rmgv.captado / total : 0,
       gini: gini(municipios.map((l) => l.captado)),
     },
+    // A confiança do indicador é a **presença**: quantos projetos têm local de
+    // execução publicado. A cobertura de valor é menor — só os de município
+    // único — e aparece em `projetosComValor`, por município.
     confianca: confiar(
-      projetos.filter((p) => p.meta?.municipioId).length,
+      projetos.filter((p) => p.meta?.municipiosIds?.length).length,
       projetos.length,
     ),
   };

@@ -127,6 +127,33 @@ argumento da página, não só o desenho.
 
 ## Armadilhas já pagas
 
+- **Dois anexos, dois recortes que se chamam "2025".** "RECURSO FINANCEIRO
+  CAPTADO 2025" é dinheiro captado no **ano-calendário**; "PROJETOS HABILITADOS
+  - ANO 2025" é quem foi **habilitado** naquele ciclo e capta no seguinte. Dos
+  63 projetos que captaram em 2025, 30 estão na seção de habilitados de 2024, 14
+  na de 2023 e só 4 na de 2025. Tratar a lista como lote produzia 115 projetos
+  onde existem 63. Ela entra como **dicionário**: enriquece quem já está no
+  grafo, nunca cria projeto.
+- **Casamento por semelhança de nome funde projeto distinto.** `nomesCorrespondem`
+  casou "Carna Barra - Carnaval da Barra do Jucu" com "Carna Surpresa 2024 - O
+  Carnaval da Barra do Jucu", e "Boa Vista Carnaval Capixaba 2026" com o de
+  2025. Dentro do próprio anexo de captados havia três pares que ele fundiria. O
+  casamento é por **título normalizado exato**, e título que aparece em mais de
+  um exercício fica de fora — festival anual tem uma linha por edição.
+- **Alocação de cota é piso, não total.** Ela soma só os projetos classificados,
+  então piso **acima** da reserva prova cumprimento, mas piso **abaixo** não
+  prova nada enquanto houver projeto sem classificar. `atendida: false` exige
+  cobertura completa; do contrário é `null`, exibido como "indeterminado". Sem
+  isso a tela dizia "✗ 46,6%" sobre 31 de 63 projetos — o mesmo erro do "1112%",
+  de cabeça para baixo.
+- **Banda de coluna aberta engole a paginação.** `enquadramento` ia de 715 ao
+  infinito, e o número da página (x≈810) entrava como classe de cota: os
+  "enquadramentos desconhecidos" de 2022 e 2023 eram `"18"`, `"24"`, `"26"`.
+- **Conferidor que prova a leitura bloqueia; divergência que descreve a fonte,
+  não.** A lista traz `500.000.00` num projeto (ponto no lugar da vírgula) e um
+  valor LICC R$ 100 acima do total noutro — os dois conferidos na geometria
+  crua. Descartar 113 registros bons por causa deles seria deixar de publicar o
+  que a SECULT publicou. Banda torta falha em bloco; uma linha em 113 é a fonte.
 - **No anexo da SECULT o rótulo do projeto é centralizado sobre o grupo de
   termos**, não impresso na primeira linha dele. Num grupo de três, o primeiro
   termo fica *acima* do próprio rótulo; num grupo par, o rótulo cai no vão
@@ -329,10 +356,14 @@ A soma dos tetos por projeto (R$ 27,8 mi) passar do teto de renúncia
 (R$ 25 mi) **não é erro**: a SECULT habilita mais teto do que há renúncia, e a
 disputa por patrocinador decide quem capta. Em 2025 a conta fechou em 100%.
 
-O que o anexo de captados **não** publica fica ausente, e a lacuna é medida:
-município 0%, segmento 0%, e por isso as quatro cotas do art. 18 aparecem como
-`sem dado` em vez de `✗`. Preencher exige o anexo de habilitados, que traz esses
-campos e mescla por cima campo a campo (`mesclarLinhas`).
+A **lista de projetos habilitados** (`data/oficial/habilitados/`, 467 projetos
+de 2022 a 2026) completa o que o anexo de captados não publica: município subiu
+de 0% para 63% e a cota do art. 18 passou a vir classificada pela própria
+SECULT. Segmento continua em **0%** — nenhum dos dois anexos publica linguagem
+cultural, e derivá-la do texto do objeto seria inferência vestida de dado.
+
+Território, medido: RMGV com 7 municípios fica com R$ 9,5 mi; os 71 do interior,
+com R$ 4,8 mi. 59 dos 78 municípios não receberam nada. Gini de 0,921.
 
 ## Próximos passos
 
@@ -341,11 +372,14 @@ campos e mescla por cima campo a campo (`mesclarLinhas`).
    que gera `docs/referencia-civlab.md` com raios, contagens, formas e paleta
    aferidos. Hoje `FRACAO_POR_ANEL` em `src/lib/radial.ts` está por impressão
    visual dos quadros do vídeo.
-2. **Município e segmento por projeto.** É a maior lacuna medida: 0% dos 63
-   projetos, e é o que trava dois dos quatro indicadores e as quatro cotas. Vem
-   do anexo de **habilitados** (não o de captados, que não traz esses campos);
-   `tools/anexos-secult/extrair.mjs` já o lê, e `mesclarLinhas` completa o
-   projeto campo a campo sem perder o que o anexo de captados trouxe.
+2. **Fechar os 23 projetos sem município.** Dos 63, 40 casaram com a lista de
+   habilitados por título exato; 4 são ambíguos (o mesmo título em mais de um
+   exercício) e 18 não têm correspondência — título grafado diferente entre os
+   dois anexos. Casar esses exige critério que não seja semelhança de nome:
+   valor autorizado idêntico somado a proponente correspondente é o candidato
+   mais promissor. Três nomes de município também não resolvem contra a
+   ontologia: "Vila Veha" (erro de digitação da fonte), "Marechal" e "Itaúnas"
+   (distrito, não município).
 3. **Valores por projeto.** A API pública do Mapas Culturais não expõe as
    inscrições (`registration`) de uma oportunidade — exige JWT — e é ali que
    vivem os valores da LICC. Precisam vir dos anexos publicados pela SECULT.

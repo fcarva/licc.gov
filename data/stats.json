@@ -2,7 +2,7 @@
   "totalProjetos": 63,
   "totalProponentes": 52,
   "totalPatrocinadores": 28,
-  "totalMunicipiosAtendidos": 0,
+  "totalMunicipiosAtendidos": 19,
   "autorizado": 27802174.47,
   "captado": 25000000,
   "comprometimentoDoTeto": 1.1120869787999998,
@@ -13,11 +13,11 @@
       "titulo": "30% para eventos calendarizados com mais de 10 anos",
       "cota": 0.3,
       "reservado": 7500000,
-      "alocado": 0,
-      "cumprimento": 0,
+      "alocado": 3491999.84,
+      "cumprimento": 0.46559997866666664,
       "atendida": null,
       "classificaveis": {
-        "comDado": 0,
+        "comDado": 31,
         "total": 63
       }
     },
@@ -26,11 +26,11 @@
       "titulo": "10% para planos plurianuais",
       "cota": 0.1,
       "reservado": 2500000,
-      "alocado": 0,
-      "cumprimento": 0,
+      "alocado": 1999896,
+      "cumprimento": 0.7999584,
       "atendida": null,
       "classificaveis": {
-        "comDado": 0,
+        "comDado": 31,
         "total": 63
       }
     },
@@ -39,11 +39,11 @@
       "titulo": "10% fora da Região Metropolitana",
       "cota": 0.1,
       "reservado": 2500000,
-      "alocado": 0,
-      "cumprimento": 0,
+      "alocado": 1636345.47,
+      "cumprimento": 0.654538188,
       "atendida": null,
       "classificaveis": {
-        "comDado": 0,
+        "comDado": 31,
         "total": 63
       }
     },
@@ -52,11 +52,11 @@
       "titulo": "50% para os demais projetos",
       "cota": 0.5,
       "reservado": 12500000,
-      "alocado": 0,
-      "cumprimento": 0,
+      "alocado": 7265241.73,
+      "cumprimento": 0.5812193384000001,
       "atendida": null,
       "classificaveis": {
-        "comDado": 0,
+        "comDado": 31,
         "total": 63
       }
     }
@@ -69,7 +69,7 @@
     "oficiais": 63,
     "comValorAutorizado": 63,
     "comValorCaptado": 63,
-    "comMunicipio": 0,
+    "comMunicipio": 40,
     "comSegmento": 0,
     "comPatrocinador": 63
   }

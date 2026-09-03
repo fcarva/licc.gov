@@ -126,12 +126,25 @@ export function PainelOrcamento({
                         : "bg-amber-600/10 text-amber-800 dark:text-amber-300"
                   }`}
                 >
-                  {c.atendida === null ? "sem dado" : c.atendida ? "atendida" : "abaixo"}
+                  {c.atendida === null
+                    ? c.classificaveis && c.classificaveis.comDado > 0
+                      ? "indeterminado"
+                      : "sem dado"
+                    : c.atendida
+                      ? "atendida"
+                      : "abaixo"}
                 </span>
               </div>
               <p className="tabular mt-0.5 text-[11px] text-tinta-fraca">
                 {c.atendida === null ? (
-                  <>a fonte não publica o campo que classifica esta cota</>
+                  c.classificaveis && c.classificaveis.comDado > 0 ? (
+                    <>
+                      ao menos {brl(c.alocado)} de {brl(c.reservado)} · indeterminado,{" "}
+                      {c.classificaveis.comDado} de {c.classificaveis.total} classificados
+                    </>
+                  ) : (
+                    <>a fonte não publica o campo que classifica esta cota</>
+                  )
                 ) : (
                   <>
                     {brl(c.alocado)} de {brl(c.reservado)} · {percentual(c.cumprimento)}{" "}

@@ -170,7 +170,18 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     // justamente ele que o denominador precisa enxergar.
     const o = projeto.orcamento ?? {};
     somar(porId.get(String(projeto.meta?.segmentoId ?? "")), o);
+    // Dinheiro só onde a fonte nomeia **um** município; presença em todos os
+    // que ela nomeia. Somar o valor em cada um contaria a mesma renúncia
+    // várias vezes, e o rateio entre eles não é publicado.
     somar(porId.get(String(projeto.meta?.municipioId ?? "")), o);
+    for (const idMun of projeto.meta?.municipiosIds ?? []) {
+      if (idMun === projeto.meta?.municipioId) continue;
+      const mun = porId.get(idMun);
+      if (mun?.orcamento?.cobertura) {
+        mun.orcamento.cobertura.total += 1;
+        recebeu.add(mun.id);
+      }
+    }
     somar(porId.get(String(projeto.meta?.proponenteId ?? "")), o);
   }
 
@@ -272,7 +283,6 @@ function posicionarEVariar(nodes: GraphNode[]): void {
 /** Confere as cotas de 30% / 10% / 10% e o limite por proponente. */
 function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatisticas {
   const projetos = nodes.filter((n) => n.kind === "projeto");
-  const rmgv = new Set(MUNICIPIOS.filter((m) => m.rmgv).map((m) => m.id));
 
   const centavos = (n: number) => Math.round(n * 100) / 100;
   const autorizado = centavos(projetos.reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0));
@@ -281,31 +291,26 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
   const somaSe = (teste: (p: GraphNode) => boolean) =>
     centavos(projetos.filter(teste).reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0));
 
-  // Três estados, não dois. `undefined` é "a fonte não diz", e lê-lo como
-  // `false` foi o que jogou os 63 projetos do anexo de captados inteiros na
-  // cota do interior: nenhum deles traz município publicado, e "sem município"
-  // virou "fora da região metropolitana", com o painel declarando 1112% de
-  // cumprimento de uma cota territorial que a fonte não permite avaliar.
-  const pautado = (p: GraphNode) => p.meta?.pautado;
-  const continuado = (p: GraphNode) => p.meta?.continuado;
-  const foraDaRmgv = (p: GraphNode) =>
-    p.meta?.municipioId === undefined ? undefined : !rmgv.has(p.meta.municipioId);
-  // A quarta reserva do art. 18 é o complemento: o que não se enquadra em
-  // nenhuma das três. Sem ela, as cotas somavam 50% e a outra metade do teto
-  // aparecia como se não tivesse destinação normativa. Como é complemento,
-  // exige as três conhecidas — uma só ausente já impede a conclusão.
-  const demais = (p: GraphNode) => {
-    const testes = [pautado(p), continuado(p), foraDaRmgv(p)];
-    if (testes.some((t) => t === undefined)) return undefined;
-    return testes.every((t) => t === false);
-  };
-
-  const classificador: Record<string, (p: GraphNode) => boolean | undefined> = {
-    "cota-pautados": pautado,
-    "cota-continuados": continuado,
-    "cota-fora-rmgv": foraDaRmgv,
-    "cota-demais": demais,
-  };
+  // A cota é **lida**, não deduzida.
+  //
+  // A lista de habilitados traz a coluna "Enquadramento para efeito de
+  // captação", em que a própria SECULT classifica cada projeto numa das quatro
+  // reservas do art. 18. `meta.cotaId` é essa classificação.
+  //
+  // A dedução anterior partia de `meta.pautado`, `meta.continuado` e da
+  // pertinência à RMGV — três palpites encadeados, e o encadeamento produziu um
+  // "1112% de cumprimento" numa tela de transparência: os 63 projetos do anexo
+  // de captados não trazem município, e "sem município" foi lido como "fora da
+  // região metropolitana". Onde a fonte classifica, não há o que deduzir.
+  //
+  // Continua valendo o que se aprendeu ali: projeto sem `cotaId` é `undefined`,
+  // não `false`. Cota sem projeto classificável sai como `atendida: null`.
+  const classificador: Record<string, (p: GraphNode) => boolean | undefined> = Object.fromEntries(
+    REGRAS.filter((r) => r.cota !== undefined).map((r) => [
+      r.id,
+      (p: GraphNode) => (p.meta?.cotaId === undefined ? undefined : p.meta.cotaId === r.id),
+    ]),
+  );
 
   const cotas: RelatorioCotas[] = REGRAS.filter((r) => r.cota !== undefined).map(
     (r) => {
@@ -322,9 +327,21 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
         reservado,
         alocado,
         cumprimento: reservado > 0 ? alocado / reservado : 0,
-        // Sem nenhum projeto classificável não há o que atender nem o que
-        // deixar de atender: o certo é dizer que não se sabe.
-        atendida: comDado === 0 ? null : alocado >= reservado,
+        // `alocado` é um **piso**, não um total: soma só os projetos que a
+        // fonte classificou. Daí a lógica de três estados ser assimétrica, e
+        // ela é exata, não cautelosa:
+        //
+        // - piso **acima** da reserva prova o cumprimento, mesmo com cobertura
+        //   parcial — o que falta só pode somar;
+        // - piso **abaixo** da reserva não prova nada enquanto houver projeto
+        //   sem classificar, porque os que faltam podem completá-la;
+        // - só com todos classificados o piso vira total, e aí `false` é
+        //   afirmação sustentada.
+        //
+        // Sem isso o painel exibiria "✗ 46,6%" sobre 31 de 63 projetos, que se
+        // lê como "a SECULT furou a cota" quando o que há é meia leitura — o
+        // mesmo erro do "1112%", de cabeça para baixo.
+        atendida: alocado >= reservado ? true : comDado === projetos.length ? false : null,
         classificaveis: { comDado, total: projetos.length },
       };
     },
@@ -339,7 +356,7 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
     .map((n) => n.id);
 
   const municipiosAtendidos = new Set(
-    projetos.map((p) => String(p.meta?.municipioId ?? "")).filter(Boolean),
+    projetos.flatMap((p) => p.meta?.municipiosIds ?? []),
   );
 
   const comPatrocinio = new Set(
@@ -350,7 +367,7 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
     oficiais: projetos.filter((p) => p.proveniencia === "oficial").length,
     comValorAutorizado: projetos.filter((p) => p.orcamento?.autorizado !== undefined).length,
     comValorCaptado: projetos.filter((p) => p.orcamento?.captado !== undefined).length,
-    comMunicipio: projetos.filter((p) => p.meta?.municipioId).length,
+    comMunicipio: projetos.filter((p) => p.meta?.municipiosIds?.length).length,
     comSegmento: projetos.filter((p) => p.meta?.segmentoId).length,
     comPatrocinador: projetos.filter((p) => comPatrocinio.has(p.id)).length,
   };
@@ -526,13 +543,14 @@ function main(): void {
     // Cota sem projeto classificável não é cota descumprida. Imprimir "✗ R$ 0"
     // ali seria acusar a SECULT de furar uma reserva que a fonte lida não
     // permite sequer avaliar.
+    const parcial = `${c.classificaveis.comDado} de ${c.classificaveis.total} projetos classificados`;
     const valores =
       c.atendida === null
-        ? `sem dado (0 de ${c.classificaveis.total} projetos classificáveis)`
+        ? c.classificaveis.comDado === 0
+          ? `sem dado (nenhum dos ${c.classificaveis.total} projetos é classificável)`
+          : `ao menos ${brl(c.alocado)} de ${brl(c.reservado)} — indeterminado, ${parcial}`
         : `${brl(c.alocado)} de ${brl(c.reservado)} (${pct(c.cumprimento)})` +
-          (c.classificaveis.comDado < c.classificaveis.total
-            ? `, sobre ${c.classificaveis.comDado} de ${c.classificaveis.total} projetos`
-            : "");
+          (c.classificaveis.comDado < c.classificaveis.total ? `, ${parcial}` : "");
     console.log(`   ${marca} ${c.titulo}: ${valores}`);
   }
   console.log("\n  proveniência:", JSON.stringify(grafo.meta.contagemPorProveniencia));

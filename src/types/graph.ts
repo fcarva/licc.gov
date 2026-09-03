@@ -51,6 +51,9 @@ export type ProjetoStatus =
   | "em_execucao"
   | "prestacao_de_contas"
   | "concluido"
+  /** Habilitado, mas o prazo acabou sem captação. A lista da SECULT publica
+   *  este estado em 98 registros e nenhum dos outros o descreve. */
+  | "captacao_expirada"
   | "inabilitado";
 
 /** Natureza jurídica do proponente. */
@@ -145,7 +148,19 @@ export interface NodeMeta {
   status?: ProjetoStatus;
   ano?: number;
   segmentoId?: string;
+  /**
+   * Município a que o **valor** do projeto é atribuído. Preenchido só quando a
+   * fonte nomeia um: com vários, o rateio não é publicado e dividir por igual
+   * seria inventá-lo.
+   */
   municipioId?: string;
+  /**
+   * Todos os municípios em que o projeto acontece, conforme a fonte. É a
+   * **presença**, que existe mesmo quando o valor não é atribuível.
+   */
+  municipiosIds?: string[];
+  /** Cota do art. 18 em que a SECULT enquadrou o projeto, quando publicada. */
+  cotaId?: string;
   proponenteId?: string;
   /** Marca as cotas da LICC que o projeto ocupa. */
   pautado?: boolean;

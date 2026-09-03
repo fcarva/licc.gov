@@ -351,6 +351,94 @@ function dataDe(v: { date: string } | string | null | undefined): string | undef
  * Compartilhada com `importar-habilitados.ts`, para que o caminho com rede e o
  * caminho sem rede leiam a planilha exatamente do mesmo jeito.
  */
+const DIR_DICIONARIO = join(DIR_OFICIAL, "habilitados");
+
+/**
+ * Completa os projetos do exercício com o que a **lista de habilitados** diz.
+ *
+ * ## Por que dicionário, e não lote
+ *
+ * Os dois anexos da SECULT recortam coisas diferentes, e confundi-los corrompe
+ * o grafo. "RECURSO FINANCEIRO CAPTADO 2025" é dinheiro captado no
+ * **ano-calendário** 2025; "PROJETOS HABILITADOS - ANO 2025" é quem foi
+ * **habilitado** naquele ciclo e capta no seguinte. Medido: dos 63 projetos
+ * que captaram em 2025, 30 aparecem na seção de habilitados de 2024, 14 na de
+ * 2023 e apenas 4 na de 2025.
+ *
+ * Tratar a lista como lote somaria as duas coortes — 115 projetos onde existem
+ * 63 — e ainda fundiria "Boa Vista Carnaval Capixaba 2026" com o de 2025. Como
+ * dicionário, ela só preenche o que falta em quem já está no grafo.
+ *
+ * ## Casamento por título exato, e só
+ *
+ * O anexo de captados não publica número de processo, então o casamento é por
+ * título normalizado. **Exato**, nunca por semelhança: semelhança casou
+ * "Carna Barra - Carnaval da Barra do Jucu" com "Carna Surpresa 2024 - O
+ * Carnaval da Barra do Jucu", que são projetos diferentes de anos diferentes.
+ * Título que aparece em mais de um exercício é ambíguo e fica de fora — um
+ * festival anual tem uma linha por edição, e escolher uma no palpite
+ * atribuiria município e cota errados.
+ *
+ * Preenche só campo **ausente**. O anexo de captados é a fonte do dinheiro
+ * deste exercício e não é sobrescrito por lista de outro ciclo.
+ */
+function enriquecerPelosHabilitados(linhas: LinhaHabilitado[]): {
+  enriquecidos: number;
+  ambiguos: number;
+  semCasamento: number;
+} {
+  if (!existsSync(DIR_DICIONARIO)) return { enriquecidos: 0, ambiguos: 0, semCasamento: linhas.length };
+
+  const porTitulo = new Map<string, LinhaHabilitado[]>();
+  for (const arquivo of readdirSync(DIR_DICIONARIO).filter((f) => f.toLowerCase().endsWith(".csv"))) {
+    for (const l of lerHabilitados(readFileSync(join(DIR_DICIONARIO, arquivo), "utf8")).linhas) {
+      const chave = normalizar(l.projeto);
+      porTitulo.set(chave, [...(porTitulo.get(chave) ?? []), l]);
+    }
+  }
+
+  let enriquecidos = 0;
+  let ambiguos = 0;
+  let semCasamento = 0;
+
+  for (const l of linhas) {
+    const candidatos = porTitulo.get(normalizar(l.projeto)) ?? [];
+    if (!candidatos.length) {
+      semCasamento++;
+      continue;
+    }
+    if (candidatos.length > 1) {
+      ambiguos++;
+      console.warn(
+        `  ! "${l.projeto}" aparece em ${candidatos.length} exercícios da lista de ` +
+          `habilitados; não dá para saber qual edição é esta, então fica sem município e sem cota`,
+      );
+      continue;
+    }
+    const d = candidatos[0];
+    let mudou = false;
+    if (!l.municipios.length && d.municipios.length) {
+      l.municipios = d.municipios;
+      mudou = true;
+    }
+    if (l.enquadramento === undefined && d.enquadramento !== undefined) {
+      l.enquadramento = d.enquadramento;
+      mudou = true;
+    }
+    if (l.status === undefined && d.status !== undefined) {
+      l.status = d.status;
+      mudou = true;
+    }
+    if (l.numeroProcesso === undefined && d.numeroProcesso !== undefined) {
+      l.numeroProcesso = d.numeroProcesso;
+      mudou = true;
+    }
+    if (mudou) enriquecidos++;
+  }
+
+  return { enriquecidos, ambiguos, semCasamento };
+}
+
 export function carregarHabilitados(
   ano: number,
 ): { nodes: GraphNode[]; edges: GraphEdge[]; relatorio?: RelatorioHabilitados } {
@@ -375,6 +463,12 @@ export function carregarHabilitados(
     for (const l of lidas.linhas) {
       // O mesmo projeto reaparece entre lotes. O novo completa o antigo em vez
       // de substituí-lo ou de ser descartado — ver `mesclarLinhas`.
+      // Chave simples de propósito. Tentou-se casar por semelhança de título
+      // aqui, e o resultado foi **fundir projetos distintos**: dentro do
+      // próprio anexo de captados, três pares diferentes casavam — "26º
+      // Festival de Inverno da Sanfona e da Viola" com "Núcleo de Formação de
+      // Sanfona e Viola", do mesmo proponente. Lote é lista de projetos
+      // distintos por construção; semelhança de nome não tem o que decidir aqui.
       const chave = normalizar(l.numeroProcesso ?? l.projeto);
       const anterior = porProjeto.get(chave);
       if (!anterior) {
@@ -395,7 +489,16 @@ export function carregarHabilitados(
     console.log(`  ${nome}: ${lidas.linhas.length} linhas`);
   }
 
-  const montado = montarHabilitados([...porProjeto.values()], ano);
+  const linhas = [...porProjeto.values()];
+  const dic = enriquecerPelosHabilitados(linhas);
+  if (dic.enriquecidos || dic.ambiguos || dic.semCasamento) {
+    console.log(
+      `  lista de habilitados (dicionário): ${dic.enriquecidos} projeto(s) completado(s), ` +
+        `${dic.ambiguos} ambíguo(s), ${dic.semCasamento} sem correspondência`,
+    );
+  }
+
+  const montado = montarHabilitados(linhas, ano);
   return {
     ...montado,
     relatorio: {

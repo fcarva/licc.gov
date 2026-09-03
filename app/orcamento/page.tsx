@@ -102,7 +102,13 @@ export default function PaginaOrcamento() {
                           : "bg-amber-600/10 text-amber-800 dark:text-amber-300"
                     }`}
                   >
-                    {c.atendida === null ? "sem dado" : c.atendida ? "atendida" : "abaixo"}
+                    {c.atendida === null
+                      ? c.classificaveis.comDado > 0
+                        ? "indeterminado"
+                        : "sem dado"
+                      : c.atendida
+                        ? "atendida"
+                        : "abaixo"}
                   </span>
                 </div>
                 {/*
@@ -114,10 +120,22 @@ export default function PaginaOrcamento() {
                 */}
                 {c.atendida === null ? (
                   <p className="mt-2 text-xs leading-relaxed text-tinta-fraca">
-                    Reserva de {brl(c.reservado)}. Nenhum dos{" "}
-                    {numero(c.classificaveis.total)} projetos traz o campo que
-                    classifica esta cota, então não há o que apurar — nem a favor,
-                    nem contra.
+                    {c.classificaveis.comDado > 0 ? (
+                      <>
+                        Ao menos <span className="tabular text-tinta">{brl(c.alocado)}</span> da
+                        reserva de {brl(c.reservado)} têm destino conhecido. O
+                        resultado é <strong className="font-medium">indeterminado</strong>:{" "}
+                        {numero(c.classificaveis.total - c.classificaveis.comDado)} dos{" "}
+                        {numero(c.classificaveis.total)} projetos não trazem a classificação,
+                        e o que falta só pode somar.
+                      </>
+                    ) : (
+                      <>
+                        Reserva de {brl(c.reservado)}. Nenhum dos{" "}
+                        {numero(c.classificaveis.total)} projetos traz o campo que classifica
+                        esta cota, então não há o que apurar — nem a favor, nem contra.
+                      </>
+                    )}
                   </p>
                 ) : (
                   <>

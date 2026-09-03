@@ -66,8 +66,21 @@ export interface LinhaHabilitado {
   projeto: string;
   proponente: string;
   cnpjCpf?: string;
-  municipio?: string;
+  /**
+   * Um ou vários, separados por `;`. A lista de habilitados publica "Local de
+   * Execução" como lista ("Cachoeiro de Itapemirim; Mimoso do Sul"), e "Várias
+   * Regiões" quando não nomeia nenhum — este último vira lista vazia.
+   */
+  municipios: string[];
   segmento?: string;
+  /**
+   * Id da regra de cota em que a SECULT enquadrou o projeto.
+   *
+   * Vem da coluna "Enquadramento para efeito de captação" da lista de
+   * habilitados, que classifica cada projeto numa das quatro reservas do
+   * art. 18. É **classificação publicada**, não dedução nossa.
+   */
+  enquadramento?: string;
   valorAutorizado?: number;
   valorCaptado?: number;
   /** Um ou vários, separados por `;` na célula. */
@@ -125,7 +138,8 @@ const COLUNAS: Record<keyof Omit<LinhaHabilitado, "linha" | "patrocinadores">, s
   projeto: ["projeto", "nome_do_projeto", "nome_projeto", "titulo"],
   proponente: ["proponente", "agente", "nome_do_proponente", "razao_social"],
   cnpjCpf: ["cnpj_cpf", "cnpj", "cpf", "documento", "cpf_cnpj"],
-  municipio: ["municipio", "cidade", "municipio_de_execucao"],
+  municipios: ["municipio", "municipios", "cidade", "local_de_execucao", "municipio_de_execucao"],
+  enquadramento: ["enquadramento", "cota", "reserva"],
   segmento: ["segmento", "linguagem", "area", "area_cultural"],
   valorAutorizado: ["valor_autorizado", "autorizado", "valor_aprovado", "teto", "valor"],
   valorCaptado: ["valor_captado", "captado", "valor_arrecadado", "arrecadado"],
@@ -313,8 +327,12 @@ export function lerHabilitados(texto: string): {
       projeto,
       proponente,
       cnpjCpf: celula(l, idx.cnpjCpf) || undefined,
-      municipio: celula(l, idx.municipio) || undefined,
+      municipios: celula(l, idx.municipios)
+        .split(";")
+        .map((m) => m.trim())
+        .filter(Boolean),
       segmento: celula(l, idx.segmento) || undefined,
+      enquadramento: celula(l, idx.enquadramento) || undefined,
       valorAutorizado: dinheiro(celula(l, idx.valorAutorizado)),
       valorCaptado: dinheiro(celula(l, idx.valorCaptado)),
       patrocinadores: celula(l, idx.patrocinadores)
@@ -365,7 +383,7 @@ export function mesclarLinhas(
   const mesclada: LinhaHabilitado = { ...antiga };
 
   const campos: Array<keyof LinhaHabilitado> = [
-    "numeroProcesso", "cnpjCpf", "municipio", "segmento",
+    "numeroProcesso", "cnpjCpf", "segmento", "enquadramento",
     "valorAutorizado", "valorCaptado", "pautado", "continuado",
     "status", "fonteUrl", "fontePagina",
   ];
@@ -397,6 +415,13 @@ export function mesclarLinhas(
     todos.set(normalizar(nome), nome);
   }
   mesclada.patrocinadores = [...todos.values()];
+
+  // Municípios idem: um anexo pode nomear o local que o outro não nomeia.
+  const locais = new Map<string, string>();
+  for (const nome of [...antiga.municipios, ...nova.municipios]) {
+    locais.set(normalizar(nome), nome);
+  }
+  mesclada.municipios = [...locais.values()];
 
   // Aportes idem, e a chave é `cnpj|valor` porque um termo assinado não muda
   // de valor depois: a dupla identifica o termo. Chavear só pelo CNPJ
@@ -499,9 +524,19 @@ export function montarHabilitados(
     if (l.segmento && !seg) segmentosDesconhecidos.add(l.segmento);
     if (seg) segmentosResolvidos++;
 
-    const mun = l.municipio ? municipioPorNome(l.municipio) : undefined;
-    if (l.municipio && !mun) municipiosDesconhecidos.add(l.municipio);
-    if (mun) municipiosResolvidos++;
+    // Presença em todos os municípios que a fonte nomeia; valor atribuído só
+    // quando ela nomeia **um**. O rateio entre municípios não é publicado, e
+    // dividir por igual seria inventá-lo — mas apagar o projeto do mapa por
+    // acontecer em cinco cidades esconderia o que a fonte de fato diz.
+    const muns = l.municipios
+      .map((nome) => {
+        const m = municipioPorNome(nome);
+        if (!m) municipiosDesconhecidos.add(nome);
+        return m;
+      })
+      .filter((m): m is NonNullable<typeof m> => Boolean(m));
+    const mun = muns.length === 1 ? muns[0] : undefined;
+    if (muns.length) municipiosResolvidos++;
 
     if (l.valorAutorizado !== undefined) comValorAutorizado++;
     if (l.valorCaptado !== undefined) comValorCaptado++;
@@ -529,6 +564,8 @@ export function montarHabilitados(
         status: l.status,
         segmentoId: seg?.id,
         municipioId: mun?.id,
+        ...(muns.length ? { municipiosIds: muns.map((m) => m.id) } : {}),
+        ...(l.enquadramento ? { cotaId: l.enquadramento } : {}),
         proponenteId: idProp,
         pautado: l.pautado,
         continuado: l.continuado,
@@ -544,6 +581,10 @@ export function montarHabilitados(
       fontes,
       fundamentos: ["lei-11246-2021"],
       meta: {
+        // Só o município único, e como aproximação da sede do proponente. Nem
+        // `municipiosIds` nem `cotaId` entram aqui: os locais de execução são
+        // do projeto, e cota é enquadramento de projeto — pendurá-los no
+        // proponente afirmaria que ele inteiro se enquadra numa reserva.
         municipioId: mun?.id,
         documento: l.cnpjCpf,
         natureza: naturezaPeloDocumento(l),
@@ -554,7 +595,9 @@ export function montarHabilitados(
     ligar(idProp, idProj, "propoe", proveniencia);
     ligar("secult-es", idProj, "fiscaliza", "derivado");
     if (seg) ligar(idProj, seg.id, "pertence_a", "derivado");
-    if (mun) ligar(idProj, mun.id, "ocorre_em", "derivado");
+    // A aresta acompanha a presença, não a atribuição de valor: o projeto
+    // ocorre em todos os municípios listados.
+    for (const m of muns) ligar(idProj, m.id, "ocorre_em", "derivado");
     if (idEdital) ligar(idProj, idEdital, "inscrito_em", proveniencia);
 
     // Quando a fonte discrimina os termos, cada aporte traz o seu valor. Quando
