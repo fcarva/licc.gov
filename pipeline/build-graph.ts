@@ -122,8 +122,17 @@ function arredondarDinheiro(nodes: GraphNode[], edges: GraphEdge[]): void {
 
 function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
   const porId = new Map(nodes.map((n) => [n.id, n]));
+  // Quem ganhou acumulador zerado, e quem de fato recebeu alguma contribuição.
+  //
+  // O acumulador precisa existir **durante** a soma, então não dá para deixar
+  // de criá-lo; o que não pode é sobreviver vazio. Guardar os dois conjuntos
+  // permite arrancá-lo no fim, sem depender de adivinhar pelo conteúdo.
+  const zerados = new Set<string>();
+  const recebeu = new Set<string>();
+
   const zerar = (n: GraphNode) => {
     if (n.kind === "projeto" || n.kind === "publico") return;
+    zerados.add(n.id);
     n.orcamento = {
       autorizado: 0,
       captado: 0,
@@ -135,7 +144,8 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
 
   const somar = (alvo: GraphNode | undefined, o: Orcamento) => {
     const a = alvo?.orcamento;
-    if (!a) return;
+    if (!a || !alvo) return;
+    recebeu.add(alvo.id);
     const temValor = o.autorizado !== undefined || o.captado !== undefined;
     if (a.cobertura) {
       a.cobertura.total += 1;
@@ -172,6 +182,9 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     if (e.kind !== "patrocina" || !e.peso) continue;
     const patr = porId.get(e.source);
     if (!patr?.orcamento) continue;
+    // Patrocinador acumula por aresta e nunca passa por `somar`, então precisa
+    // se registrar aqui — senão a limpeza do fim arrancaria o orçamento dele.
+    recebeu.add(patr.id);
     patr.orcamento.captado = (patr.orcamento.captado ?? 0) + e.peso;
     // O aporte do patrocinador acompanha a variação do projeto que ele banca.
     const proj = porId.get(e.target)?.orcamento;
@@ -190,6 +203,21 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
     if (n.orcamento?.cobertura && n.orcamento.cobertura.total === 0) {
       delete n.orcamento.cobertura;
     }
+  }
+
+  // E orçamento só existe onde entrou alguma coisa.
+  //
+  // Mesmo raciocínio, um nível acima. O acumulador nasce zerado porque a soma
+  // precisa dele, mas sobreviver zerado faz o artefato **afirmar** R$ 0 onde o
+  // certo é não afirmar nada: norma, órgão, edital e pessoa não têm orçamento
+  // por natureza, e município sem projeto não recebeu zero — a fonte não diz
+  // onde os projetos aconteceram (a cobertura de município é 0%).
+  //
+  // Eram 101 nós assim. `Orcamento.autorizado` e `captado` são opcionais no
+  // tipo exatamente para permitir esta ausência; preenchê-los com zero era
+  // desfazer no construtor a garantia que o tipo dá.
+  for (const n of nodes) {
+    if (zerados.has(n.id) && !recebeu.has(n.id)) delete n.orcamento;
   }
 
   // A LICC como programa espelha o total do exercício.

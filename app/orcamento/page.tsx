@@ -105,17 +105,42 @@ export default function PaginaOrcamento() {
                     {c.atendida === null ? "sem dado" : c.atendida ? "atendida" : "abaixo"}
                   </span>
                 </div>
-                <p className="tabular mt-2 text-sm text-tinta">
-                  {brl(c.alocado)}{" "}
-                  <span className="text-tinta-fraca">de {brl(c.reservado)}</span>
-                </p>
-                <div className="mt-2">
-                  <BarraExecucao autorizado={c.reservado} captado={Math.min(c.alocado, c.reservado)} compacta />
-                </div>
-                <p className="mt-2 text-[11px] leading-relaxed text-tinta-fraca">
-                  {percentual(c.cumprimento)} da reserva ocupada.
-                  {regra && !regra.verificado ? " Regra ainda não conferida na fonte primária." : ""}
-                </p>
+                {/*
+                  Cota sem projeto classificável não mostra número. A tarja já
+                  dizia "sem dado", mas logo abaixo saía "R$ 0 de R$ 12.500.000"
+                  com a barra vazia — que se lê como "o Estado não destinou
+                  nada", quando a verdade é que a fonte não publica o campo que
+                  classifica a cota. Tarja e número têm de contar a mesma coisa.
+                */}
+                {c.atendida === null ? (
+                  <p className="mt-2 text-xs leading-relaxed text-tinta-fraca">
+                    Reserva de {brl(c.reservado)}. Nenhum dos{" "}
+                    {numero(c.classificaveis.total)} projetos traz o campo que
+                    classifica esta cota, então não há o que apurar — nem a favor,
+                    nem contra.
+                  </p>
+                ) : (
+                  <>
+                    <p className="tabular mt-2 text-sm text-tinta">
+                      {brl(c.alocado)}{" "}
+                      <span className="text-tinta-fraca">de {brl(c.reservado)}</span>
+                    </p>
+                    <div className="mt-2">
+                      <BarraExecucao autorizado={c.reservado} captado={Math.min(c.alocado, c.reservado)} compacta />
+                    </div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-tinta-fraca">
+                      {percentual(c.cumprimento)} da reserva ocupada.
+                      {c.classificaveis.comDado < c.classificaveis.total
+                        ? ` Apurado sobre ${c.classificaveis.comDado} de ${c.classificaveis.total} projetos.`
+                        : ""}
+                    </p>
+                  </>
+                )}
+                {regra && !regra.verificado ? (
+                  <p className="mt-2 text-[11px] leading-relaxed text-tinta-fraca">
+                    Regra ainda não conferida na fonte primária.
+                  </p>
+                ) : null}
               </div>
             );
           })}

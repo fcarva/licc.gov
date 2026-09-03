@@ -155,6 +155,19 @@ argumento da página, não só o desenho.
   trocá-lo pelo anexo real levava os dois embora: `/monitor` passou a listar
   zero municípios. A lacuna que importa mostrar é "nenhum projeto chegou aqui",
   e para isso o município precisa existir.
+- **Acumulador zerado não pode sobreviver à agregação.** `propagarAgregados()`
+  cria `orcamento` zerado em todo nó para poder somar dentro, e 101 nós ficavam
+  com `autorizado: 0, captado: 0` sem terem orçamento nenhum — norma, órgão,
+  edital, pessoa, e município sem projeto. O tipo torna esses campos opcionais
+  justamente para permitir a ausência; preenchê-los com zero desfazia no
+  construtor a garantia que o tipo dá. Hoje um passe final arranca o orçamento
+  de quem não recebeu contribuição. **Patrocinador é a exceção que quase quebrou
+  o conserto**: ele acumula por peso de aresta e nunca passa por `somar`, então
+  precisa se registrar à parte, senão a limpeza o esvazia.
+- **Tarja e número têm de contar a mesma coisa.** Em `/orcamento` a cota sem
+  dado exibia a tarja "sem dado" e, logo abaixo, "R$ 0 de R$ 12.500.000" com a
+  barra vazia — que se lê como "o Estado não destinou nada". Corrigir só o selo
+  e deixar o número foi meio conserto.
 - **Dinheiro no artefato versionado é arredondado a centavo.**
   `arredondarDinheiro()` roda depois de toda agregação, num passe só. Sem ele,
   `27802174.470000006` vira ruído de diff entre coletas e precisão que a fonte

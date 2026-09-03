@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-09-03T03:47:14.660Z",
+    "geradoEm": "2026-09-03T03:50:54.167Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -52,16 +52,7 @@
           "rotulo": "Portal do Governo do ES",
           "url": "https://www.es.gov.br"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "secult-es",
@@ -133,16 +124,7 @@
           "rotulo": "SECULT-ES — Sobre a LICC",
           "url": "https://secult.es.gov.br/sobre-a-licc"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "sefaz-es",
@@ -166,16 +148,7 @@
           "rotulo": "Portaria SEFAZ nº 01-R, de 07/01/2025",
           "url": "https://secult.es.gov.br/governo-amplia-para-r-25-milhoes-os-recursos-destinados-a-lei-de-incentivo-a-cultura-capixaba-licc"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "cec-es",
@@ -191,16 +164,7 @@
       "proveniencia": "oficial",
       "fundamentos": [
         "lei-11246-2021"
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "cap-licc",
@@ -222,16 +186,7 @@
           "rotulo": "Mapa Cultural ES — LICC 2025 (oportunidade 1878)",
           "url": "https://mapa.cultura.es.gov.br/oportunidade/1878/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "licc-programa",
@@ -245,14 +200,6 @@
         "Lei de Incentivo à Cultura"
       ],
       "url": "https://secult.es.gov.br/sobre-a-licc",
-      "orcamento": {
-        "autorizado": 25000000,
-        "captado": 25000000,
-        "cobertura": {
-          "comValor": 63,
-          "total": 63
-        }
-      },
       "proveniencia": "oficial",
       "fundamentos": [
         "lei-11246-2021",
@@ -318,6 +265,14 @@
           "url": "https://secult.es.gov.br/governo-amplia-para-r-25-milhoes-os-recursos-destinados-a-lei-de-incentivo-a-cultura-capixaba-licc"
         }
       ],
+      "orcamento": {
+        "autorizado": 25000000,
+        "captado": 25000000,
+        "cobertura": {
+          "comValor": 63,
+          "total": 63
+        }
+      },
       "posicao": {
         "lugar": 1,
         "total": 1
@@ -350,16 +305,7 @@
           "rotulo": "Mapa Cultural ES — oportunidade 1878",
           "url": "https://mapa.cultura.es.gov.br/oportunidade/1878/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "titular-secult",
@@ -380,16 +326,7 @@
           "rotulo": "SECULT-ES",
           "url": "https://secult.es.gov.br"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "lei-11246-2021",
@@ -413,16 +350,7 @@
         "norma": "Lei nº 11.246/2021",
         "publicadoEm": "2021-04-07",
         "verificado": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "lei-7000-2001",
@@ -446,16 +374,7 @@
         "norma": "Lei nº 7.000/2001",
         "publicadoEm": "2001-12-27",
         "verificado": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "portaria-sefaz-01r-2025",
@@ -479,16 +398,7 @@
         "norma": "Portaria SEFAZ nº 01-R/2025",
         "publicadoEm": "2025-01-07",
         "verificado": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "in-licc-2026",
@@ -511,16 +421,7 @@
       "meta": {
         "norma": "Instrução Normativa LICC 2026",
         "verificado": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "in-licc-001-2025",
@@ -543,16 +444,7 @@
       "meta": {
         "norma": "Instrução Normativa LICC nº 001/2025",
         "verificado": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "proj-26-festival-de-inverno-da-sanfona-e-da-viola-de-sao-pedro-do-itabapoana-2025",
@@ -5228,16 +5120,7 @@
         "norma": "Decreto nº 5.035-R/2021",
         "publicadoEm": "2021-12-15",
         "verificado": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "lei-14903-2024",
@@ -5261,16 +5144,7 @@
         "norma": "Lei Federal nº 14.903/2024",
         "publicadoEm": "2024-06-27",
         "verificado": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "seg-musica",
@@ -5294,16 +5168,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-audiovisual",
@@ -5329,16 +5194,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-artes-cenicas",
@@ -5366,16 +5222,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-patrimonio",
@@ -5403,16 +5250,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-literatura",
@@ -5439,16 +5277,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-artes-visuais",
@@ -5475,16 +5304,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-culturas-populares",
@@ -5513,16 +5333,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-museus-memoria",
@@ -5549,16 +5360,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "seg-cultura-digital",
@@ -5585,16 +5387,7 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ],
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      ]
     },
     {
       "id": "mun-afonso-claudio",
@@ -5606,16 +5399,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-agua-doce-do-norte",
@@ -5627,16 +5411,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-aguia-branca",
@@ -5648,16 +5423,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-alegre",
@@ -5669,16 +5435,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-alfredo-chaves",
@@ -5690,16 +5447,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-alto-rio-novo",
@@ -5711,16 +5459,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-anchieta",
@@ -5732,16 +5471,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-apiaca",
@@ -5753,16 +5483,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-aracruz",
@@ -5774,16 +5495,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-atilio-vivacqua",
@@ -5795,16 +5507,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-baixo-guandu",
@@ -5816,16 +5519,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-barra-de-sao-francisco",
@@ -5837,16 +5531,7 @@
       "meta": {
         "regiao": "Noroeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-boa-esperanca",
@@ -5858,16 +5543,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-bom-jesus-do-norte",
@@ -5879,16 +5555,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-brejetuba",
@@ -5900,16 +5567,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-cachoeiro-de-itapemirim",
@@ -5921,16 +5579,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-cariacica",
@@ -5942,16 +5591,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-castelo",
@@ -5963,16 +5603,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-colatina",
@@ -5984,16 +5615,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-conceicao-da-barra",
@@ -6005,16 +5627,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-conceicao-do-castelo",
@@ -6026,16 +5639,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-divino-de-sao-lourenco",
@@ -6047,16 +5651,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-domingos-martins",
@@ -6068,16 +5663,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-dores-do-rio-preto",
@@ -6089,16 +5675,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-ecoporanga",
@@ -6110,16 +5687,7 @@
       "meta": {
         "regiao": "Noroeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-fundao",
@@ -6131,16 +5699,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-governador-lindenberg",
@@ -6152,16 +5711,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-guacui",
@@ -6173,16 +5723,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-guarapari",
@@ -6194,16 +5735,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-ibatiba",
@@ -6215,16 +5747,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-ibiracu",
@@ -6236,16 +5759,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-ibitirama",
@@ -6257,16 +5771,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-iconha",
@@ -6278,16 +5783,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-irupi",
@@ -6299,16 +5795,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-itaguacu",
@@ -6320,16 +5807,7 @@
       "meta": {
         "regiao": "Central Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-itapemirim",
@@ -6341,16 +5819,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-itarana",
@@ -6362,16 +5831,7 @@
       "meta": {
         "regiao": "Central Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-iuna",
@@ -6383,16 +5843,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-jaguare",
@@ -6404,16 +5855,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-jeronimo-monteiro",
@@ -6425,16 +5867,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-joao-neiva",
@@ -6446,16 +5879,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-laranja-da-terra",
@@ -6467,16 +5891,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-linhares",
@@ -6488,16 +5903,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-mantenopolis",
@@ -6509,16 +5915,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-marataizes",
@@ -6530,16 +5927,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-marechal-floriano",
@@ -6551,16 +5939,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-marilandia",
@@ -6572,16 +5951,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-mimoso-do-sul",
@@ -6593,16 +5963,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-montanha",
@@ -6614,16 +5975,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-mucurici",
@@ -6635,16 +5987,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-muniz-freire",
@@ -6656,16 +5999,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-muqui",
@@ -6677,16 +6011,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-nova-venecia",
@@ -6698,16 +6023,7 @@
       "meta": {
         "regiao": "Noroeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-pancas",
@@ -6719,16 +6035,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-pedro-canario",
@@ -6740,16 +6047,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-pinheiros",
@@ -6761,16 +6059,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-piuma",
@@ -6782,16 +6071,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-ponto-belo",
@@ -6803,16 +6083,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-presidente-kennedy",
@@ -6824,16 +6095,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-rio-bananal",
@@ -6845,16 +6107,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-rio-novo-do-sul",
@@ -6866,16 +6119,7 @@
       "meta": {
         "regiao": "Litoral Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-santa-leopoldina",
@@ -6887,16 +6131,7 @@
       "meta": {
         "regiao": "Central Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-santa-maria-de-jetiba",
@@ -6908,16 +6143,7 @@
       "meta": {
         "regiao": "Central Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-santa-teresa",
@@ -6929,16 +6155,7 @@
       "meta": {
         "regiao": "Central Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sao-domingos-do-norte",
@@ -6950,16 +6167,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sao-gabriel-da-palha",
@@ -6971,16 +6179,7 @@
       "meta": {
         "regiao": "Centro-Oeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sao-jose-do-calcado",
@@ -6992,16 +6191,7 @@
       "meta": {
         "regiao": "Caparaó",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sao-mateus",
@@ -7013,16 +6203,7 @@
       "meta": {
         "regiao": "Nordeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sao-roque-do-canaa",
@@ -7034,16 +6215,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-serra",
@@ -7055,16 +6227,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-sooretama",
@@ -7076,16 +6239,7 @@
       "meta": {
         "regiao": "Rio Doce",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-vargem-alta",
@@ -7097,16 +6251,7 @@
       "meta": {
         "regiao": "Central Sul",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-venda-nova-do-imigrante",
@@ -7118,16 +6263,7 @@
       "meta": {
         "regiao": "Sudoeste Serrana",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-viana",
@@ -7139,16 +6275,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-vila-pavao",
@@ -7160,16 +6287,7 @@
       "meta": {
         "regiao": "Noroeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-vila-valerio",
@@ -7181,16 +6299,7 @@
       "meta": {
         "regiao": "Noroeste",
         "regiaoMetropolitana": false
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-vila-velha",
@@ -7202,16 +6311,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     },
     {
       "id": "mun-vitoria",
@@ -7223,16 +6323,7 @@
       "meta": {
         "regiao": "Metropolitana",
         "regiaoMetropolitana": true
-      },
-      "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        }
-      },
-      "variacaoAnual": null
+      }
     }
   ],
   "edges": [
