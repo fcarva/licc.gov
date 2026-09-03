@@ -155,6 +155,18 @@ argumento da página, não só o desenho.
   trocá-lo pelo anexo real levava os dois embora: `/monitor` passou a listar
   zero municípios. A lacuna que importa mostrar é "nenhum projeto chegou aqui",
   e para isso o município precisa existir.
+- **`build:graph` num clone limpo caía no seed.** `data/raw/licc-{ano}.json` é
+  ignorado pelo git, e o construtor só tinha dois caminhos: coleta local ou
+  conjunto de demonstração. Quem clonasse e rodasse `build:graph` — comando que
+  a própria documentação manda rodar depois de mexer em ontologia —
+  **sobrescrevia** os 63 projetos reais por dados fictícios, em silêncio. Hoje há
+  um degrau no meio: havendo transcrição versionada em `data/oficial/`, ela é a
+  fonte, e o seed é último recurso.
+- **Nem toda norma que incide sobre a LICC a funda.** `licc-programa` declarava
+  `fundamentos: FUNDAMENTOS.map((f) => f.id)`, o que valia enquanto todas eram
+  capixabas. Com a Lei federal 14.903/2024 no grafo, isso emitia uma aresta
+  `fundamenta` afirmando que ela institui o programa estadual. `FundamentoLegal`
+  tem `esfera` por isso, e o programa usa `FUNDAMENTOS_DA_LICC`.
 - **Acumulador zerado não pode sobreviver à agregação.** `propagarAgregados()`
   cria `orcamento` zerado em todo nó para poder somar dentro, e 101 nós ficavam
   com `autorizado: 0, captado: 0` sem terem orçamento nenhum — norma, órgão,

@@ -3,6 +3,16 @@ import type { Fonte } from "@/types/graph";
 export interface FundamentoLegal {
   id: string;
   slug: string;
+  /**
+   * Esfera que edita a norma.
+   *
+   * Existe porque o grafo passou a conter norma **federal**, e nem toda norma
+   * que incide sobre a LICC a fundamenta. O Marco Regulatório do Fomento à
+   * Cultura orienta a administração pública dos entes federados, mas não
+   * institui o programa capixaba — dizer que o funda seria afirmação falsa
+   * sobre a hierarquia normativa.
+   */
+  esfera: "estadual" | "federal";
   norma: string;
   nome: string;
   descricao: string;
@@ -24,6 +34,7 @@ export interface FundamentoLegal {
 export const FUNDAMENTOS: FundamentoLegal[] = [
   {
     id: "lei-11246-2021",
+    esfera: "estadual",
     slug: "lei-11246-2021",
     norma: "Lei nº 11.246/2021",
     nome: "Lei de Incentivo à Cultura Capixaba (LICC)",
@@ -38,6 +49,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "lei-7000-2001",
+    esfera: "estadual",
     slug: "lei-7000-2001",
     norma: "Lei nº 7.000/2001",
     nome: "Lei do ICMS do Espírito Santo",
@@ -52,6 +64,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "portaria-sefaz-01r-2025",
+    esfera: "estadual",
     slug: "portaria-sefaz-01r-2025",
     norma: "Portaria SEFAZ nº 01-R/2025",
     nome: "Autorização do teto anual de captação",
@@ -66,6 +79,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "in-licc-2026",
+    esfera: "estadual",
     slug: "instrucao-normativa-licc-2026",
     norma: "Instrução Normativa LICC nº 001/2026",
     nome: "Instrução Normativa da LICC para o exercício de 2026",
@@ -85,6 +99,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "decreto-5035-r-2021",
+    esfera: "estadual",
     slug: "decreto-5035-r-2021",
     norma: "Decreto nº 5.035-R/2021",
     nome: "Regulamento do incentivo fiscal da LICC",
@@ -101,6 +116,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "lei-14903-2024",
+    esfera: "federal",
     slug: "lei-14903-2024",
     norma: "Lei Federal nº 14.903/2024",
     nome: "Marco Regulatório do Fomento à Cultura",
@@ -119,6 +135,7 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
   },
   {
     id: "in-licc-001-2025",
+    esfera: "estadual",
     slug: "instrucao-normativa-licc-001-2025",
     norma: "Instrução Normativa LICC nº 001/2025",
     nome: "Instrução Normativa da LICC para o exercício de 2025",
@@ -298,3 +315,15 @@ export const FONTE_TETO: Fonte = {
 export function fundamentoPorId(id: string): FundamentoLegal | undefined {
   return FUNDAMENTOS.find((f) => f.id === id);
 }
+
+/**
+ * Normas que efetivamente **fundam** a LICC — as estaduais.
+ *
+ * O programa declarava como base legal `FUNDAMENTOS` inteiro, o que funcionava
+ * enquanto todas as normas eram capixabas. Com a entrada do marco federal, esse
+ * mapeamento passou a emitir uma aresta `fundamenta` afirmando que a Lei
+ * 14.903/2024 institui o programa estadual. Ela não institui: incide sobre ele.
+ */
+export const FUNDAMENTOS_DA_LICC = FUNDAMENTOS.filter((f) => f.esfera === "estadual").map(
+  (f) => f.id,
+);

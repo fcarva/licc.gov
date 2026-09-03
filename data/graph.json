@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-09-03T03:50:54.167Z",
+    "geradoEm": "2026-09-03T04:00:20.656Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -18,7 +18,7 @@
       }
     ],
     "contagemPorProveniencia": {
-      "oficial": 535,
+      "oficial": 536,
       "derivado": 159,
       "demonstracao": 0
     }
@@ -206,6 +206,7 @@
         "lei-7000-2001",
         "portaria-sefaz-01r-2025",
         "in-licc-2026",
+        "decreto-5035-r-2021",
         "in-licc-001-2025"
       ],
       "noticias": [
@@ -404,9 +405,9 @@
       "id": "in-licc-2026",
       "slug": "instrucao-normativa-licc-2026",
       "kind": "fundamento",
-      "nome": "Instrução Normativa LICC 2026",
-      "sigla": "Instrução Normativa LICC 2026",
-      "descricao": "Instrução Normativa da LICC para o exercício de 2026 — Disciplina o exercício de 2026, ainda em curso: as inscrições vão até 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo.",
+      "nome": "Instrução Normativa LICC nº 001/2026",
+      "sigla": "Instrução Normativa LICC nº 001/2026",
+      "descricao": "Instrução Normativa da LICC para o exercício de 2026 — Disciplina o exercício de 2026. As inscrições correram de 02 de fevereiro a 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo (oportunidade 2317).",
       "nomesAlternativos": [
         "Instrução Normativa da LICC para o exercício de 2026"
       ],
@@ -419,8 +420,57 @@
         }
       ],
       "meta": {
-        "norma": "Instrução Normativa LICC 2026",
+        "norma": "Instrução Normativa LICC nº 001/2026",
+        "publicadoEm": "2026-01-12",
         "verificado": true
+      }
+    },
+    {
+      "id": "decreto-5035-r-2021",
+      "slug": "decreto-5035-r-2021",
+      "kind": "fundamento",
+      "nome": "Decreto nº 5.035-R/2021",
+      "sigla": "Decreto nº 5.035-R/2021",
+      "descricao": "Regulamento do incentivo fiscal da LICC — Dispõe sobre a regulamentação do incentivo fiscal concedido nos termos dos arts. 5º-B, IX, da Lei nº 7.000, de 27 de dezembro de 2001, com o objetivo de estimular a realização de projetos culturais no Estado. É o elo que faltava entre a lei e as instruções normativas: prevê que a SECULT expeça instrução normativa com os procedimentos e requisitos de cadastramento do proponente.",
+      "nomesAlternativos": [
+        "Regulamento do incentivo fiscal da LICC"
+      ],
+      "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc",
+      "proveniencia": "oficial",
+      "fontes": [
+        {
+          "rotulo": "SECULT-ES — Legislação LICC",
+          "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc"
+        }
+      ],
+      "meta": {
+        "norma": "Decreto nº 5.035-R/2021",
+        "publicadoEm": "2021-12-15",
+        "verificado": false
+      }
+    },
+    {
+      "id": "lei-14903-2024",
+      "slug": "lei-14903-2024",
+      "kind": "fundamento",
+      "nome": "Lei Federal nº 14.903/2024",
+      "sigla": "Lei Federal nº 14.903/2024",
+      "descricao": "Marco Regulatório do Fomento à Cultura — Estabelece o marco regulatório do fomento à cultura, no âmbito da administração pública da União, dos Estados, do Distrito Federal e dos Municípios. Orienta o controle a mirar o resultado cultural alcançado, e não a punição por falha procedimental na prestação de contas — o que tensiona o desenho das instruções normativas estaduais.",
+      "nomesAlternativos": [
+        "Marco Regulatório do Fomento à Cultura"
+      ],
+      "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html",
+      "proveniencia": "oficial",
+      "fontes": [
+        {
+          "rotulo": "Câmara dos Deputados — publicação original",
+          "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html"
+        }
+      ],
+      "meta": {
+        "norma": "Lei Federal nº 14.903/2024",
+        "publicadoEm": "2024-06-27",
+        "verificado": false
       }
     },
     {
@@ -444,6 +494,1185 @@
       "meta": {
         "norma": "Instrução Normativa LICC nº 001/2025",
         "verificado": true
+      }
+    },
+    {
+      "id": "seg-musica",
+      "slug": "musica",
+      "kind": "segmento",
+      "nome": "Música",
+      "descricao": "Shows, festivais, gravação e circulação musical, formação e bandas.",
+      "nomesAlternativos": [
+        "Música"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#c2566f",
+        "slugSegmento": "musica"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-audiovisual",
+      "slug": "audiovisual",
+      "kind": "segmento",
+      "nome": "Audiovisual",
+      "descricao": "Cinema, séries, documentários, mostras, festivais e formação audiovisual.",
+      "nomesAlternativos": [
+        "Audiovisual",
+        "Cinema",
+        "Fotografia"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#c07344",
+        "slugSegmento": "audiovisual"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-artes-cenicas",
+      "slug": "artes-cenicas",
+      "kind": "segmento",
+      "nome": "Artes Cênicas",
+      "descricao": "Teatro, dança, circo, ópera e artes performativas.",
+      "nomesAlternativos": [
+        "Teatro",
+        "Dança",
+        "Circo",
+        "Artes Cênicas",
+        "Ópera"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#a55fae",
+        "slugSegmento": "artes-cenicas"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-patrimonio",
+      "slug": "patrimonio",
+      "kind": "segmento",
+      "nome": "Patrimônio Cultural",
+      "descricao": "Salvaguarda do patrimônio imaterial e revitalização do patrimônio arquitetônico.",
+      "nomesAlternativos": [
+        "Patrimônio Cultural",
+        "Patrimônio Imaterial",
+        "Patrimônio Material",
+        "Arquitetura",
+        "Arqueologia"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#96754a",
+        "slugSegmento": "patrimonio"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-literatura",
+      "slug": "literatura",
+      "kind": "segmento",
+      "nome": "Livro, Leitura e Literatura",
+      "descricao": "Edição, feiras literárias, bibliotecas e mediação de leitura.",
+      "nomesAlternativos": [
+        "Livro, Leitura e Literatura",
+        "Literatura",
+        "Livro",
+        "Leitura"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#5f7ec2",
+        "slugSegmento": "literatura"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-artes-visuais",
+      "slug": "artes-visuais",
+      "kind": "segmento",
+      "nome": "Artes Visuais",
+      "descricao": "Exposições, artes plásticas, design, moda e arte urbana.",
+      "nomesAlternativos": [
+        "Artes Visuais",
+        "Design",
+        "Moda",
+        "Arte Urbana"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#4a90a8",
+        "slugSegmento": "artes-visuais"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-culturas-populares",
+      "slug": "culturas-populares",
+      "kind": "segmento",
+      "nome": "Culturas Populares e Tradicionais",
+      "descricao": "Congo, folia de reis, mestres de ofício, culturas indígenas, quilombolas e de matriz africana.",
+      "nomesAlternativos": [
+        "Cultura Popular",
+        "Culturas Populares",
+        "Artesanato",
+        "Culturas Indígenas",
+        "Culturas Afro-brasileiras",
+        "Gastronomia"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#5d9464",
+        "slugSegmento": "culturas-populares"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-museus-memoria",
+      "slug": "museus-memoria",
+      "kind": "segmento",
+      "nome": "Museus e Memória",
+      "descricao": "Museus, arquivos, acervos e centros de memória.",
+      "nomesAlternativos": [
+        "Museu",
+        "Arquivo",
+        "Memória",
+        "Biblioteca"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#8172c0",
+        "slugSegmento": "museus-memoria"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "seg-cultura-digital",
+      "slug": "cultura-digital",
+      "kind": "segmento",
+      "nome": "Cultura Digital e Gestão",
+      "descricao": "Jogos, cultura digital, economia criativa, formação e gestão cultural.",
+      "nomesAlternativos": [
+        "Cultura Digital",
+        "Gestão Cultural",
+        "Jogos",
+        "Economia Criativa"
+      ],
+      "proveniencia": "derivado",
+      "meta": {
+        "cor": "#6d7a8a",
+        "slugSegmento": "cultura-digital"
+      },
+      "fundamentos": [
+        "in-licc-001-2025"
+      ],
+      "fontes": [
+        {
+          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
+          "url": "https://docs.mapasculturais.org/mc_config_api/"
+        }
+      ]
+    },
+    {
+      "id": "mun-afonso-claudio",
+      "slug": "afonso-claudio",
+      "kind": "municipio",
+      "nome": "Afonso Cláudio",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-agua-doce-do-norte",
+      "slug": "agua-doce-do-norte",
+      "kind": "municipio",
+      "nome": "Água Doce do Norte",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-aguia-branca",
+      "slug": "aguia-branca",
+      "kind": "municipio",
+      "nome": "Águia Branca",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-alegre",
+      "slug": "alegre",
+      "kind": "municipio",
+      "nome": "Alegre",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-alfredo-chaves",
+      "slug": "alfredo-chaves",
+      "kind": "municipio",
+      "nome": "Alfredo Chaves",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-alto-rio-novo",
+      "slug": "alto-rio-novo",
+      "kind": "municipio",
+      "nome": "Alto Rio Novo",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-anchieta",
+      "slug": "anchieta",
+      "kind": "municipio",
+      "nome": "Anchieta",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-apiaca",
+      "slug": "apiaca",
+      "kind": "municipio",
+      "nome": "Apiacá",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-aracruz",
+      "slug": "aracruz",
+      "kind": "municipio",
+      "nome": "Aracruz",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-atilio-vivacqua",
+      "slug": "atilio-vivacqua",
+      "kind": "municipio",
+      "nome": "Atílio Vivácqua",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-baixo-guandu",
+      "slug": "baixo-guandu",
+      "kind": "municipio",
+      "nome": "Baixo Guandu",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-barra-de-sao-francisco",
+      "slug": "barra-de-sao-francisco",
+      "kind": "municipio",
+      "nome": "Barra de São Francisco",
+      "descricao": "Município capixaba — microrregião Noroeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Noroeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-boa-esperanca",
+      "slug": "boa-esperanca",
+      "kind": "municipio",
+      "nome": "Boa Esperança",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-bom-jesus-do-norte",
+      "slug": "bom-jesus-do-norte",
+      "kind": "municipio",
+      "nome": "Bom Jesus do Norte",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-brejetuba",
+      "slug": "brejetuba",
+      "kind": "municipio",
+      "nome": "Brejetuba",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-cachoeiro-de-itapemirim",
+      "slug": "cachoeiro-de-itapemirim",
+      "kind": "municipio",
+      "nome": "Cachoeiro de Itapemirim",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-cariacica",
+      "slug": "cariacica",
+      "kind": "municipio",
+      "nome": "Cariacica",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-castelo",
+      "slug": "castelo",
+      "kind": "municipio",
+      "nome": "Castelo",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-colatina",
+      "slug": "colatina",
+      "kind": "municipio",
+      "nome": "Colatina",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-conceicao-da-barra",
+      "slug": "conceicao-da-barra",
+      "kind": "municipio",
+      "nome": "Conceição da Barra",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-conceicao-do-castelo",
+      "slug": "conceicao-do-castelo",
+      "kind": "municipio",
+      "nome": "Conceição do Castelo",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-divino-de-sao-lourenco",
+      "slug": "divino-de-sao-lourenco",
+      "kind": "municipio",
+      "nome": "Divino de São Lourenço",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-domingos-martins",
+      "slug": "domingos-martins",
+      "kind": "municipio",
+      "nome": "Domingos Martins",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-dores-do-rio-preto",
+      "slug": "dores-do-rio-preto",
+      "kind": "municipio",
+      "nome": "Dores do Rio Preto",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-ecoporanga",
+      "slug": "ecoporanga",
+      "kind": "municipio",
+      "nome": "Ecoporanga",
+      "descricao": "Município capixaba — microrregião Noroeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Noroeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-fundao",
+      "slug": "fundao",
+      "kind": "municipio",
+      "nome": "Fundão",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-governador-lindenberg",
+      "slug": "governador-lindenberg",
+      "kind": "municipio",
+      "nome": "Governador Lindenberg",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-guacui",
+      "slug": "guacui",
+      "kind": "municipio",
+      "nome": "Guaçuí",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-guarapari",
+      "slug": "guarapari",
+      "kind": "municipio",
+      "nome": "Guarapari",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-ibatiba",
+      "slug": "ibatiba",
+      "kind": "municipio",
+      "nome": "Ibatiba",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-ibiracu",
+      "slug": "ibiracu",
+      "kind": "municipio",
+      "nome": "Ibiraçu",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-ibitirama",
+      "slug": "ibitirama",
+      "kind": "municipio",
+      "nome": "Ibitirama",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-iconha",
+      "slug": "iconha",
+      "kind": "municipio",
+      "nome": "Iconha",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-irupi",
+      "slug": "irupi",
+      "kind": "municipio",
+      "nome": "Irupi",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-itaguacu",
+      "slug": "itaguacu",
+      "kind": "municipio",
+      "nome": "Itaguaçu",
+      "descricao": "Município capixaba — microrregião Central Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-itapemirim",
+      "slug": "itapemirim",
+      "kind": "municipio",
+      "nome": "Itapemirim",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-itarana",
+      "slug": "itarana",
+      "kind": "municipio",
+      "nome": "Itarana",
+      "descricao": "Município capixaba — microrregião Central Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-iuna",
+      "slug": "iuna",
+      "kind": "municipio",
+      "nome": "Iúna",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-jaguare",
+      "slug": "jaguare",
+      "kind": "municipio",
+      "nome": "Jaguaré",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-jeronimo-monteiro",
+      "slug": "jeronimo-monteiro",
+      "kind": "municipio",
+      "nome": "Jerônimo Monteiro",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-joao-neiva",
+      "slug": "joao-neiva",
+      "kind": "municipio",
+      "nome": "João Neiva",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-laranja-da-terra",
+      "slug": "laranja-da-terra",
+      "kind": "municipio",
+      "nome": "Laranja da Terra",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-linhares",
+      "slug": "linhares",
+      "kind": "municipio",
+      "nome": "Linhares",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-mantenopolis",
+      "slug": "mantenopolis",
+      "kind": "municipio",
+      "nome": "Mantenópolis",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-marataizes",
+      "slug": "marataizes",
+      "kind": "municipio",
+      "nome": "Marataízes",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-marechal-floriano",
+      "slug": "marechal-floriano",
+      "kind": "municipio",
+      "nome": "Marechal Floriano",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-marilandia",
+      "slug": "marilandia",
+      "kind": "municipio",
+      "nome": "Marilândia",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-mimoso-do-sul",
+      "slug": "mimoso-do-sul",
+      "kind": "municipio",
+      "nome": "Mimoso do Sul",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-montanha",
+      "slug": "montanha",
+      "kind": "municipio",
+      "nome": "Montanha",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-mucurici",
+      "slug": "mucurici",
+      "kind": "municipio",
+      "nome": "Mucurici",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-muniz-freire",
+      "slug": "muniz-freire",
+      "kind": "municipio",
+      "nome": "Muniz Freire",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-muqui",
+      "slug": "muqui",
+      "kind": "municipio",
+      "nome": "Muqui",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-nova-venecia",
+      "slug": "nova-venecia",
+      "kind": "municipio",
+      "nome": "Nova Venécia",
+      "descricao": "Município capixaba — microrregião Noroeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Noroeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-pancas",
+      "slug": "pancas",
+      "kind": "municipio",
+      "nome": "Pancas",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-pedro-canario",
+      "slug": "pedro-canario",
+      "kind": "municipio",
+      "nome": "Pedro Canário",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-pinheiros",
+      "slug": "pinheiros",
+      "kind": "municipio",
+      "nome": "Pinheiros",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-piuma",
+      "slug": "piuma",
+      "kind": "municipio",
+      "nome": "Piúma",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-ponto-belo",
+      "slug": "ponto-belo",
+      "kind": "municipio",
+      "nome": "Ponto Belo",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-presidente-kennedy",
+      "slug": "presidente-kennedy",
+      "kind": "municipio",
+      "nome": "Presidente Kennedy",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-rio-bananal",
+      "slug": "rio-bananal",
+      "kind": "municipio",
+      "nome": "Rio Bananal",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-rio-novo-do-sul",
+      "slug": "rio-novo-do-sul",
+      "kind": "municipio",
+      "nome": "Rio Novo do Sul",
+      "descricao": "Município capixaba — microrregião Litoral Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Litoral Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-santa-leopoldina",
+      "slug": "santa-leopoldina",
+      "kind": "municipio",
+      "nome": "Santa Leopoldina",
+      "descricao": "Município capixaba — microrregião Central Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-santa-maria-de-jetiba",
+      "slug": "santa-maria-de-jetiba",
+      "kind": "municipio",
+      "nome": "Santa Maria de Jetibá",
+      "descricao": "Município capixaba — microrregião Central Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-santa-teresa",
+      "slug": "santa-teresa",
+      "kind": "municipio",
+      "nome": "Santa Teresa",
+      "descricao": "Município capixaba — microrregião Central Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-sao-domingos-do-norte",
+      "slug": "sao-domingos-do-norte",
+      "kind": "municipio",
+      "nome": "São Domingos do Norte",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-sao-gabriel-da-palha",
+      "slug": "sao-gabriel-da-palha",
+      "kind": "municipio",
+      "nome": "São Gabriel da Palha",
+      "descricao": "Município capixaba — microrregião Centro-Oeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Centro-Oeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-sao-jose-do-calcado",
+      "slug": "sao-jose-do-calcado",
+      "kind": "municipio",
+      "nome": "São José do Calçado",
+      "descricao": "Município capixaba — microrregião Caparaó.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Caparaó",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-sao-mateus",
+      "slug": "sao-mateus",
+      "kind": "municipio",
+      "nome": "São Mateus",
+      "descricao": "Município capixaba — microrregião Nordeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Nordeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-sao-roque-do-canaa",
+      "slug": "sao-roque-do-canaa",
+      "kind": "municipio",
+      "nome": "São Roque do Canaã",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-serra",
+      "slug": "serra",
+      "kind": "municipio",
+      "nome": "Serra",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-sooretama",
+      "slug": "sooretama",
+      "kind": "municipio",
+      "nome": "Sooretama",
+      "descricao": "Município capixaba — microrregião Rio Doce.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Rio Doce",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-vargem-alta",
+      "slug": "vargem-alta",
+      "kind": "municipio",
+      "nome": "Vargem Alta",
+      "descricao": "Município capixaba — microrregião Central Sul.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Central Sul",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-venda-nova-do-imigrante",
+      "slug": "venda-nova-do-imigrante",
+      "kind": "municipio",
+      "nome": "Venda Nova do Imigrante",
+      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Sudoeste Serrana",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-viana",
+      "slug": "viana",
+      "kind": "municipio",
+      "nome": "Viana",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-vila-pavao",
+      "slug": "vila-pavao",
+      "kind": "municipio",
+      "nome": "Vila Pavão",
+      "descricao": "Município capixaba — microrregião Noroeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Noroeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-vila-valerio",
+      "slug": "vila-valerio",
+      "kind": "municipio",
+      "nome": "Vila Valério",
+      "descricao": "Município capixaba — microrregião Noroeste.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Noroeste",
+        "regiaoMetropolitana": false
+      }
+    },
+    {
+      "id": "mun-vila-velha",
+      "slug": "vila-velha",
+      "kind": "municipio",
+      "nome": "Vila Velha",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
+      }
+    },
+    {
+      "id": "mun-vitoria",
+      "slug": "vitoria",
+      "kind": "municipio",
+      "nome": "Vitória",
+      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
+      "proveniencia": "derivado",
+      "meta": {
+        "regiao": "Metropolitana",
+        "regiaoMetropolitana": true
       }
     },
     {
@@ -5097,1233 +6326,6 @@
         "total": 52
       },
       "variacaoAnual": null
-    },
-    {
-      "id": "decreto-5035-r-2021",
-      "slug": "decreto-5035-r-2021",
-      "kind": "fundamento",
-      "nome": "Decreto nº 5.035-R/2021",
-      "sigla": "Decreto nº 5.035-R/2021",
-      "descricao": "Regulamento do incentivo fiscal da LICC — Dispõe sobre a regulamentação do incentivo fiscal concedido nos termos dos arts. 5º-B, IX, da Lei nº 7.000, de 27 de dezembro de 2001, com o objetivo de estimular a realização de projetos culturais no Estado. É o elo que faltava entre a lei e as instruções normativas: prevê que a SECULT expeça instrução normativa com os procedimentos e requisitos de cadastramento do proponente.",
-      "nomesAlternativos": [
-        "Regulamento do incentivo fiscal da LICC"
-      ],
-      "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc",
-      "proveniencia": "oficial",
-      "fontes": [
-        {
-          "rotulo": "SECULT-ES — Legislação LICC",
-          "url": "https://secult.es.gov.br/GrupodeArquivos/legislacao-licc"
-        }
-      ],
-      "meta": {
-        "norma": "Decreto nº 5.035-R/2021",
-        "publicadoEm": "2021-12-15",
-        "verificado": false
-      }
-    },
-    {
-      "id": "lei-14903-2024",
-      "slug": "lei-14903-2024",
-      "kind": "fundamento",
-      "nome": "Lei Federal nº 14.903/2024",
-      "sigla": "Lei Federal nº 14.903/2024",
-      "descricao": "Marco Regulatório do Fomento à Cultura — Estabelece o marco regulatório do fomento à cultura, no âmbito da administração pública da União, dos Estados, do Distrito Federal e dos Municípios. Orienta o controle a mirar o resultado cultural alcançado, e não a punição por falha procedimental na prestação de contas — o que tensiona o desenho das instruções normativas estaduais.",
-      "nomesAlternativos": [
-        "Marco Regulatório do Fomento à Cultura"
-      ],
-      "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html",
-      "proveniencia": "oficial",
-      "fontes": [
-        {
-          "rotulo": "Câmara dos Deputados — publicação original",
-          "url": "https://www2.camara.leg.br/legin/fed/lei/2024/lei-14903-27-junho-2024-795863-publicacaooriginal-172233-pl.html"
-        }
-      ],
-      "meta": {
-        "norma": "Lei Federal nº 14.903/2024",
-        "publicadoEm": "2024-06-27",
-        "verificado": false
-      }
-    },
-    {
-      "id": "seg-musica",
-      "slug": "musica",
-      "kind": "segmento",
-      "nome": "Música",
-      "descricao": "Shows, festivais, gravação e circulação musical, formação e bandas.",
-      "nomesAlternativos": [
-        "Música"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#c2566f",
-        "slugSegmento": "musica"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-audiovisual",
-      "slug": "audiovisual",
-      "kind": "segmento",
-      "nome": "Audiovisual",
-      "descricao": "Cinema, séries, documentários, mostras, festivais e formação audiovisual.",
-      "nomesAlternativos": [
-        "Audiovisual",
-        "Cinema",
-        "Fotografia"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#c07344",
-        "slugSegmento": "audiovisual"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-artes-cenicas",
-      "slug": "artes-cenicas",
-      "kind": "segmento",
-      "nome": "Artes Cênicas",
-      "descricao": "Teatro, dança, circo, ópera e artes performativas.",
-      "nomesAlternativos": [
-        "Teatro",
-        "Dança",
-        "Circo",
-        "Artes Cênicas",
-        "Ópera"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#a55fae",
-        "slugSegmento": "artes-cenicas"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-patrimonio",
-      "slug": "patrimonio",
-      "kind": "segmento",
-      "nome": "Patrimônio Cultural",
-      "descricao": "Salvaguarda do patrimônio imaterial e revitalização do patrimônio arquitetônico.",
-      "nomesAlternativos": [
-        "Patrimônio Cultural",
-        "Patrimônio Imaterial",
-        "Patrimônio Material",
-        "Arquitetura",
-        "Arqueologia"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#96754a",
-        "slugSegmento": "patrimonio"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-literatura",
-      "slug": "literatura",
-      "kind": "segmento",
-      "nome": "Livro, Leitura e Literatura",
-      "descricao": "Edição, feiras literárias, bibliotecas e mediação de leitura.",
-      "nomesAlternativos": [
-        "Livro, Leitura e Literatura",
-        "Literatura",
-        "Livro",
-        "Leitura"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#5f7ec2",
-        "slugSegmento": "literatura"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-artes-visuais",
-      "slug": "artes-visuais",
-      "kind": "segmento",
-      "nome": "Artes Visuais",
-      "descricao": "Exposições, artes plásticas, design, moda e arte urbana.",
-      "nomesAlternativos": [
-        "Artes Visuais",
-        "Design",
-        "Moda",
-        "Arte Urbana"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#4a90a8",
-        "slugSegmento": "artes-visuais"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-culturas-populares",
-      "slug": "culturas-populares",
-      "kind": "segmento",
-      "nome": "Culturas Populares e Tradicionais",
-      "descricao": "Congo, folia de reis, mestres de ofício, culturas indígenas, quilombolas e de matriz africana.",
-      "nomesAlternativos": [
-        "Cultura Popular",
-        "Culturas Populares",
-        "Artesanato",
-        "Culturas Indígenas",
-        "Culturas Afro-brasileiras",
-        "Gastronomia"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#5d9464",
-        "slugSegmento": "culturas-populares"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-museus-memoria",
-      "slug": "museus-memoria",
-      "kind": "segmento",
-      "nome": "Museus e Memória",
-      "descricao": "Museus, arquivos, acervos e centros de memória.",
-      "nomesAlternativos": [
-        "Museu",
-        "Arquivo",
-        "Memória",
-        "Biblioteca"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#8172c0",
-        "slugSegmento": "museus-memoria"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "seg-cultura-digital",
-      "slug": "cultura-digital",
-      "kind": "segmento",
-      "nome": "Cultura Digital e Gestão",
-      "descricao": "Jogos, cultura digital, economia criativa, formação e gestão cultural.",
-      "nomesAlternativos": [
-        "Cultura Digital",
-        "Gestão Cultural",
-        "Jogos",
-        "Economia Criativa"
-      ],
-      "proveniencia": "derivado",
-      "meta": {
-        "cor": "#6d7a8a",
-        "slugSegmento": "cultura-digital"
-      },
-      "fundamentos": [
-        "in-licc-001-2025"
-      ],
-      "fontes": [
-        {
-          "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
-          "url": "https://docs.mapasculturais.org/mc_config_api/"
-        }
-      ]
-    },
-    {
-      "id": "mun-afonso-claudio",
-      "slug": "afonso-claudio",
-      "kind": "municipio",
-      "nome": "Afonso Cláudio",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-agua-doce-do-norte",
-      "slug": "agua-doce-do-norte",
-      "kind": "municipio",
-      "nome": "Água Doce do Norte",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-aguia-branca",
-      "slug": "aguia-branca",
-      "kind": "municipio",
-      "nome": "Águia Branca",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-alegre",
-      "slug": "alegre",
-      "kind": "municipio",
-      "nome": "Alegre",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-alfredo-chaves",
-      "slug": "alfredo-chaves",
-      "kind": "municipio",
-      "nome": "Alfredo Chaves",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-alto-rio-novo",
-      "slug": "alto-rio-novo",
-      "kind": "municipio",
-      "nome": "Alto Rio Novo",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-anchieta",
-      "slug": "anchieta",
-      "kind": "municipio",
-      "nome": "Anchieta",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-apiaca",
-      "slug": "apiaca",
-      "kind": "municipio",
-      "nome": "Apiacá",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-aracruz",
-      "slug": "aracruz",
-      "kind": "municipio",
-      "nome": "Aracruz",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-atilio-vivacqua",
-      "slug": "atilio-vivacqua",
-      "kind": "municipio",
-      "nome": "Atílio Vivácqua",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-baixo-guandu",
-      "slug": "baixo-guandu",
-      "kind": "municipio",
-      "nome": "Baixo Guandu",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-barra-de-sao-francisco",
-      "slug": "barra-de-sao-francisco",
-      "kind": "municipio",
-      "nome": "Barra de São Francisco",
-      "descricao": "Município capixaba — microrregião Noroeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Noroeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-boa-esperanca",
-      "slug": "boa-esperanca",
-      "kind": "municipio",
-      "nome": "Boa Esperança",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-bom-jesus-do-norte",
-      "slug": "bom-jesus-do-norte",
-      "kind": "municipio",
-      "nome": "Bom Jesus do Norte",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-brejetuba",
-      "slug": "brejetuba",
-      "kind": "municipio",
-      "nome": "Brejetuba",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-cachoeiro-de-itapemirim",
-      "slug": "cachoeiro-de-itapemirim",
-      "kind": "municipio",
-      "nome": "Cachoeiro de Itapemirim",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-cariacica",
-      "slug": "cariacica",
-      "kind": "municipio",
-      "nome": "Cariacica",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-castelo",
-      "slug": "castelo",
-      "kind": "municipio",
-      "nome": "Castelo",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-colatina",
-      "slug": "colatina",
-      "kind": "municipio",
-      "nome": "Colatina",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-conceicao-da-barra",
-      "slug": "conceicao-da-barra",
-      "kind": "municipio",
-      "nome": "Conceição da Barra",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-conceicao-do-castelo",
-      "slug": "conceicao-do-castelo",
-      "kind": "municipio",
-      "nome": "Conceição do Castelo",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-divino-de-sao-lourenco",
-      "slug": "divino-de-sao-lourenco",
-      "kind": "municipio",
-      "nome": "Divino de São Lourenço",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-domingos-martins",
-      "slug": "domingos-martins",
-      "kind": "municipio",
-      "nome": "Domingos Martins",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-dores-do-rio-preto",
-      "slug": "dores-do-rio-preto",
-      "kind": "municipio",
-      "nome": "Dores do Rio Preto",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-ecoporanga",
-      "slug": "ecoporanga",
-      "kind": "municipio",
-      "nome": "Ecoporanga",
-      "descricao": "Município capixaba — microrregião Noroeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Noroeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-fundao",
-      "slug": "fundao",
-      "kind": "municipio",
-      "nome": "Fundão",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-governador-lindenberg",
-      "slug": "governador-lindenberg",
-      "kind": "municipio",
-      "nome": "Governador Lindenberg",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-guacui",
-      "slug": "guacui",
-      "kind": "municipio",
-      "nome": "Guaçuí",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-guarapari",
-      "slug": "guarapari",
-      "kind": "municipio",
-      "nome": "Guarapari",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-ibatiba",
-      "slug": "ibatiba",
-      "kind": "municipio",
-      "nome": "Ibatiba",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-ibiracu",
-      "slug": "ibiracu",
-      "kind": "municipio",
-      "nome": "Ibiraçu",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-ibitirama",
-      "slug": "ibitirama",
-      "kind": "municipio",
-      "nome": "Ibitirama",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-iconha",
-      "slug": "iconha",
-      "kind": "municipio",
-      "nome": "Iconha",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-irupi",
-      "slug": "irupi",
-      "kind": "municipio",
-      "nome": "Irupi",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-itaguacu",
-      "slug": "itaguacu",
-      "kind": "municipio",
-      "nome": "Itaguaçu",
-      "descricao": "Município capixaba — microrregião Central Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-itapemirim",
-      "slug": "itapemirim",
-      "kind": "municipio",
-      "nome": "Itapemirim",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-itarana",
-      "slug": "itarana",
-      "kind": "municipio",
-      "nome": "Itarana",
-      "descricao": "Município capixaba — microrregião Central Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-iuna",
-      "slug": "iuna",
-      "kind": "municipio",
-      "nome": "Iúna",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-jaguare",
-      "slug": "jaguare",
-      "kind": "municipio",
-      "nome": "Jaguaré",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-jeronimo-monteiro",
-      "slug": "jeronimo-monteiro",
-      "kind": "municipio",
-      "nome": "Jerônimo Monteiro",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-joao-neiva",
-      "slug": "joao-neiva",
-      "kind": "municipio",
-      "nome": "João Neiva",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-laranja-da-terra",
-      "slug": "laranja-da-terra",
-      "kind": "municipio",
-      "nome": "Laranja da Terra",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-linhares",
-      "slug": "linhares",
-      "kind": "municipio",
-      "nome": "Linhares",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-mantenopolis",
-      "slug": "mantenopolis",
-      "kind": "municipio",
-      "nome": "Mantenópolis",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-marataizes",
-      "slug": "marataizes",
-      "kind": "municipio",
-      "nome": "Marataízes",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-marechal-floriano",
-      "slug": "marechal-floriano",
-      "kind": "municipio",
-      "nome": "Marechal Floriano",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-marilandia",
-      "slug": "marilandia",
-      "kind": "municipio",
-      "nome": "Marilândia",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-mimoso-do-sul",
-      "slug": "mimoso-do-sul",
-      "kind": "municipio",
-      "nome": "Mimoso do Sul",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-montanha",
-      "slug": "montanha",
-      "kind": "municipio",
-      "nome": "Montanha",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-mucurici",
-      "slug": "mucurici",
-      "kind": "municipio",
-      "nome": "Mucurici",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-muniz-freire",
-      "slug": "muniz-freire",
-      "kind": "municipio",
-      "nome": "Muniz Freire",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-muqui",
-      "slug": "muqui",
-      "kind": "municipio",
-      "nome": "Muqui",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-nova-venecia",
-      "slug": "nova-venecia",
-      "kind": "municipio",
-      "nome": "Nova Venécia",
-      "descricao": "Município capixaba — microrregião Noroeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Noroeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-pancas",
-      "slug": "pancas",
-      "kind": "municipio",
-      "nome": "Pancas",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-pedro-canario",
-      "slug": "pedro-canario",
-      "kind": "municipio",
-      "nome": "Pedro Canário",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-pinheiros",
-      "slug": "pinheiros",
-      "kind": "municipio",
-      "nome": "Pinheiros",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-piuma",
-      "slug": "piuma",
-      "kind": "municipio",
-      "nome": "Piúma",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-ponto-belo",
-      "slug": "ponto-belo",
-      "kind": "municipio",
-      "nome": "Ponto Belo",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-presidente-kennedy",
-      "slug": "presidente-kennedy",
-      "kind": "municipio",
-      "nome": "Presidente Kennedy",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-rio-bananal",
-      "slug": "rio-bananal",
-      "kind": "municipio",
-      "nome": "Rio Bananal",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-rio-novo-do-sul",
-      "slug": "rio-novo-do-sul",
-      "kind": "municipio",
-      "nome": "Rio Novo do Sul",
-      "descricao": "Município capixaba — microrregião Litoral Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Litoral Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-santa-leopoldina",
-      "slug": "santa-leopoldina",
-      "kind": "municipio",
-      "nome": "Santa Leopoldina",
-      "descricao": "Município capixaba — microrregião Central Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-santa-maria-de-jetiba",
-      "slug": "santa-maria-de-jetiba",
-      "kind": "municipio",
-      "nome": "Santa Maria de Jetibá",
-      "descricao": "Município capixaba — microrregião Central Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-santa-teresa",
-      "slug": "santa-teresa",
-      "kind": "municipio",
-      "nome": "Santa Teresa",
-      "descricao": "Município capixaba — microrregião Central Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-sao-domingos-do-norte",
-      "slug": "sao-domingos-do-norte",
-      "kind": "municipio",
-      "nome": "São Domingos do Norte",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-sao-gabriel-da-palha",
-      "slug": "sao-gabriel-da-palha",
-      "kind": "municipio",
-      "nome": "São Gabriel da Palha",
-      "descricao": "Município capixaba — microrregião Centro-Oeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Centro-Oeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-sao-jose-do-calcado",
-      "slug": "sao-jose-do-calcado",
-      "kind": "municipio",
-      "nome": "São José do Calçado",
-      "descricao": "Município capixaba — microrregião Caparaó.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Caparaó",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-sao-mateus",
-      "slug": "sao-mateus",
-      "kind": "municipio",
-      "nome": "São Mateus",
-      "descricao": "Município capixaba — microrregião Nordeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Nordeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-sao-roque-do-canaa",
-      "slug": "sao-roque-do-canaa",
-      "kind": "municipio",
-      "nome": "São Roque do Canaã",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-serra",
-      "slug": "serra",
-      "kind": "municipio",
-      "nome": "Serra",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-sooretama",
-      "slug": "sooretama",
-      "kind": "municipio",
-      "nome": "Sooretama",
-      "descricao": "Município capixaba — microrregião Rio Doce.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Rio Doce",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-vargem-alta",
-      "slug": "vargem-alta",
-      "kind": "municipio",
-      "nome": "Vargem Alta",
-      "descricao": "Município capixaba — microrregião Central Sul.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Central Sul",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-venda-nova-do-imigrante",
-      "slug": "venda-nova-do-imigrante",
-      "kind": "municipio",
-      "nome": "Venda Nova do Imigrante",
-      "descricao": "Município capixaba — microrregião Sudoeste Serrana.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Sudoeste Serrana",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-viana",
-      "slug": "viana",
-      "kind": "municipio",
-      "nome": "Viana",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-vila-pavao",
-      "slug": "vila-pavao",
-      "kind": "municipio",
-      "nome": "Vila Pavão",
-      "descricao": "Município capixaba — microrregião Noroeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Noroeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-vila-valerio",
-      "slug": "vila-valerio",
-      "kind": "municipio",
-      "nome": "Vila Valério",
-      "descricao": "Município capixaba — microrregião Noroeste.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Noroeste",
-        "regiaoMetropolitana": false
-      }
-    },
-    {
-      "id": "mun-vila-velha",
-      "slug": "vila-velha",
-      "kind": "municipio",
-      "nome": "Vila Velha",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
-    },
-    {
-      "id": "mun-vitoria",
-      "slug": "vitoria",
-      "kind": "municipio",
-      "nome": "Vitória",
-      "descricao": "Município capixaba — microrregião Metropolitana, integrante da Região Metropolitana da Grande Vitória.",
-      "proveniencia": "derivado",
-      "meta": {
-        "regiao": "Metropolitana",
-        "regiaoMetropolitana": true
-      }
     }
   ],
   "edges": [
@@ -8030,6 +8032,13 @@
       "proveniencia": "oficial"
     },
     {
+      "id": "fundamenta:licc-programa->decreto-5035-r-2021",
+      "source": "licc-programa",
+      "target": "decreto-5035-r-2021",
+      "kind": "fundamenta",
+      "proveniencia": "oficial"
+    },
+    {
       "id": "fundamenta:licc-programa->in-licc-001-2025",
       "source": "licc-programa",
       "target": "in-licc-001-2025",
@@ -8049,6 +8058,69 @@
       "target": "lei-11246-2021",
       "kind": "fundamenta",
       "proveniencia": "oficial"
+    },
+    {
+      "id": "fundamenta:seg-musica->in-licc-001-2025",
+      "source": "seg-musica",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-audiovisual->in-licc-001-2025",
+      "source": "seg-audiovisual",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-artes-cenicas->in-licc-001-2025",
+      "source": "seg-artes-cenicas",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-patrimonio->in-licc-001-2025",
+      "source": "seg-patrimonio",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-literatura->in-licc-001-2025",
+      "source": "seg-literatura",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-artes-visuais->in-licc-001-2025",
+      "source": "seg-artes-visuais",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-culturas-populares->in-licc-001-2025",
+      "source": "seg-culturas-populares",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-museus-memoria->in-licc-001-2025",
+      "source": "seg-museus-memoria",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "fundamenta:seg-cultura-digital->in-licc-001-2025",
+      "source": "seg-cultura-digital",
+      "target": "in-licc-001-2025",
+      "kind": "fundamenta",
+      "proveniencia": "derivado"
     },
     {
       "id": "fundamenta:proj-26-festival-de-inverno-da-sanfona-e-da-viola-de-sao-pedro-do-itabapoana-2025->lei-11246-2021",
@@ -9491,69 +9563,6 @@
       "target": "lei-11246-2021",
       "kind": "fundamenta",
       "proveniencia": "oficial"
-    },
-    {
-      "id": "fundamenta:seg-musica->in-licc-001-2025",
-      "source": "seg-musica",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-audiovisual->in-licc-001-2025",
-      "source": "seg-audiovisual",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-artes-cenicas->in-licc-001-2025",
-      "source": "seg-artes-cenicas",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-patrimonio->in-licc-001-2025",
-      "source": "seg-patrimonio",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-literatura->in-licc-001-2025",
-      "source": "seg-literatura",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-artes-visuais->in-licc-001-2025",
-      "source": "seg-artes-visuais",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-culturas-populares->in-licc-001-2025",
-      "source": "seg-culturas-populares",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-museus-memoria->in-licc-001-2025",
-      "source": "seg-museus-memoria",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
-    },
-    {
-      "id": "fundamenta:seg-cultura-digital->in-licc-001-2025",
-      "source": "seg-cultura-digital",
-      "target": "in-licc-001-2025",
-      "kind": "fundamenta",
-      "proveniencia": "derivado"
     }
   ]
 }

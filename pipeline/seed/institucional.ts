@@ -9,6 +9,7 @@
 import type { GraphEdge, GraphNode, Noticia } from "@/types/graph";
 import {
   FUNDAMENTOS,
+  FUNDAMENTOS_DA_LICC,
   MUNICIPIOS,
   SEGMENTOS,
   TETO_AUTORIZADO,
@@ -179,7 +180,7 @@ export function nosFixos(ano: number): GraphNode[] {
       url: "https://secult.es.gov.br/sobre-a-licc",
       orcamento: { autorizado: TETO_AUTORIZADO, captado: 0 },
       proveniencia: "oficial",
-      fundamentos: FUNDAMENTOS.map((f) => f.id),
+      fundamentos: FUNDAMENTOS_DA_LICC,
       noticias: NOTICIAS_SECULT,
       fontes: [
         { rotulo: "SECULT-ES — Sobre a LICC", url: "https://secult.es.gov.br/sobre-a-licc" },

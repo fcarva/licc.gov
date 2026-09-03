@@ -10,7 +10,7 @@
  */
 
 import { mkdirSync, writeFileSync, existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import type {
   Graph,
   GraphEdge,
@@ -27,6 +27,7 @@ import {
 } from "@/ontology";
 import { gerarSeed } from "./seed/gerar";
 import { nosFixos, arestasFixas } from "./seed/institucional";
+import { carregarHabilitados, lotesDoExercicio } from "./ingest";
 
 const RAIZ = process.cwd();
 const DIR_DADOS = join(RAIZ, "data");
@@ -418,8 +419,26 @@ export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: E
     };
     nodes = bruto.nodes;
     edges = bruto.edges;
+  } else if (lotesDoExercicio(ano).length) {
+    // Degrau do meio, e ele é o que torna o repositório reprodutível.
+    //
+    // `data/raw/licc-{ano}.json` é ignorado pelo git, então num clone limpo ele
+    // não existe. Sem este ramo, `npm run build:graph` caía direto no seed e
+    // **sobrescrevia** o `data/graph.json` versionado — trocando 63 projetos
+    // reais por dados de demonstração, em silêncio, num comando que a própria
+    // documentação manda rodar depois de mexer em ontologia.
+    //
+    // Havendo transcrição oficial versionada em `data/oficial/`, ela é a fonte:
+    // conjunto de demonstração é último recurso, nunca preferência.
+    const lotes = lotesDoExercicio(ano);
+    console.log(
+      `→ usando transcrição oficial versionada: ${lotes.map((l) => basename(l)).join(", ")}`,
+    );
+    const habilitados = carregarHabilitados(ano);
+    nodes = habilitados.nodes;
+    edges = habilitados.edges;
   } else {
-    console.log("→ sem coleta em data/raw; gerando conjunto de demonstração");
+    console.log("→ sem coleta nem transcrição oficial; gerando conjunto de demonstração");
     const seed = gerarSeed({ ano });
     nodes = seed.nodes;
     edges = seed.edges;
