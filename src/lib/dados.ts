@@ -235,26 +235,63 @@ export function listarNoticias(limite = 100): Array<Noticia & { entidade: string
 
 export interface PanoramaMunicipio {
   municipio: GraphNode;
+  /** Projetos que **acontecem** aqui, incluindo os de valor atribuído a ninguém. */
   projetos: GraphNode[];
   espacos: GraphNode[];
   eventos: GraphNode[];
   proponentes: GraphNode[];
-  autorizado: number;
-  captado: number;
+  /**
+   * Orçamento **atribuído** a este município, como o construtor o calculou.
+   *
+   * Ausente quando a fonte não atribuiu valor nenhum aqui — e ausência não é
+   * zero: o município pode ter projeto e não ter valor, se todos os seus
+   * projetos acontecem também em outros lugares.
+   */
+  autorizado?: number;
+  captado?: number;
+  /**
+   * Ids dos projetos cujo valor **este** município conta.
+   *
+   * A lista de projetos é de presença; esta é de atribuição. A página precisa
+   * das duas para não pôr "R$ 500.000" embaixo de um total "—".
+   */
+  valorAtribuido: Set<string>;
 }
 
 /**
  * Panorama territorial de um município — a camada que responde "o que existe e
  * o que acontece aqui", no espírito do Republic do CivLab.
  */
+/**
+ * O projeto acontece neste município?
+ *
+ * **Presença**, não atribuição de valor. Um projeto executado em vários
+ * municípios conta como presente em todos os que a fonte nomeia; o valor só é
+ * atribuído quando ela nomeia um, porque o rateio entre eles não é publicado.
+ *
+ * Contar presença por `municipioId` fazia a página **negar projeto que
+ * existe**: Serra, Guarapari, Linhares e Cachoeiro de Itapemirim só aparecem em
+ * projetos multi-município, e `/municipios` e `/monitor` os listavam como "sem
+ * nenhum projeto no exercício". Dizer que o dinheiro não foi atribuído é
+ * verdade; dizer que o projeto não existe, não.
+ */
+export function projetoNoMunicipio(p: GraphNode, idMunicipio: string): boolean {
+  const ids = p.meta?.municipiosIds;
+  if (ids?.length) return ids.includes(idMunicipio);
+  return p.meta?.municipioId === idMunicipio;
+}
+
 export function obterPanorama(slugMunicipio: string): PanoramaMunicipio | undefined {
   const c = carregar();
   const municipio = c.porSlug.get(slugMunicipio);
   if (!municipio || municipio.kind !== "municipio") return undefined;
 
+  // Espaço e evento têm um município só; projeto pode ter vários.
   const doMunicipio = (n: GraphNode) => n.meta?.municipioId === municipio.id;
 
-  const projetos = c.grafo.nodes.filter((n) => n.kind === "projeto" && doMunicipio(n));
+  const projetos = c.grafo.nodes.filter(
+    (n) => n.kind === "projeto" && projetoNoMunicipio(n, municipio.id),
+  );
   const espacos = c.grafo.nodes.filter((n) => n.kind === "espaco" && doMunicipio(n));
   const idsEspaco = new Set(espacos.map((e) => e.id));
   const eventos = c.grafo.nodes.filter(
@@ -270,8 +307,20 @@ export function obterPanorama(slugMunicipio: string): PanoramaMunicipio | undefi
       String(a.meta?.inicio ?? "").localeCompare(String(b.meta?.inicio ?? "")),
     ),
     proponentes,
-    autorizado: projetos.reduce((s, p) => s + (p.orcamento?.autorizado ?? 0), 0),
-    captado: projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0),
+    // Uma fonte da verdade para o dinheiro: o orçamento que `propagarAgregados`
+    // atribuiu ao município, o mesmo que `/municipios` e `/orcamento` publicam.
+    //
+    // Somar aqui a lista de projetos parecia equivalente e não era: desde que a
+    // lista passou a ser de **presença**, a soma contava o valor dos projetos
+    // multi-município uma vez em cada um deles. Oito municípios publicavam
+    // números diferentes nas duas páginas — Serra R$ 500 mil contra R$ 0,
+    // Vitória R$ 6,74 mi contra R$ 5,93 mi — e o total territorial subia a
+    // R$ 18,59 mi sobre R$ 14,37 mi atribuídos.
+    autorizado: municipio.orcamento?.autorizado,
+    captado: municipio.orcamento?.captado,
+    valorAtribuido: new Set(
+      projetos.filter((p) => p.meta?.municipioId === municipio.id).map((p) => p.id),
+    ),
   };
 }
 
@@ -291,8 +340,13 @@ export function listarPanoramas(): Array<{
     const m = new Map<string, number>();
     for (const n of c.grafo.nodes) {
       if (n.kind !== kind) continue;
-      const id = String(n.meta?.municipioId ?? "");
-      if (id) m.set(id, (m.get(id) ?? 0) + 1);
+      // Projeto conta em todos os municípios em que acontece; as demais
+      // categorias têm um município só.
+      const ids =
+        kind === "projeto" && n.meta?.municipiosIds?.length
+          ? n.meta.municipiosIds
+          : [String(n.meta?.municipioId ?? "")];
+      for (const id of ids) if (id) m.set(id, (m.get(id) ?? 0) + 1);
     }
     return m;
   };

@@ -139,6 +139,15 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
   // permite arrancá-lo no fim, sem depender de adivinhar pelo conteúdo.
   const zerados = new Set<string>();
   const recebeu = new Set<string>();
+  // E quem só apareceu como **local de execução**, sem valor atribuído.
+  //
+  // Presença e contribuição são coisas diferentes, e misturá-las na mesma marca
+  // ressuscitava o acumulador zerado pela porta de trás: Serra, Guarapari,
+  // Linhares e Cachoeiro de Itapemirim só entram por projeto multi-município,
+  // então o registro de presença os marcava como "recebeu" e a limpeza final os
+  // poupava — guardando `autorizado: 0, captado: 0` em município que não tem
+  // orçamento atribuído nenhum. Zero ali se lê "o Estado não destinou nada".
+  const presenca = new Set<string>();
 
   const zerar = (n: GraphNode) => {
     if (n.kind === "projeto" || n.kind === "publico") return;
@@ -188,7 +197,7 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
       const mun = porId.get(idMun);
       if (mun?.orcamento?.cobertura) {
         mun.orcamento.cobertura.total += 1;
-        recebeu.add(mun.id);
+        presenca.add(mun.id);
       }
     }
     somar(porId.get(String(projeto.meta?.proponenteId ?? "")), o);
@@ -237,8 +246,21 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
   // Eram 101 nós assim. `Orcamento.autorizado` e `captado` são opcionais no
   // tipo exatamente para permitir esta ausência; preenchê-los com zero era
   // desfazer no construtor a garantia que o tipo dá.
+  //
+  // Presença é o caso do meio, e por isso são três estados e não dois: o
+  // município que tem projeto e nenhum valor atribuído **guarda a cobertura**
+  // — `{comValor: 0, total: 1}` diz exatamente "um projeto aqui, nenhum com
+  // valor" — e fica sem `autorizado`/`captado`. Apagar tudo esconderia o
+  // projeto; manter o zero afirmaria uma destinação de R$ 0.
   for (const n of nodes) {
-    if (zerados.has(n.id) && !recebeu.has(n.id)) delete n.orcamento;
+    if (!zerados.has(n.id) || recebeu.has(n.id)) continue;
+    if (presenca.has(n.id) && n.orcamento) {
+      delete n.orcamento.autorizado;
+      delete n.orcamento.captado;
+      delete n.orcamento.anterior;
+    } else {
+      delete n.orcamento;
+    }
   }
 
   // A LICC como programa espelha o total do exercício.

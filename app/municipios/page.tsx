@@ -17,8 +17,10 @@ export default function PaginaMunicipios() {
 
   const contagem = new Map<string, number>();
   for (const p of projetos) {
-    const id = String(p.meta?.municipioId ?? "");
-    if (id) contagem.set(id, (contagem.get(id) ?? 0) + 1);
+    // Presença: o projeto conta em todos os municípios que a fonte nomeia.
+    for (const id of p.meta?.municipiosIds ?? [p.meta?.municipioId ?? ""]) {
+      if (id) contagem.set(id, (contagem.get(id) ?? 0) + 1);
+    }
   }
 
   const atendidos = municipios.filter((m) => (contagem.get(m.id) ?? 0) > 0);
@@ -26,7 +28,16 @@ export default function PaginaMunicipios() {
 
   const foraRmgv = municipios.filter((m) => !m.meta?.regiaoMetropolitana);
   const captadoForaRmgv = foraRmgv.reduce((s, m) => s + (m.orcamento?.captado ?? 0), 0);
-  const captadoTotal = municipios.reduce((s, m) => s + (m.orcamento?.captado ?? 0), 0);
+  // Dois denominadores diferentes, e a página precisa dos dois.
+  //
+  // `captadoAtribuido` é o que tem município; `captadoDoExercicio` é o que a
+  // LICC captou. A nota do cartão dizia "do total captado" dividindo pelo
+  // primeiro — publicava 33,6% para o interior onde a fatia sobre o captado é
+  // 19,3%, porque 42,5% do dinheiro não tem território. Razão cujo denominador
+  // não é o que o rótulo diz é o mesmo defeito do "1112%", em escala menor.
+  const captadoAtribuido = municipios.reduce((s, m) => s + (m.orcamento?.captado ?? 0), 0);
+  const captadoDoExercicio = projetos.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0);
+  const captadoSemMunicipio = Math.max(0, captadoDoExercicio - captadoAtribuido);
 
   const ordenados = [...atendidos].sort(
     (a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0),
@@ -43,7 +54,7 @@ export default function PaginaMunicipios() {
         </>
       }
     >
-      <section className="mb-8 grid gap-4 sm:grid-cols-3">
+      <section className="mb-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <Cartao
           rotulo="Municípios atendidos"
           valor={`${numero(atendidos.length)} de 78`}
@@ -52,7 +63,12 @@ export default function PaginaMunicipios() {
         <Cartao
           rotulo="Captado fora da RMGV"
           valor={brl(captadoForaRmgv)}
-          nota={`${percentual(captadoTotal > 0 ? captadoForaRmgv / captadoTotal : 0)} do total captado`}
+          nota={`${percentual(captadoAtribuido > 0 ? captadoForaRmgv / captadoAtribuido : 0)} do valor com município atribuído`}
+        />
+        <Cartao
+          rotulo="Captado sem município"
+          valor={brl(captadoSemMunicipio)}
+          nota={`${percentual(captadoDoExercicio > 0 ? captadoSemMunicipio / captadoDoExercicio : 0)} do captado não entra em nenhuma linha abaixo`}
         />
         <Cartao
           rotulo="Microrregiões"
@@ -88,8 +104,17 @@ export default function PaginaMunicipios() {
               <td className="tabular px-3 py-2.5 text-right text-tinta-suave">
                 {numero(contagem.get(m.id) ?? 0)}
               </td>
+              {/* Município com projeto e sem valor atribuído existe — são 4 —, e
+                  "R\u00a0$ 0" ali se leria como "o Estado não destinou nada"
+                  em vez de "o rateio não é publicado". */}
               <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">
-                {brl(m.orcamento?.captado ?? 0)}
+                {m.orcamento?.captado === undefined ? (
+                  <span className="font-normal text-tinta-fraca" title="projeto executado também em outros municípios; a fonte não publica o rateio do valor">
+                    —
+                  </span>
+                ) : (
+                  brl(m.orcamento.captado)
+                )}
               </td>
             </tr>
           ))}

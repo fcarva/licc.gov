@@ -13,7 +13,7 @@ está no `README.md`; o modelo, em `docs/ontologia.md`; o ETL, em
 ```bash
 npm run dev            # http://localhost:3000
 npm run typecheck      # tsc --noEmit — rode antes de qualquer commit
-npm run build          # 549 páginas estáticas
+npm run build          # 342 páginas estáticas
 npm run build:graph    # regenera data/graph.json e data/stats.json
 npm run ingest         # coleta o Mapa Cultural do ES (ver bloqueio abaixo)
 npm run importar:habilitados   # planilha da SECULT → grafo, sem rede nenhuma
@@ -245,6 +245,46 @@ argumento da página, não só o desenho.
   de quem não recebeu contribuição. **Patrocinador é a exceção que quase quebrou
   o conserto**: ele acumula por peso de aresta e nunca passa por `somar`, então
   precisa se registrar à parte, senão a limpeza o esvazia.
+- **`build:graph` sozinho não propaga mudança de ontologia.** `data/raw/licc-{ano}.json`
+  guarda um instantâneo de `nosFixos()`, então editar `pipeline/seed/institucional.ts`
+  ou `src/ontology/` e rodar só `build:graph` reconstrói o grafo a partir do
+  instantâneo antigo — a edição não chega à tela e nada avisa. A ordem é
+  `npm run importar:habilitados && npm run build:graph`.
+- **Presença e atribuição de valor são duas contas, e a leitura tem de usar a
+  mesma do construtor.** `propagarAgregados` já aplica a regra certa — dinheiro
+  onde a fonte nomeia **um** município, presença em todos —, mas `obterPanorama`
+  somava por conta própria a lista de projetos. Quando essa lista passou a ser de
+  presença, o valor dos 3 projetos multi-município passou a ser contado em cada
+  um: **oito municípios publicavam números diferentes em duas páginas** — Serra
+  R$ 500 mil em `/monitor/serra` contra R$ 0 em `/municipios`, Vitória R$ 6,74 mi
+  contra R$ 5,93 mi — e o total territorial subia a R$ 18,59 mi sobre R$ 14,37 mi
+  atribuídos. Dinheiro tem uma fonte da verdade, e é o construtor; a página lê
+  `municipio.orcamento` e não soma nada.
+- **Presença não é contribuição — marcar as duas igual ressuscita o acumulador
+  zerado.** O registro de presença chamava `recebeu.add()`, então a limpeza final
+  poupava Serra, Guarapari, Linhares e Cachoeiro de Itapemirim, que ficavam com
+  `autorizado: 0, captado: 0` sem ter orçamento atribuído nenhum. São **três**
+  estados, não dois: quem recebeu valor guarda tudo; quem só tem presença guarda
+  `cobertura` — `{comValor: 0, total: 1}` diz exatamente "um projeto aqui, nenhum
+  com valor" — e fica sem `autorizado`/`captado`; quem não tem nem presença perde
+  o orçamento inteiro. Apagar tudo esconderia o projeto; manter o zero afirmaria
+  uma destinação de R$ 0.
+- **Razão tem de nomear o próprio denominador.** `/municipios` publicava "33,6%
+  do total captado" para o interior e `/indicadores`, "66,4% do valor" para a
+  RMGV — as duas dividindo pelos R$ 14,37 mi **atribuídos a município**, não
+  pelos R$ 25 mi captados. Sobre o captado do exercício é 19,3% e 38,2%. As duas
+  páginas concordavam entre si, o que faz o defeito sobreviver a qualquer
+  conferência cruzada: é o "1112%" em escala menor, e inflava justamente o lado
+  politicamente carregado. Hoje o rótulo diz "do valor com município atribuído" e
+  os R$ 10,6 mi sem território aparecem como número próprio.
+- **Varredura de links tem de cobrir toda rota, não as que se lembrou.** Seis
+  `href="/segmentos/<slug>"` na tabela do indicador 3 apontavam para uma rota que
+  **nunca existiu** — 404 em produção. A conferência anterior olhou só `/entidade`
+  e `/monitor` e passou limpa. A página de um segmento é `/entidade/<slug>`, que é
+  o que `/segmentos` já usava.
+- **Dois títulos iguais em seções vizinhas esconde o que a tabela mostra.** Em
+  `/orcamento`, "Por microrregião (resumo)" e "Por microrregião" — a segunda lista
+  municípios.
 - **Tarja e número têm de contar a mesma coisa.** Em `/orcamento` a cota sem
   dado exibia a tarja "sem dado" e, logo abaixo, "R$ 0 de R$ 12.500.000" com a
   barra vazia — que se lê como "o Estado não destinou nada". Corrigir só o selo
@@ -391,7 +431,7 @@ vêm do anexo "RECURSO FINANCEIRO CAPTADO 2025", transcrito por
 | autorizado | R$ 27.802.174,47 |
 | captado | **R$ 25.000.000,00** — o teto inteiro |
 
-`contagemPorProveniencia` fecha em `{oficial: 533, derivado: 159,
+`contagemPorProveniencia` fecha em `{oficial: 536, derivado: 247,
 demonstracao: 0}`, e a faixa de aviso sumiu sozinha, como previsto.
 
 A soma dos tetos por projeto (R$ 27,8 mi) passar do teto de renúncia
@@ -426,8 +466,14 @@ projeto a cota:
 | III — 10% | 2.500.000 | 2.670.104 | ✓ |
 | IV — 50% | 12.500.000 | 12.500.000 | ✓ |
 
-Território, medido: RMGV com 7 municípios fica com R$ 9,5 mi; os 71 do interior,
-com R$ 4,8 mi. 59 dos 78 municípios não receberam nada. Gini de 0,921.
+Território, medido — e o denominador importa. Dos R$ 25 mi captados, só
+**R$ 14,37 mi têm município atribuído**: 23 projetos não publicam local de
+execução e 3 acontecem em vários sem que a fonte publique o rateio, então
+**R$ 10,63 mi (42,5%) não entram em município nenhum**. Sobre o que é atribuído,
+a RMGV com 7 municípios fica com R$ 9,5 mi e os 71 do interior com R$ 4,8 mi;
+Gini de 0,921. Por **presença** 19 municípios têm projeto e 59 não têm nenhum —
+e 4 dos 19 (Serra, Guarapari, Linhares, Cachoeiro de Itapemirim) têm projeto sem
+valor atribuído, porque entram só por projeto multi-município.
 
 ## Próximos passos
 

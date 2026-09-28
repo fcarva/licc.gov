@@ -49,6 +49,22 @@ export default function PaginaMonitor() {
             <Contagem rotulo="Eventos na agenda" valor={numero(totalEventos)} />
             <Contagem rotulo="Sem nenhum registro" valor={numero(semNada.length)} nota="municípios" />
           </dl>
+
+          {/*
+            Zero em toda linha de duas das colunas não é achado sobre o
+            território — é lacuna da coleta, e a página tem de dizer qual.
+            Espaço e evento vêm do Mapa Cultural do ES, não dos anexos da
+            SECULT, e `npm run ingest` não roda neste ambiente.
+          */}
+          {totalEspacos === 0 && totalEventos === 0 ? (
+            <p className="mt-4 text-xs leading-relaxed text-tinta-fraca">
+              Espaços e agenda aparecem zerados em todos os municípios porque
+              vêm do Mapa Cultural do Espírito Santo, e não dos anexos da
+              SECULT que alimentam os projetos. Essa coleta ainda não rodou —
+              a coluna está vazia por falta de leitura, não por ausência de
+              espaço cultural no Estado.
+            </p>
+          ) : null}
         </Cartao>
 
         <Cartao padded={false}>

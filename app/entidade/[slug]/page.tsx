@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { obterDetalhe, listarNos, obterGrafo } from "@/lib/dados";
+import { obterDetalhe, listarNos, obterGrafo, projetoNoMunicipio } from "@/lib/dados";
 import { NODE_KINDS } from "@/ontology/nodes";
 import { numero } from "@/lib/format";
 import { EntidadeVista } from "@/components/EntidadeVista";
@@ -139,10 +139,13 @@ function montarAlocacao(detalhe: EntityDetail): LinhaAlocacao[] {
   // Para segmentos e municípios os projetos não são vizinhos diretos: a
   // ligação existe no sentido inverso, então busca-se pelo campo do projeto.
   if (node.kind === "segmento" || node.kind === "municipio") {
-    const campo = node.kind === "segmento" ? "segmentoId" : "municipioId";
+    const pertence = (p: GraphNode) =>
+      node.kind === "segmento"
+        ? p.meta?.segmentoId === node.id
+        : projetoNoMunicipio(p, node.id);
     return ordenar(
       listarNos("projeto")
-        .filter((p) => p.meta?.[campo] === node.id && captadoDe(p) > 0)
+        .filter((p) => pertence(p) && captadoDe(p) > 0)
         .map((p) => ({
           id: p.id,
           rotulo: p.nome,

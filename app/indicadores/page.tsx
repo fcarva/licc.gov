@@ -121,6 +121,22 @@ export default function PaginaIndicadores() {
               ]}
               nota={
                 <>
+                  {territorio.dados.captadoSemMunicipio > 0 ? (
+                    <>
+                      <strong className="font-medium text-tinta-suave">
+                        {brlCurto(territorio.dados.captadoSemMunicipio)} —{" "}
+                        {percentual(
+                          territorio.dados.captadoSemMunicipio / territorio.dados.captadoTotal,
+                          1,
+                        )}{" "}
+                        do captado — não entram em município nenhum:
+                      </strong>{" "}
+                      projeto sem local de execução publicado, ou executado em
+                      vários sem que a fonte publique o rateio. As razões deste
+                      gráfico são sobre os{" "}
+                      {brlCurto(territorio.dados.captadoAtribuido)} restantes.{" "}
+                    </>
+                  ) : null}
                   A cota legal reserva 10% do teto para fora da Região
                   Metropolitana. Ela é o piso, não o retrato:{" "}
                   <Link href="/orcamento" className="text-realce underline underline-offset-2">
@@ -156,8 +172,11 @@ export default function PaginaIndicadores() {
                 />
                 <Destaque
                   valor={percentual(territorio.dados.fracaoNaRmgv, 1)}
-                  rotulo={`do valor ficou nos ${numero(territorio.dados.rmgv.municipios)} municípios da Região Metropolitana`}
-                  nota={`${numero(territorio.dados.rmgv.projetos)} projetos · ${brlCurto(territorio.dados.rmgv.captado)}`}
+                  // O rótulo nomeia o denominador. Enquanto dizia só "do valor",
+                  // a razão se lia sobre os R$ 25 mi captados quando é sobre os
+                  // R$ 14,4 mi atribuídos a município — 66,4% no lugar de 38,2%.
+                  rotulo={`do valor com município atribuído ficou nos ${numero(territorio.dados.rmgv.municipios)} municípios da Região Metropolitana`}
+                  nota={`${numero(territorio.dados.rmgv.projetos)} projetos · ${brlCurto(territorio.dados.rmgv.captado)} de ${brlCurto(territorio.dados.captadoAtribuido)} atribuídos`}
                   cor={CORES_GRAFICO.rmgv}
                 />
                 <Destaque
@@ -203,7 +222,7 @@ export default function PaginaIndicadores() {
                     chave: s.id,
                     celulas: [
                       s.slug ? (
-                        <Link key="n" href={`/segmentos/${s.slug}`} className="underline-offset-2 hover:underline">
+                        <Link key="n" href={`/entidade/${s.slug}`} className="underline-offset-2 hover:underline">
                           {s.nome}
                         </Link>
                       ) : (

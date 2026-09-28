@@ -28,7 +28,14 @@ export default function PaginaSegmentos() {
           norma não fecha uma lista de segmentos. O agrupamento abaixo deriva da
           taxonomia de área da plataforma Mapas Culturais — a mesma que o Mapa
           Cultural do Espírito Santo usa — e serve como eixo de leitura, não
-          como classificação oficial.
+          como classificação oficial.{" "}
+          <strong className="font-medium text-tinta-suave">
+            Nenhum anexo da SECULT publica a linguagem do projeto:
+          </strong>{" "}
+          a de cada projeto aqui foi classificada do título por regras
+          explícitas, é <em>derivada</em> e não publicada, e os projetos cujo
+          título não casa com regra nenhuma ficam sem segmento — ausentes, nunca
+          num balde de &ldquo;outros&rdquo;.
         </>
       }
     >

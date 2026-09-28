@@ -140,7 +140,12 @@ export const FUNDAMENTOS: FundamentoLegal[] = [
     norma: "Instrução Normativa LICC nº 001/2025",
     nome: "Instrução Normativa da LICC para o exercício de 2025",
     descricao:
-      "Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2025, e fixa as cotas de 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados. Publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
+      // A descrição não redescreve o art. 18. Ela listava três cotas — "30%
+      // pautados, 10% fora da RMGV, 10% continuados" —, que é a leitura que o
+      // próprio anexo desmentiu: são quatro, e a quarta leva metade do teto.
+      // Num registro `verificado: true`, texto errado é pior que texto
+      // ausente. As cotas moram em `REGRAS`, cada uma com a sua fonte.
+      "Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2025. O art. 18 reparte o teto em quatro cotas, detalhadas nas regras deste catálogo. Publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
     url: "https://mapa.cultura.es.gov.br/files/opportunity/1878/instrucao-normativa-licc-no-001-2025-2.pdf",
     verificado: true,
     fonte: {
@@ -293,7 +298,9 @@ export const REGRAS: RegraLICC[] = [
  *
  * 2025 é o último ciclo **fechado** da LICC: a Instrução Normativa nº 001/2025
  * está publicada e a oportunidade 1878 do Mapa Cultural já encerrou. A LICC
- * 2026 segue com inscrições abertas até 30/06/2026, então seus números seriam
+ * 2026 teve inscrições de 02/02 a 30/06/2026 e ainda está em captação — a
+ * lista de habilitados daquele ciclo traz 88 projetos com prazo correndo até
+ * 2027 —, então seus números seriam
  * parciais — e um painel de transparência que mostra número parcial sem dizer
  * que é parcial engana mais do que informa.
  */

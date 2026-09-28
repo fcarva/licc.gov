@@ -26,7 +26,13 @@ const NOTICIAS_SECULT: Noticia[] = [
     veiculo: "SECULT-ES",
     url: "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
     resumo:
-      "Inscrições até 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo. A LICC reserva 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados.",
+      // O resumo não redescreve as cotas. Ele dizia "30% pautados, 10% fora da
+      // RMGV e 10% continuados" — três reservas, com os títulos imprecisos que
+      // o art. 18 da IN 01/2025 desmentiu: são quatro, e a quarta leva metade
+      // do teto. Resumo é nosso texto sob selo `oficial`, então descrever norma
+      // aqui é duplicar a fonte da verdade e deixá-la envelhecer sozinha. As
+      // cotas moram em `REGRAS`, cada uma com a sua fonte.
+      "Inscrições de 02 de fevereiro a 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo (oportunidade 2317).",
     proveniencia: "oficial",
   },
   {

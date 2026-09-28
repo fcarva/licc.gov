@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-09-28T22:37:58.327Z",
+    "geradoEm": "2026-09-28T23:25:53.099Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -79,7 +79,7 @@
           "data": "2026-01-15",
           "veiculo": "SECULT-ES",
           "url": "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
-          "resumo": "Inscrições até 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo. A LICC reserva 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados.",
+          "resumo": "Inscrições de 02 de fevereiro a 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo (oportunidade 2317).",
           "proveniencia": "oficial"
         },
         {
@@ -216,7 +216,7 @@
           "data": "2026-01-15",
           "veiculo": "SECULT-ES",
           "url": "https://secult.es.gov.br/Noticia/licc-2026-inscricoes-para-projetos-culturais-estao-abertas",
-          "resumo": "Inscrições até 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo. A LICC reserva 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados.",
+          "resumo": "Inscrições de 02 de fevereiro a 30 de junho de 2026, exclusivamente pelo Mapa Cultural do Espírito Santo (oportunidade 2317).",
           "proveniencia": "oficial"
         },
         {
@@ -479,7 +479,7 @@
       "kind": "fundamento",
       "nome": "Instrução Normativa LICC nº 001/2025",
       "sigla": "Instrução Normativa LICC nº 001/2025",
-      "descricao": "Instrução Normativa da LICC para o exercício de 2025 — Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2025, e fixa as cotas de 30% para projetos pautados, 10% para projetos fora da Região Metropolitana e 10% para programas continuados. Publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
+      "descricao": "Instrução Normativa da LICC para o exercício de 2025 — Disciplina a inscrição, a habilitação, a análise de mérito e a tramitação dos projetos da LICC no exercício de 2025. O art. 18 reparte o teto em quatro cotas, detalhadas nas regras deste catálogo. Publicada como anexo da oportunidade 1878 no Mapa Cultural do Espírito Santo.",
       "nomesAlternativos": [
         "Instrução Normativa da LICC para o exercício de 2025"
       ],
@@ -1067,12 +1067,6 @@
         "regiaoMetropolitana": false
       },
       "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        },
         "cobertura": {
           "comValor": 0,
           "total": 1
@@ -1253,12 +1247,6 @@
         "regiaoMetropolitana": true
       },
       "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        },
         "cobertura": {
           "comValor": 0,
           "total": 1
@@ -1468,12 +1456,6 @@
         "regiaoMetropolitana": false
       },
       "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        },
         "cobertura": {
           "comValor": 0,
           "total": 1
@@ -1890,12 +1872,6 @@
         "regiaoMetropolitana": true
       },
       "orcamento": {
-        "autorizado": 0,
-        "captado": 0,
-        "anterior": {
-          "autorizado": 0,
-          "captado": 0
-        },
         "cobertura": {
           "comValor": 0,
           "total": 1

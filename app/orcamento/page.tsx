@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { obterEstatisticas, obterGrafo, listarNos } from "@/lib/dados";
+import { obterEstatisticas, obterGrafo, listarNos, projetoNoMunicipio } from "@/lib/dados";
 import { brl, numero, percentual } from "@/lib/format";
 import { Pagina, Tabela } from "@/components/Pagina";
 import { BarraExecucao } from "@/components/BarraExecucao";
@@ -34,7 +34,7 @@ export default function PaginaOrcamento() {
   const municipiosProjetos = listarNos("municipio")
     .map((m) => ({
       mun: m,
-      projetos: todosProjetos.filter((p) => p.meta?.municipioId === m.id).length,
+      projetos: todosProjetos.filter((p) => projetoNoMunicipio(p, m.id)).length,
       autorizado: m.orcamento?.autorizado ?? 0,
       captado: m.orcamento?.captado ?? 0,
       regiao: String(m.meta?.regiao ?? "Não informada"),
@@ -269,7 +269,7 @@ export default function PaginaOrcamento() {
       </section>
 
       <section>
-        <h2 className="mb-4 text-lg font-semibold text-tinta">Por microrregião</h2>
+        <h2 className="mb-4 text-lg font-semibold text-tinta">Por município</h2>
         <Tabela
           colunas={[
             { rotulo: "Município" },

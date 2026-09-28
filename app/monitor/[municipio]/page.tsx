@@ -35,6 +35,8 @@ export default async function PaginaMonitorMunicipio({
   if (!p) notFound();
 
   const rmgv = Boolean(p.municipio.meta?.regiaoMetropolitana);
+  // Presentes aqui, com o valor atribuído a outro lugar — ou a nenhum.
+  const semAtribuicao = p.projetos.filter((proj) => !p.valorAtribuido.has(proj.id));
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-6">
@@ -55,19 +57,53 @@ export default async function PaginaMonitorMunicipio({
             Microrregião {String(p.municipio.meta?.regiao ?? "—")}
             {rmgv
               ? " · integra a Região Metropolitana da Grande Vitória"
-              : " · fora da Região Metropolitana, conta para a cota de 10%"}
+              : " · município do interior"}
           </p>
 
           <div className="mt-5 grid gap-4 sm:grid-cols-4">
-            <Metrica rotulo="Captado" valor={p.captado > 0 ? brl(p.captado) : "—"} />
+            <Metrica
+              rotulo="Captado"
+              valor={p.captado ? brl(p.captado) : "—"}
+              nota={
+                semAtribuicao.length && !p.captado
+                  ? "nenhum valor atribuído aqui"
+                  : undefined
+              }
+            />
             <Metrica
               rotulo="Autorizado"
-              valor={p.autorizado > 0 ? brl(p.autorizado) : "—"}
-              nota={p.autorizado > 0 ? `${percentual(p.captado / p.autorizado)} executado` : undefined}
+              valor={p.autorizado ? brl(p.autorizado) : "—"}
+              nota={
+                p.autorizado && p.captado !== undefined
+                  ? `${percentual(p.captado / p.autorizado)} executado`
+                  : undefined
+              }
             />
             <Metrica rotulo="Espaços culturais" valor={numero(p.espacos.length)} />
             <Metrica rotulo="Eventos na agenda" valor={numero(p.eventos.length)} />
           </div>
+
+          {/*
+            Presença e atribuição contam coisas diferentes, e o cartão acima
+            mostra a segunda. Sem esta frase, um município com projeto e sem
+            valor atribuído exibe "Captado —" logo acima de uma lista com
+            R$ 500.000 — que é a armadilha de a tarja e o número contarem
+            histórias diferentes.
+          */}
+          {semAtribuicao.length ? (
+            <p className="mt-4 text-xs leading-relaxed text-tinta-fraca">
+              {semAtribuicao.length === 1
+                ? "O projeto listado abaixo acontece aqui e também em outros municípios, e o valor dele não é somado"
+                : `${
+                    semAtribuicao.length === p.projetos.length
+                      ? `Os ${numero(semAtribuicao.length)} projetos listados abaixo acontecem`
+                      : `${numero(semAtribuicao.length)} dos ${numero(p.projetos.length)} projetos listados abaixo acontecem`
+                  } aqui e também em outros municípios, e o valor deles não é somado`}{" "}
+              a município nenhum: a fonte nomeia os locais de execução, mas não
+              publica o rateio entre eles — e dividir por conta própria seria
+              inventar número.
+            </p>
+          ) : null}
 
           <p className="mt-4">
             <Link
@@ -106,8 +142,19 @@ export default async function PaginaMonitorMunicipio({
                         {rotuloStatus(String(proj.meta?.status))}
                       </span>
                     </span>
-                    <span className="tabular shrink-0 text-sm text-tinta">
-                      {brl(proj.orcamento?.captado ?? 0)}
+                    <span className="shrink-0 text-right">
+                      <span
+                        className={`tabular text-sm ${
+                          p.valorAtribuido.has(proj.id) ? "text-tinta" : "text-tinta-fraca"
+                        }`}
+                      >
+                        {brl(proj.orcamento?.captado ?? 0)}
+                      </span>
+                      {p.valorAtribuido.has(proj.id) ? null : (
+                        <span className="block text-[10px] text-tinta-fraca">
+                          valor do projeto, não deste município
+                        </span>
+                      )}
                     </span>
                   </li>
                 ))}

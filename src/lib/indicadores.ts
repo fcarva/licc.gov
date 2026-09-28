@@ -168,8 +168,22 @@ export interface DesigualdadeTerritorial {
   interior: { municipios: number; projetos: number; captado: number };
   /** Municípios sem nenhum projeto no exercício. */
   semProjeto: number;
-  /** Fração do valor conhecido que ficou na Região Metropolitana. */
+  /**
+   * Fração **do valor atribuído a município** que ficou na Região Metropolitana.
+   *
+   * O denominador é `captadoAtribuido`, não o captado do exercício. A diferença
+   * não é detalhe: com R$ 14,37 mi atribuídos de R$ 25 mi captados, a RMGV fica
+   * com 66,4% do atribuído e 38,2% do total. Rotular o primeiro como "do valor"
+   * infla a leitura em quase trinta pontos, e quem publica a razão tem de
+   * nomear o denominador dela.
+   */
   fracaoNaRmgv: number;
+  /** Captado com município atribuído — o denominador de `fracaoNaRmgv`. */
+  captadoAtribuido: number;
+  /** Captado que nenhum município recebe: projeto sem local ou com vários. */
+  captadoSemMunicipio: number;
+  /** Captado do exercício, sobre o qual as duas linhas acima se somam. */
+  captadoTotal: number;
   /** Gini do captado entre os 78 municípios, contando os zeros. */
   gini: number;
 }
@@ -239,6 +253,9 @@ export function desigualdadeTerritorial(grafo: Graph): Indicador<DesigualdadeTer
   const rmgv = somar((l) => l.rmgv);
   const interior = somar((l) => !l.rmgv);
   const total = rmgv.captado + interior.captado;
+  // O captado do exercício, para a página poder dizer quanto **não** tem
+  // território. Sem este número a razão territorial parece cobrir tudo.
+  const captadoTotal = projetos.reduce((acc, p) => acc + (p.orcamento?.captado ?? 0), 0);
 
   return {
     dados: {
@@ -247,6 +264,9 @@ export function desigualdadeTerritorial(grafo: Graph): Indicador<DesigualdadeTer
       interior,
       semProjeto: municipios.filter((l) => l.projetos === 0).length,
       fracaoNaRmgv: total > 0 ? rmgv.captado / total : 0,
+      captadoAtribuido: total,
+      captadoSemMunicipio: Math.max(0, captadoTotal - total),
+      captadoTotal,
       gini: gini(municipios.map((l) => l.captado)),
     },
     // A confiança do indicador é a **presença**: quantos projetos têm local de
