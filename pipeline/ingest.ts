@@ -560,7 +560,8 @@ export function relatar(r: RelatorioHabilitados, ano: number): void {
   console.log(`    com valor autorizado ... ${r.comValorAutorizado} (${pct(r.comValorAutorizado)})`);
   console.log(`    com valor captado ...... ${r.comValorCaptado} (${pct(r.comValorCaptado)})`);
   console.log(`    município resolvido .... ${r.municipiosResolvidos} (${pct(r.municipiosResolvidos)})`);
-  console.log(`    segmento resolvido ..... ${r.segmentosResolvidos} (${pct(r.segmentosResolvidos)})`);
+  console.log(`    segmento publicado ..... ${r.segmentosResolvidos} (${pct(r.segmentosResolvidos)})`);
+  console.log(`    segmento inferido ...... ${r.segmentosInferidos} (${pct(r.segmentosInferidos)}) — do título, derivado`);
   if (r.semFonte) {
     console.log(`    ! ${r.semFonte} sem fonte_url — entraram como demonstração, não como oficial`);
   }

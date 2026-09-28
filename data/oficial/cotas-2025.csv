@@ -1,0 +1,5 @@
+inciso,cota_id,pct_reserva,reservado,captado,saldo,observacao,fonte_url
+I,cota-pautados,30,7500000.00,7500000.00,0.00,,https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf
+II,cota-continuados,10,2500000.00,2329896.00,0.00,remanejado para cota III,https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf
+III,cota-fora-rmgv,10,2500000.00,2670104.00,0.00,,https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf
+IV,cota-demais,50,12500000.00,12500000.00,0.00,,https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf

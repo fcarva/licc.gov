@@ -433,7 +433,16 @@ function CoberturaDosDados({
     { rotulo: "com valor autorizado publicado", valor: c.comValorAutorizado },
     { rotulo: "com valor captado publicado", valor: c.comValorCaptado },
     { rotulo: "com município identificado", valor: c.comMunicipio },
-    { rotulo: "com linguagem cultural identificada", valor: c.comSegmento },
+    // Rótulo diz de onde vem, porque aqui vem de nós.
+    //
+    // Nenhum anexo da SECULT publica a linguagem do projeto: os 100% desta
+    // linha, se um dia chegarem, serão 100% de classificação nossa. Escrever
+    // "identificada" deixaria o leitor supor fonte oficial onde há regra de
+    // título — e a cobertura alta é justamente onde o rótulo engana mais.
+    {
+      rotulo: "com linguagem classificada do título (derivado, não publicado)",
+      valor: c.comSegmento,
+    },
     { rotulo: "com patrocinador conhecido", valor: c.comPatrocinador },
   ];
 

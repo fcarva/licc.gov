@@ -103,9 +103,11 @@ export default function PaginaOrcamento() {
                     }`}
                   >
                     {c.atendida === null
-                      ? c.classificaveis.comDado > 0
-                        ? "indeterminado"
-                        : "sem dado"
+                      ? c.oficial
+                        ? "remanejada"
+                        : c.classificaveis.comDado > 0
+                          ? "indeterminado"
+                          : "sem dado"
                       : c.atendida
                         ? "atendida"
                         : "abaixo"}
@@ -118,7 +120,43 @@ export default function PaginaOrcamento() {
                   nada", quando a verdade é que a fonte não publica o campo que
                   classifica a cota. Tarja e número têm de contar a mesma coisa.
                 */}
-                {c.atendida === null ? (
+                {/*
+                  Havendo total impresso, ele manda. A barra e o número passam a
+                  ser o do documento, e o piso derivado dos projetos
+                  classificados sai de cena — ele existia para suprir a ausência
+                  do oficial, não para competir com ele.
+                */}
+                {c.oficial ? (
+                  <>
+                    <p className="tabular mt-2 text-sm text-tinta">
+                      {brl(c.oficial.captado)}{" "}
+                      <span className="text-tinta-fraca">de {brl(c.reservado)}</span>
+                    </p>
+                    <div className="mt-2">
+                      <BarraExecucao
+                        autorizado={c.reservado}
+                        captado={Math.min(c.oficial.captado, c.reservado)}
+                        compacta
+                      />
+                    </div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-tinta-fraca">
+                      Total impresso na seção do anexo, sem depender de atribuir
+                      projeto a cota.
+                      {c.oficial.observacao ? (
+                        <>
+                          {" "}
+                          O anexo registra <strong className="font-medium">
+                            {c.oficial.observacao}
+                          </strong>{" "}
+                          e saldo zero: o art. 18, § 2º permite à SECULT remanejar
+                          sobra entre cotas, então reserva consumida com saldo zero
+                          é reserva aplicada — se a aplicação foi regular é questão
+                          jurídica, não aritmética.
+                        </>
+                      ) : null}
+                    </p>
+                  </>
+                ) : c.atendida === null ? (
                   <p className="mt-2 text-xs leading-relaxed text-tinta-fraca">
                     {c.classificaveis.comDado > 0 ? (
                       <>

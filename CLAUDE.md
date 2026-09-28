@@ -127,6 +127,27 @@ argumento da página, não só o desenho.
 
 ## Armadilhas já pagas
 
+- **Captado abaixo da reserva com saldo zero é remanejamento, não
+  descumprimento.** O art. 18, § 2º permite à SECULT mover sobra entre cotas, e
+  o anexo de 2025 registra a operação: a cota II captou R$ 2.329.896 de
+  R$ 2.500.000 e imprime "Saldo disponível: R$ 0,00 remanejado para cota III",
+  que captou exatamente R$ 2.500.000 + R$ 170.104. Marcar aquilo como `✗` seria
+  o juízo de cumprimento que o painel não faz — reserva consumida com saldo zero
+  é reserva aplicada, e a regularidade é questão jurídica, não aritmética.
+- **Total impresso por cota vence o piso derivado.** O piso somado dos projetos
+  classificados existia para suprir a ausência do oficial, não para competir com
+  ele: havendo `data/oficial/cotas-{ano}.csv`, é ele que decide `atendida`, e a
+  barra passa a ser a do documento.
+- **"Festival" não classifica linguagem.** É formato de evento: "Festival de
+  Cinema de Santa Teresa" é audiovisual e "Festival de Teatro de Guaçuí" é artes
+  cênicas, mas "Moqueca Pop Festival" não diz a que linguagem pertence. Aqui as
+  regras divergem de propósito do `aval-pol`, que agrupa "música popular e
+  festivais" numa classe só. Palavra de formato — festival, mostra, encontro,
+  semana — só entra acompanhada da linguagem.
+- **Rótulo de cobertura tem de dizer a origem quando o campo é derivado.** A
+  linha de linguagem em `/indicadores` dizia "identificada", o que se lê como
+  fonte oficial; cobertura alta é onde o rótulo engana mais, porque 100% de
+  classificação nossa não é 100% de dado publicado.
 - **Dois anexos, dois recortes que se chamam "2025".** "RECURSO FINANCEIRO
   CAPTADO 2025" é dinheiro captado no **ano-calendário**; "PROJETOS HABILITADOS
   - ANO 2025" é quem foi **habilitado** naquele ciclo e capta no seguinte. Dos
@@ -359,8 +380,30 @@ disputa por patrocinador decide quem capta. Em 2025 a conta fechou em 100%.
 A **lista de projetos habilitados** (`data/oficial/habilitados/`, 467 projetos
 de 2022 a 2026) completa o que o anexo de captados não publica: município subiu
 de 0% para 63% e a cota do art. 18 passou a vir classificada pela própria
-SECULT. Segmento continua em **0%** — nenhum dos dois anexos publica linguagem
-cultural, e derivá-la do texto do objeto seria inferência vestida de dado.
+SECULT.
+
+**Linguagem cultural: 65%, e tudo derivado.** Nenhum dos dois anexos publica o
+segmento do projeto, então `segmentoPorTitulo()` em `src/ontology/segmentos.ts`
+o classifica do título por regras ordenadas e explícitas. Isso é `derivado` —
+a terceira proveniência do modelo —, o nó carrega `meta.segmentoInferido` e o
+rótulo em `/indicadores` diz "classificada do título (derivado, não publicado)".
+O vocabulário das regex veio de `fcarva/aval-pol`
+(`analise/06_alocacao_linguagens.py`), adaptado às 9 classes do Mapas Culturais.
+**Pendência herdada de lá:** a amostra de conferência manual daquele repositório
+(`06_amostra_conferencia.csv`, 60 títulos) está com a coluna
+`linguagem_conferida` vazia. Nossa classificação carrega a mesma pendência.
+
+**As cotas do art. 18 agora vêm impressas** (`data/oficial/cotas-2025.csv`). Os
+anexos de recurso captado são seccionados por inciso e cada seção fecha com
+"Total Captado" e "Saldo disponível" — números que **não** dependem de atribuir
+projeto a cota:
+
+| cota | reservado | captado | |
+| --- | --- | --- | --- |
+| I — 30% | 7.500.000 | 7.500.000 | ✓ |
+| II — 10% | 2.500.000 | 2.329.896 | remanejada, saldo zero |
+| III — 10% | 2.500.000 | 2.670.104 | ✓ |
+| IV — 50% | 12.500.000 | 12.500.000 | ✓ |
 
 Território, medido: RMGV com 7 municípios fica com R$ 9,5 mi; os 71 do interior,
 com R$ 4,8 mi. 59 dos 78 municípios não receberam nada. Gini de 0,921.
@@ -380,18 +423,24 @@ com R$ 4,8 mi. 59 dos 78 municípios não receberam nada. Gini de 0,921.
    mais promissor. Três nomes de município também não resolvem contra a
    ontologia: "Vila Veha" (erro de digitação da fonte), "Marechal" e "Itaúnas"
    (distrito, não município).
-3. **Valores por projeto.** A API pública do Mapas Culturais não expõe as
+3. **Conferir a classificação por linguagem.** 41 dos 63 projetos têm classe
+   inferida do título; 22 não casam com regra nenhuma e ficam sem segmento. A
+   conferência manual é o que falta para os números saírem de exploratórios —
+   sortear uma amostra, conferir à mão e só então tratar a distribuição por
+   linguagem como leitura, não como hipótese. Resistir a criar regra olhando os
+   títulos que sobraram: isso é ajustar ao gabarito, não classificar.
+4. **Valores por projeto.** A API pública do Mapas Culturais não expõe as
    inscrições (`registration`) de uma oportunidade — exige JWT — e é ali que
    vivem os valores da LICC. Precisam vir dos anexos publicados pela SECULT.
    Até lá, ausentes.
-4. **Conferir a regra dos 3 projetos** na instrução normativa vigente e, se
+5. **Conferir a regra dos 3 projetos** na instrução normativa vigente e, se
    confirmada, marcar `verificado: true` em `src/ontology/legal.ts` — mas
    **sem remover o `naoApuravel`**. Os dois campos são independentes: conferir a
    norma não torna o cumprimento apurável, porque o parágrafo único soma pessoas
    jurídicas com sócios ou dirigentes em comum e o QSA da Receita não é
    consultável daqui. Apagar o segundo ao preencher o primeiro faz a tela trocar
    "quem alcançou o número" por "quem descumpriu a norma".
-5. **O anexo de 2026 usa outro desenho de página e ainda não entra.** Ali o
+6. **O anexo de 2026 usa outro desenho de página e ainda não entra.** Ali o
    valor habilitado se repete em várias linhas de termo (99 de 129), então
    "linha com autorizado" deixa de identificar projeto e a partição por
    centralização não fecha: 3 projetos com captado acima do autorizado e a soma

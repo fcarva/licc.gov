@@ -1,7 +1,7 @@
 {
   "meta": {
     "ano": 2025,
-    "geradoEm": "2026-09-03T12:30:45.072Z",
+    "geradoEm": "2026-09-28T22:37:58.327Z",
     "tetoAutorizado": 25000000,
     "fontes": [
       {
@@ -19,7 +19,7 @@
     ],
     "contagemPorProveniencia": {
       "oficial": 536,
-      "derivado": 206,
+      "derivado": 247,
       "demonstracao": 0
     }
   },
@@ -518,7 +518,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 5124787.39,
+        "captado": 4816464.99,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 11,
+          "total": 11
+        }
+      },
+      "posicao": {
+        "lugar": 2,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-audiovisual",
@@ -544,7 +561,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 1999898,
+        "captado": 1744401.77,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 4,
+          "total": 4
+        }
+      },
+      "posicao": {
+        "lugar": 3,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-artes-cenicas",
@@ -572,7 +606,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 1899461.21,
+        "captado": 1573148.66,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 6,
+          "total": 6
+        }
+      },
+      "posicao": {
+        "lugar": 4,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-patrimonio",
@@ -600,7 +651,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 163797.08,
+        "captado": 163797.08,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
+        }
+      },
+      "posicao": {
+        "lugar": 6,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-literatura",
@@ -654,7 +722,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 500000,
+        "captado": 500000,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 1,
+          "total": 1
+        }
+      },
+      "posicao": {
+        "lugar": 5,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-culturas-populares",
@@ -683,7 +768,24 @@
           "rotulo": "Taxonomia de área — plataforma Mapas Culturais",
           "url": "https://docs.mapasculturais.org/mc_config_api/"
         }
-      ]
+      ],
+      "orcamento": {
+        "autorizado": 8195529.31,
+        "captado": 7495767.56,
+        "anterior": {
+          "autorizado": 0,
+          "captado": 0
+        },
+        "cobertura": {
+          "comValor": 18,
+          "total": 18
+        }
+      },
+      "posicao": {
+        "lugar": 1,
+        "total": 6
+      },
+      "variacaoAnual": null
     },
     {
       "id": "seg-museus-memoria",
@@ -2006,6 +2108,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-32MFD",
         "status": "concluido",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-mimoso-do-sul",
         "municipiosIds": [
           "mun-mimoso-do-sul"
@@ -2185,6 +2289,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-4Z9J3",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -2291,6 +2397,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-LNTS6",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-viana",
         "municipiosIds": [
           "mun-viana"
@@ -2461,6 +2569,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-NB5P3",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-mimoso-do-sul",
         "municipiosIds": [
           "mun-mimoso-do-sul"
@@ -2532,6 +2642,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "proponenteId": "prop-associacao-cultural-e-folclorica-do-bloco-surpresa"
       },
       "posicao": {
@@ -2632,6 +2744,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-HZSBS",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-muqui",
         "municipiosIds": [
           "mun-muqui"
@@ -2704,6 +2818,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "proponenteId": "prop-grupo-teatral-gota-po-e-poeira"
       },
       "posicao": {
@@ -2836,6 +2952,8 @@
         "ano": 2025,
         "numeroProcesso": "2022-CC9TK",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -3039,6 +3157,8 @@
         "ano": 2025,
         "numeroProcesso": "2025-SXX99",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -3143,6 +3263,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "proponenteId": "prop-associacao-cultural-circense-e-ambiental-uma-floresta"
       },
       "posicao": {
@@ -3243,6 +3365,8 @@
         "ano": 2025,
         "numeroProcesso": "2025-QW9S1",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-venda-nova-do-imigrante",
         "municipiosIds": [
           "mun-venda-nova-do-imigrante"
@@ -3347,6 +3471,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "proponenteId": "prop-rota-service-ltda"
       },
       "posicao": {
@@ -3415,6 +3541,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-9RT9Q",
         "status": "em_execucao",
+        "segmentoId": "seg-audiovisual",
+        "segmentoInferido": true,
         "municipiosIds": [
           "mun-aracruz",
           "mun-cachoeiro-de-itapemirim"
@@ -3520,6 +3648,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-1FDSB",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-muqui",
         "municipiosIds": [
           "mun-muqui"
@@ -3621,6 +3751,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "proponenteId": "prop-em-analise-na-sefaz-secretariado-dos-imigrantes-friulanos-de-aracruz-es"
       },
       "posicao": {
@@ -3991,6 +4123,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-7862T",
         "status": "em_execucao",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -4065,6 +4199,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-VM90J",
         "status": "concluido",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-afonso-claudio",
         "municipiosIds": [
           "mun-afonso-claudio"
@@ -4137,6 +4273,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "proponenteId": "prop-associacao-dos-moradores-da-comunidade-de-sao-pedro-do-itabapoana"
       },
       "posicao": {
@@ -4167,6 +4305,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "proponenteId": "prop-programa-de-promocao-e-assistencia-social"
       },
       "posicao": {
@@ -4235,6 +4375,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-0J1G1",
         "status": "concluido",
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "municipioId": "mun-pinheiros",
         "municipiosIds": [
           "mun-pinheiros"
@@ -4341,6 +4483,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-PCDF2",
         "status": "em_execucao",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-aracruz",
         "municipiosIds": [
           "mun-aracruz"
@@ -4415,6 +4559,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-B7ZFZ",
         "status": "concluido",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-afonso-claudio",
         "municipiosIds": [
           "mun-afonso-claudio"
@@ -4489,6 +4635,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-WCJ53",
         "status": "em_execucao",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-ibiracu",
         "municipiosIds": [
           "mun-ibiracu"
@@ -4697,6 +4845,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-8Z0GK",
         "status": "concluido",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -4770,6 +4920,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-VM876",
         "status": "concluido",
+        "segmentoId": "seg-patrimonio",
+        "segmentoInferido": true,
         "municipioId": "mun-joao-neiva",
         "municipiosIds": [
           "mun-joao-neiva"
@@ -4871,6 +5023,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "proponenteId": "prop-instituto-todos-os-cantos"
       },
       "posicao": {
@@ -4939,6 +5093,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-HT8QP",
         "status": "concluido",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-vila-velha",
         "municipiosIds": [
           "mun-vila-velha"
@@ -5011,6 +5167,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "proponenteId": "prop-programa-de-promocao-e-assistencia-social"
       },
       "posicao": {
@@ -5223,6 +5381,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-WMPXZ",
         "status": "concluido",
+        "segmentoId": "seg-audiovisual",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -5296,6 +5456,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-X6HWG",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "cotaId": "cota-demais",
         "proponenteId": "prop-instituto-manguere"
       },
@@ -5402,6 +5564,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-visuais",
+        "segmentoInferido": true,
         "proponenteId": "prop-ia-estudio"
       },
       "posicao": {
@@ -5536,6 +5700,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-D8SGC",
         "status": "concluido",
+        "segmentoId": "seg-audiovisual",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -5676,6 +5842,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-PRGRB",
         "status": "concluido",
+        "segmentoId": "seg-audiovisual",
+        "segmentoInferido": true,
         "municipioId": "mun-santa-teresa",
         "municipiosIds": [
           "mun-santa-teresa"
@@ -6102,6 +6270,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-1PRSJ",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-cariacica",
         "municipiosIds": [
           "mun-cariacica"
@@ -6175,6 +6345,8 @@
         "ano": 2025,
         "numeroProcesso": "2024-0GZ3G",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-cariacica",
         "municipiosIds": [
           "mun-cariacica"
@@ -6283,6 +6455,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "proponenteId": "prop-associacao-oficina-da-vida-ong"
       },
       "posicao": {
@@ -6347,6 +6521,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-CV6RH",
         "status": "em_execucao",
+        "segmentoId": "seg-musica",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -6419,6 +6595,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "proponenteId": "prop-ser-oficina-de-teatro-ltda-me"
       },
       "posicao": {
@@ -6652,6 +6830,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-artes-cenicas",
+        "segmentoInferido": true,
         "proponenteId": "prop-wb-producoes-artisticas-e-culturais-ltda"
       },
       "posicao": {
@@ -6860,6 +7040,8 @@
       },
       "meta": {
         "ano": 2025,
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "proponenteId": "prop-odoya-arte-e-cultura-producoes-ltda"
       },
       "posicao": {
@@ -6892,6 +7074,8 @@
         "ano": 2025,
         "numeroProcesso": "2023-R7GC8",
         "status": "concluido",
+        "segmentoId": "seg-culturas-populares",
+        "segmentoInferido": true,
         "municipioId": "mun-vitoria",
         "municipiosIds": [
           "mun-vitoria"
@@ -7007,6 +7191,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-32mfd->seg-musica",
+      "source": "proj-2023-32mfd",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-32mfd->mun-mimoso-do-sul",
       "source": "proj-2023-32mfd",
       "target": "mun-mimoso-do-sul",
@@ -7065,6 +7256,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-4z9j3->seg-culturas-populares",
+      "source": "proj-2023-4z9j3",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-4z9j3->mun-vitoria",
       "source": "proj-2023-4z9j3",
       "target": "mun-vitoria",
@@ -7091,6 +7289,13 @@
       "source": "secult-es",
       "target": "proj-2024-lnts6",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-lnts6->seg-culturas-populares",
+      "source": "proj-2024-lnts6",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7139,6 +7344,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-nb5p3->seg-culturas-populares",
+      "source": "proj-2023-nb5p3",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-nb5p3->mun-mimoso-do-sul",
       "source": "proj-2023-nb5p3",
       "target": "mun-mimoso-do-sul",
@@ -7165,6 +7377,13 @@
       "source": "secult-es",
       "target": "proj-carna-surpresa-2024-o-carnaval-da-barra-do-jucu-2025",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-carna-surpresa-2024-o-carnaval-da-barra-do-jucu-2025->seg-culturas-populares",
+      "source": "proj-carna-surpresa-2024-o-carnaval-da-barra-do-jucu-2025",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7206,6 +7425,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2024-hzsbs->seg-culturas-populares",
+      "source": "proj-2024-hzsbs",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2024-hzsbs->mun-muqui",
       "source": "proj-2024-hzsbs",
       "target": "mun-muqui",
@@ -7232,6 +7458,13 @@
       "source": "secult-es",
       "target": "proj-24-festival-nacional-de-teatro-de-guacui-2025",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-24-festival-nacional-de-teatro-de-guacui-2025->seg-artes-cenicas",
+      "source": "proj-24-festival-nacional-de-teatro-de-guacui-2025",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7262,6 +7495,13 @@
       "source": "secult-es",
       "target": "proj-2022-cc9tk",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2022-cc9tk->seg-culturas-populares",
+      "source": "proj-2022-cc9tk",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7316,6 +7556,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2025-sxx99->seg-culturas-populares",
+      "source": "proj-2025-sxx99",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2025-sxx99->mun-vitoria",
       "source": "proj-2025-sxx99",
       "target": "mun-vitoria",
@@ -7353,6 +7600,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-festival-nacional-de-teatro-cidade-de-vitoria-20-edicao-2025->seg-artes-cenicas",
+      "source": "proj-festival-nacional-de-teatro-cidade-de-vitoria-20-edicao-2025",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-transportadora-associada-de-gas-tag->proj-festival-nacional-de-teatro-cidade-de-vitoria-20-edicao-2025",
       "source": "patr-transportadora-associada-de-gas-tag",
       "target": "proj-festival-nacional-de-teatro-cidade-de-vitoria-20-edicao-2025",
@@ -7372,6 +7626,13 @@
       "source": "secult-es",
       "target": "proj-2025-qw9s1",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2025-qw9s1->seg-culturas-populares",
+      "source": "proj-2025-qw9s1",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7404,6 +7665,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-l-festival-internacional-de-jazz-e-bossa-de-santa-teresa-12-edicao-2025->seg-musica",
+      "source": "proj-l-festival-internacional-de-jazz-e-bossa-de-santa-teresa-12-edicao-2025",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-kuruma-veiculos-s-a->proj-l-festival-internacional-de-jazz-e-bossa-de-santa-teresa-12-edicao-2025",
       "source": "patr-kuruma-veiculos-s-a",
       "target": "proj-l-festival-internacional-de-jazz-e-bossa-de-santa-teresa-12-edicao-2025",
@@ -7431,6 +7699,13 @@
       "source": "secult-es",
       "target": "proj-2023-9rt9q",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-9rt9q->seg-audiovisual",
+      "source": "proj-2023-9rt9q",
+      "target": "seg-audiovisual",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7467,6 +7742,13 @@
       "source": "secult-es",
       "target": "proj-2023-1fdsb",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-1fdsb->seg-culturas-populares",
+      "source": "proj-2023-1fdsb",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7518,6 +7800,13 @@
       "source": "secult-es",
       "target": "proj-13-italia-unita-festa-da-imigracao-italiana-de-aracruz-municipio-de-guarana-2025",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-13-italia-unita-festa-da-imigracao-italiana-de-aracruz-municipio-de-guarana-2025->seg-culturas-populares",
+      "source": "proj-13-italia-unita-festa-da-imigracao-italiana-de-aracruz-municipio-de-guarana-2025",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7625,6 +7914,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2024-7862t->seg-musica",
+      "source": "proj-2024-7862t",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2024-7862t->mun-vitoria",
       "source": "proj-2024-7862t",
       "target": "mun-vitoria",
@@ -7651,6 +7947,13 @@
       "source": "secult-es",
       "target": "proj-2024-vm90j",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-vm90j->seg-musica",
+      "source": "proj-2024-vm90j",
+      "target": "seg-musica",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7683,6 +7986,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-nucleo-de-formacao-de-sanfona-e-viola-de-sao-pedro-do-itabapoana-ciclo-ii-2025->seg-musica",
+      "source": "proj-nucleo-de-formacao-de-sanfona-e-viola-de-sao-pedro-do-itabapoana-ciclo-ii-2025",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-edp-espirito-santo-distribuicao-de-energia-s-a->proj-nucleo-de-formacao-de-sanfona-e-viola-de-sao-pedro-do-itabapoana-ciclo-ii-2025",
       "source": "patr-edp-espirito-santo-distribuicao-de-energia-s-a",
       "target": "proj-nucleo-de-formacao-de-sanfona-e-viola-de-sao-pedro-do-itabapoana-ciclo-ii-2025",
@@ -7705,6 +8015,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-escola-de-musica-tocando-em-frente-2025->seg-musica",
+      "source": "proj-escola-de-musica-tocando-em-frente-2025",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-edp-espirito-santo-distribuicao-de-energia-s-a->proj-escola-de-musica-tocando-em-frente-2025",
       "source": "patr-edp-espirito-santo-distribuicao-de-energia-s-a",
       "target": "proj-escola-de-musica-tocando-em-frente-2025",
@@ -7724,6 +8041,13 @@
       "source": "secult-es",
       "target": "proj-2023-0j1g1",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-0j1g1->seg-artes-cenicas",
+      "source": "proj-2023-0j1g1",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7756,6 +8080,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-pcdf2->seg-culturas-populares",
+      "source": "proj-2023-pcdf2",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-pcdf2->mun-aracruz",
       "source": "proj-2023-pcdf2",
       "target": "mun-aracruz",
@@ -7785,6 +8116,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2024-b7zfz->seg-musica",
+      "source": "proj-2024-b7zfz",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2024-b7zfz->mun-afonso-claudio",
       "source": "proj-2024-b7zfz",
       "target": "mun-afonso-claudio",
@@ -7811,6 +8149,13 @@
       "source": "secult-es",
       "target": "proj-2024-wcj53",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-wcj53->seg-culturas-populares",
+      "source": "proj-2024-wcj53",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7910,6 +8255,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-8z0gk->seg-musica",
+      "source": "proj-2023-8z0gk",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-8z0gk->mun-vitoria",
       "source": "proj-2023-8z0gk",
       "target": "mun-vitoria",
@@ -7936,6 +8288,13 @@
       "source": "secult-es",
       "target": "proj-2023-vm876",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-vm876->seg-patrimonio",
+      "source": "proj-2023-vm876",
+      "target": "seg-patrimonio",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -7998,6 +8357,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-filarmonica-de-mulheres-do-espirito-santo-musica-e-representatividade-2025->seg-musica",
+      "source": "proj-filarmonica-de-mulheres-do-espirito-santo-musica-e-representatividade-2025",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-vd-comercio-de-veiculos-ltda->proj-filarmonica-de-mulheres-do-espirito-santo-musica-e-representatividade-2025",
       "source": "patr-vd-comercio-de-veiculos-ltda",
       "target": "proj-filarmonica-de-mulheres-do-espirito-santo-musica-e-representatividade-2025",
@@ -8017,6 +8383,13 @@
       "source": "secult-es",
       "target": "proj-2024-ht8qp",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-ht8qp->seg-musica",
+      "source": "proj-2024-ht8qp",
+      "target": "seg-musica",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8054,6 +8427,13 @@
       "source": "secult-es",
       "target": "proj-circulacao-de-espetaculo-igrejas-historicas-capixabas-2025",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-circulacao-de-espetaculo-igrejas-historicas-capixabas-2025->seg-artes-cenicas",
+      "source": "proj-circulacao-de-espetaculo-igrejas-historicas-capixabas-2025",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8137,6 +8517,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-wmpxz->seg-audiovisual",
+      "source": "proj-2023-wmpxz",
+      "target": "seg-audiovisual",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-wmpxz->mun-vitoria",
       "source": "proj-2023-wmpxz",
       "target": "mun-vitoria",
@@ -8163,6 +8550,13 @@
       "source": "secult-es",
       "target": "proj-2024-x6hwg",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-x6hwg->seg-culturas-populares",
+      "source": "proj-2024-x6hwg",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8238,6 +8632,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-festival-origraffes-7-edicao-2025->seg-artes-visuais",
+      "source": "proj-festival-origraffes-7-edicao-2025",
+      "target": "seg-artes-visuais",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-edp-espirito-santo-distribuicao-de-energia-s-a->proj-festival-origraffes-7-edicao-2025",
       "source": "patr-edp-espirito-santo-distribuicao-de-energia-s-a",
       "target": "proj-festival-origraffes-7-edicao-2025",
@@ -8279,6 +8680,13 @@
       "source": "secult-es",
       "target": "proj-2024-d8sgc",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-d8sgc->seg-audiovisual",
+      "source": "proj-2024-d8sgc",
+      "target": "seg-audiovisual",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8330,6 +8738,13 @@
       "source": "secult-es",
       "target": "proj-2023-prgrb",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-prgrb->seg-audiovisual",
+      "source": "proj-2023-prgrb",
+      "target": "seg-audiovisual",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8508,6 +8923,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-1prsj->seg-culturas-populares",
+      "source": "proj-2023-1prsj",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-1prsj->mun-cariacica",
       "source": "proj-2023-1prsj",
       "target": "mun-cariacica",
@@ -8534,6 +8956,13 @@
       "source": "secult-es",
       "target": "proj-2024-0gz3g",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2024-0gz3g->seg-culturas-populares",
+      "source": "proj-2024-0gz3g",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8595,6 +9024,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-tecer-folias-2025->seg-culturas-populares",
+      "source": "proj-tecer-folias-2025",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-ev-comercio-de-veiculos-ltda->proj-tecer-folias-2025",
       "source": "patr-ev-comercio-de-veiculos-ltda",
       "target": "proj-tecer-folias-2025",
@@ -8633,6 +9069,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-2023-cv6rh->seg-musica",
+      "source": "proj-2023-cv6rh",
+      "target": "seg-musica",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "ocorre_em:proj-2023-cv6rh->mun-vitoria",
       "source": "proj-2023-cv6rh",
       "target": "mun-vitoria",
@@ -8659,6 +9102,13 @@
       "source": "secult-es",
       "target": "proj-a-escola-vai-ao-teatro-tratamento-tecnico-do-acervo-grafico-2025",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-a-escola-vai-ao-teatro-tratamento-tecnico-do-acervo-grafico-2025->seg-artes-cenicas",
+      "source": "proj-a-escola-vai-ao-teatro-tratamento-tecnico-do-acervo-grafico-2025",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {
@@ -8767,6 +9217,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-teatro-vai-a-escola-de-onde-vem-o-dinheiro-2025->seg-artes-cenicas",
+      "source": "proj-teatro-vai-a-escola-de-onde-vem-o-dinheiro-2025",
+      "target": "seg-artes-cenicas",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-vd-comercio-de-veiculos-ltda->proj-teatro-vai-a-escola-de-onde-vem-o-dinheiro-2025",
       "source": "patr-vd-comercio-de-veiculos-ltda",
       "target": "proj-teatro-vai-a-escola-de-onde-vem-o-dinheiro-2025",
@@ -8855,6 +9312,13 @@
       "proveniencia": "derivado"
     },
     {
+      "id": "pertence_a:proj-samba-que-eu-quero-ver-mostra-cultural-de-bamba-2025->seg-culturas-populares",
+      "source": "proj-samba-que-eu-quero-ver-mostra-cultural-de-bamba-2025",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
+      "proveniencia": "derivado"
+    },
+    {
       "id": "patrocina:patr-realmar-distribuidora-ltda->proj-samba-que-eu-quero-ver-mostra-cultural-de-bamba-2025",
       "source": "patr-realmar-distribuidora-ltda",
       "target": "proj-samba-que-eu-quero-ver-mostra-cultural-de-bamba-2025",
@@ -8874,6 +9338,13 @@
       "source": "secult-es",
       "target": "proj-2023-r7gc8",
       "kind": "fiscaliza",
+      "proveniencia": "derivado"
+    },
+    {
+      "id": "pertence_a:proj-2023-r7gc8->seg-culturas-populares",
+      "source": "proj-2023-r7gc8",
+      "target": "seg-culturas-populares",
+      "kind": "pertence_a",
       "proveniencia": "derivado"
     },
     {

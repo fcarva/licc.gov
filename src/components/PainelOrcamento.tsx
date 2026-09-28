@@ -18,6 +18,7 @@ export interface CotaResumo {
   cumprimento: number;
   atendida: boolean | null;
   classificaveis?: { comDado: number; total: number };
+  oficial?: { captado: number; saldo: number; observacao?: string; fonteUrl: string };
 }
 
 /**
@@ -127,16 +128,23 @@ export function PainelOrcamento({
                   }`}
                 >
                   {c.atendida === null
-                    ? c.classificaveis && c.classificaveis.comDado > 0
-                      ? "indeterminado"
-                      : "sem dado"
+                    ? c.oficial
+                      ? "remanejada"
+                      : c.classificaveis && c.classificaveis.comDado > 0
+                        ? "indeterminado"
+                        : "sem dado"
                     : c.atendida
                       ? "atendida"
                       : "abaixo"}
                 </span>
               </div>
               <p className="tabular mt-0.5 text-[11px] text-tinta-fraca">
-                {c.atendida === null ? (
+                {c.oficial ? (
+                  <>
+                    {brl(c.oficial.captado)} de {brl(c.reservado)} · impressos no anexo
+                    {c.oficial.observacao ? `, ${c.oficial.observacao}` : ""}
+                  </>
+                ) : c.atendida === null ? (
                   c.classificaveis && c.classificaveis.comDado > 0 ? (
                     <>
                       ao menos {brl(c.alocado)} de {brl(c.reservado)} · indeterminado,{" "}

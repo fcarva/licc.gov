@@ -163,3 +163,67 @@ export function segmentoPorId(id: string): Segmento | undefined {
 export function segmentoPorSlug(slug: string): Segmento | undefined {
   return SEGMENTOS.find((s) => s.slug === slug);
 }
+
+// ---------------------------------------------------------------------------
+// Classificação por título
+// ---------------------------------------------------------------------------
+
+/**
+ * Regras que inferem a linguagem cultural do **título** do projeto.
+ *
+ * ## Por que isto existe
+ *
+ * Nenhum dos dois anexos da SECULT publica a linguagem do projeto: nem a lista
+ * de habilitados, nem o de recurso captado. A cobertura de `segmento` era 0%, e
+ * com ela ficavam mudos o anel externo do grafo (que setoriza por linguagem) e
+ * a conversão autorizado→captado por linguagem.
+ *
+ * ## O que isto é, e o que não é
+ *
+ * É `derivado` — "calculado ou classificado a partir de dados oficiais", que é
+ * exatamente a terceira proveniência do modelo. **Não é `oficial`**, e o nó
+ * carrega `meta.segmentoInferido` para a interface poder dizê-lo.
+ *
+ * A ordem importa: vale o primeiro casamento, e as regras vão da forma
+ * artística mais específica para a mais geral. Título que não casa fica
+ * **sem segmento** — ausente, nunca "outros", que seria um balde fingindo
+ * classe.
+ *
+ * ## "Festival" não classifica
+ *
+ * Aqui esta lista divergiu de propósito do vocabulário herdado do `aval-pol`,
+ * que agrupa "música popular e festivais" numa classe só. Festival é **formato
+ * de evento**, não linguagem: "Festival de Cinema de Santa Teresa" é
+ * audiovisual e "Festival de Teatro de Guaçuí" é artes cênicas, mas "Moqueca
+ * Pop Festival" não diz a que linguagem pertence. Palavra que nomeia formato
+ * — festival, mostra, encontro, semana — só entra acompanhada da linguagem, e
+ * sozinha deixa o projeto sem classe.
+ */
+const REGRAS_TITULO: Array<[string, RegExp]> = [
+  // Audiovisual antes de tudo: "Festival de Cinema" tem de cair aqui, não em música.
+  ["seg-audiovisual", /cinema|cine\b|\bfilme|curta|longa.?metragem|document[áa]rio|audiovisual|anima[çc][ãa]o|webs[ée]rie|\bs[ée]rie\b|fotograf/i],
+  ["seg-artes-cenicas", /teatr|espet[áa]cul|\bdan[çc]a|ballet|\bbal[ée]\b|circo|circens|palha[çc]|c[êe]nic|\bmamulengo|bonecos/i],
+  ["seg-culturas-populares", /congo|folia|\breis\b|jongo|ticumbi|folclor|carnaval|\bsamba|\bboi\b|caxambu|pomeran|quadrilh|capoeira|tradicion|artesanat|ind[íi]gen|quilombo|\bfesta d|divino|padroeir/i],
+  ["seg-literatura", /\blivro|literat|leitura|poesi|\bpoet|cordel|conta[çc][ãa]o de hist|\bsarau/i],
+  ["seg-museus-memoria", /museu|acervo|arquivo hist|biblioteca|mem[óo]ria/i],
+  ["seg-patrimonio", /patrim[ôo]n|restaura[çc][ãa]o|casar[ãa]o|tombad|\bigreja|capela|s[íi]tio hist/i],
+  ["seg-artes-visuais", /grafit|graff|arte urbana|\bmural|exposi[çc][ãa]o|artes visuais|escultur|pintur|\bdesign\b|\bmoda\b/i],
+  // Música por último entre as linguagens: só chega aqui o que nenhuma forma
+  // mais específica reclamou.
+  ["seg-musica", /m[úu]sic|\bshow\b|orquestr|sinf[ôo]n|filarm[ôo]n|camerat|\bcoral\b|\bcoro\b|\bcorais|\bbanda|sanfon|\bviola\b|\bjazz|\brock|\bblues|forr[óo]|sertanej|can[çc][ãa]o|\bcanto\b|\b[óo]pera\b|concerto|\bmpb\b|\bchoro\b|\bcavaquinho/i],
+  ["seg-cultura-digital", /\bjogo|\bgame|cultura digital|economia criativa|gest[ãa]o cultural|podcast|\bpodcast/i],
+];
+
+/**
+ * Infere a linguagem cultural do título, ou devolve `undefined`.
+ *
+ * Use **só** quando a fonte não publicar o segmento. O resultado é `derivado`
+ * e precisa ser marcado como tal onde aparecer.
+ */
+export function segmentoPorTitulo(titulo: string): Segmento | undefined {
+  const t = normalizar(titulo);
+  for (const [id, padrao] of REGRAS_TITULO) {
+    if (padrao.test(t) || padrao.test(titulo)) return segmentoPorId(id);
+  }
+  return undefined;
+}

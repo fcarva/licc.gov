@@ -35,7 +35,7 @@ import type {
   ProjetoStatus,
   Proveniencia,
 } from "@/types/graph";
-import { municipioPorNome, segmentoPorTermo, normaDoExercicio } from "@/ontology";
+import { municipioPorNome, segmentoPorTermo, segmentoPorTitulo, normaDoExercicio } from "@/ontology";
 import { OPORTUNIDADES_LICC } from "./sources/mapas-culturais";
 import { normalizar, slugificar } from "@/lib/text";
 
@@ -119,6 +119,8 @@ export interface RelatorioHabilitados {
   comValorCaptado: number;
   municipiosResolvidos: number;
   segmentosResolvidos: number;
+  /** Segmentos que vieram de classificação por título, não da fonte. */
+  segmentosInferidos: number;
   /** Nomes que a ontologia não reconheceu — a lacuna fica visível. */
   municipiosDesconhecidos: string[];
   segmentosDesconhecidos: string[];
@@ -505,6 +507,7 @@ export function montarHabilitados(
   let comValorCaptado = 0;
   let municipiosResolvidos = 0;
   let segmentosResolvidos = 0;
+  let segmentosInferidos = 0;
 
   for (const l of linhas) {
     // Sem endereço para conferir, o registro não pode se dizer oficial.
@@ -520,9 +523,18 @@ export function montarHabilitados(
         }]
       : undefined;
 
-    const seg = l.segmento ? segmentoPorTermo(l.segmento) : undefined;
-    if (l.segmento && !seg) segmentosDesconhecidos.add(l.segmento);
-    if (seg) segmentosResolvidos++;
+    // Segmento publicado vem primeiro; na falta dele, infere-se do título.
+    //
+    // Nenhum anexo da SECULT publica a linguagem do projeto, então na prática
+    // **todo** segmento do grafo hoje é inferido. A distinção fica registrada
+    // em `segmentoInferido` em vez de sumir na média: um campo 100% preenchido
+    // por classificação nossa não é a mesma coisa que 100% publicado.
+    const publicado = l.segmento ? segmentoPorTermo(l.segmento) : undefined;
+    if (l.segmento && !publicado) segmentosDesconhecidos.add(l.segmento);
+    const seg = publicado ?? segmentoPorTitulo(l.projeto);
+    const segInferido = !publicado && seg !== undefined;
+    if (publicado) segmentosResolvidos++;
+    if (segInferido) segmentosInferidos++;
 
     // Presença em todos os municípios que a fonte nomeia; valor atribuído só
     // quando ela nomeia **um**. O rateio entre municípios não é publicado, e
@@ -563,6 +575,7 @@ export function montarHabilitados(
         numeroProcesso: l.numeroProcesso,
         status: l.status,
         segmentoId: seg?.id,
+        ...(segInferido ? { segmentoInferido: true } : {}),
         municipioId: mun?.id,
         ...(muns.length ? { municipiosIds: muns.map((m) => m.id) } : {}),
         ...(l.enquadramento ? { cotaId: l.enquadramento } : {}),
@@ -661,6 +674,7 @@ export function montarHabilitados(
       comValorCaptado,
       municipiosResolvidos,
       segmentosResolvidos,
+      segmentosInferidos,
       municipiosDesconhecidos: [...municipiosDesconhecidos].sort(),
       segmentosDesconhecidos: [...segmentosDesconhecidos].sort(),
       problemas: [],

@@ -149,6 +149,12 @@ export interface NodeMeta {
   ano?: number;
   segmentoId?: string;
   /**
+   * `true` quando o segmento foi **classificado do título**, não publicado pela
+   * fonte. Nenhum anexo da SECULT traz linguagem cultural, então hoje isto vale
+   * para todos — e a interface precisa poder dizê-lo.
+   */
+  segmentoInferido?: boolean;
+  /**
    * Município a que o **valor** do projeto é atribuído. Preenchido só quando a
    * fonte nomeia um: com vários, o rateio não é publicado e dividir por igual
    * seria inventá-lo.

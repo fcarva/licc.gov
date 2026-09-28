@@ -28,6 +28,7 @@ import {
 import { gerarSeed } from "./seed/gerar";
 import { nosFixos, arestasFixas } from "./seed/institucional";
 import { carregarHabilitados, lotesDoExercicio } from "./ingest";
+import { lerCsv, dinheiro } from "./habilitados";
 
 const RAIZ = process.cwd();
 const DIR_DADOS = join(RAIZ, "data");
@@ -47,6 +48,14 @@ export interface RelatorioCotas {
   atendida: boolean | null;
   /** Projetos que a fonte permite classificar nesta cota, sobre o total. */
   classificaveis: { comDado: number; total: number };
+  /**
+   * O que o anexo da SECULT **imprime** para esta cota, quando publicado.
+   *
+   * É a captação de verdade, seção por seção, e não depende de o grafo
+   * conseguir classificar projeto: enquanto `alocado` é um piso derivado,
+   * `oficial.captado` é o número do documento.
+   */
+  oficial?: { captado: number; saldo: number; observacao?: string; fonteUrl: string };
 }
 
 export interface Estatisticas {
@@ -281,7 +290,39 @@ function posicionarEVariar(nodes: GraphNode[]): void {
 }
 
 /** Confere as cotas de 30% / 10% / 10% e o limite por proponente. */
-function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatisticas {
+/**
+ * Lê `data/oficial/cotas-{ano}.csv` — o captado por cota como a SECULT imprime.
+ *
+ * Os anexos de recurso captado são seccionados por inciso do art. 18: cada
+ * seção abre com o texto do inciso e o valor reservado e fecha com
+ * "Total Captado" e "Saldo disponível". Esses totais **não** dependem de
+ * atribuir projeto a cota, então cobrem o que a classificação por projeto não
+ * alcança.
+ */
+function lerCotasOficiais(ano: number): Map<string, NonNullable<RelatorioCotas["oficial"]>> {
+  const arquivo = join(DIR_DADOS, "oficial", `cotas-${ano}.csv`);
+  const fora = new Map<string, NonNullable<RelatorioCotas["oficial"]>>();
+  if (!existsSync(arquivo)) return fora;
+
+  const grade = lerCsv(readFileSync(arquivo, "utf8"));
+  const [cabecalho, ...linhas] = grade;
+  const col = (nome: string) => cabecalho.indexOf(nome);
+  for (const l of linhas) {
+    const id = l[col("cota_id")]?.trim();
+    const captado = dinheiro(l[col("captado")]);
+    if (!id || captado === undefined) continue;
+    fora.set(id, {
+      captado,
+      saldo: dinheiro(l[col("saldo")]) ?? 0,
+      ...(l[col("observacao")]?.trim() ? { observacao: l[col("observacao")].trim() } : {}),
+      fonteUrl: l[col("fonte_url")]?.trim() ?? "",
+    });
+  }
+  return fora;
+}
+
+function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[], ano: number): Estatisticas {
+  const cotasOficiais = lerCotasOficiais(ano);
   const projetos = nodes.filter((n) => n.kind === "projeto");
 
   const centavos = (n: number) => Math.round(n * 100) / 100;
@@ -315,6 +356,7 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
   const cotas: RelatorioCotas[] = REGRAS.filter((r) => r.cota !== undefined).map(
     (r) => {
       const classifica = classificador[r.id];
+      const oficial = cotasOficiais.get(r.id);
       const reservado = TETO_AUTORIZADO * r.cota!;
       const comDado = classifica
         ? projetos.filter((p) => classifica(p) !== undefined).length
@@ -341,8 +383,32 @@ function apurarEstatisticas(nodes: GraphNode[], edges: GraphEdge[]): Estatistica
         // Sem isso o painel exibiria "✗ 46,6%" sobre 31 de 63 projetos, que se
         // lê como "a SECULT furou a cota" quando o que há é meia leitura — o
         // mesmo erro do "1112%", de cabeça para baixo.
-        atendida: alocado >= reservado ? true : comDado === projetos.length ? false : null,
+        // Havendo número impresso, é ele que decide: o piso derivado deixa de
+        // ser necessário para concluir, e "indeterminado" deixa de ser honesto
+        // quando a própria SECULT publica o total da seção.
+        // Captado abaixo da reserva **não** é descumprimento quando o saldo
+        // fechou em zero: o art. 18 § 2º permite à SECULT remanejar sobra
+        // entre cotas, e o anexo de 2025 registra a operação em letras claras
+        // — a cota II captou R$ 2.329.896 de R$ 2.500.000 e imprime "Saldo
+        // disponível: R$ 0,00 remanejado para cota III", que por sua vez
+        // captou exatamente R$ 2.500.000 + R$ 170.104.
+        //
+        // Reserva consumida com saldo zero é reserva aplicada. Se a aplicação
+        // foi regular é questão jurídica, não aritmética, e o painel não a
+        // decide: fica `null`, indeterminado.
+        atendida: oficial
+          ? oficial.captado >= reservado
+            ? true
+            : oficial.saldo === 0
+              ? null
+              : false
+          : alocado >= reservado
+            ? true
+            : comDado === projetos.length
+              ? false
+              : null,
         classificaveis: { comDado, total: projetos.length },
+        ...(oficial ? { oficial } : {}),
       };
     },
   );
@@ -483,7 +549,7 @@ export function construirGrafo(ano = EXERCICIO_PADRAO): { grafo: Graph; stats: E
   propagarAgregados(nodes, edges);
   arredondarDinheiro(nodes, edges);
   posicionarEVariar(nodes);
-  const stats = apurarEstatisticas(nodes, edges);
+  const stats = apurarEstatisticas(nodes, edges, ano);
 
   const grafo: Graph = {
     meta: {
@@ -544,8 +610,10 @@ function main(): void {
     // ali seria acusar a SECULT de furar uma reserva que a fonte lida não
     // permite sequer avaliar.
     const parcial = `${c.classificaveis.comDado} de ${c.classificaveis.total} projetos classificados`;
-    const valores =
-      c.atendida === null
+    const valores = c.oficial
+      ? `${brl(c.oficial.captado)} de ${brl(c.reservado)} impressos no anexo` +
+        (c.oficial.observacao ? ` — ${c.oficial.observacao}, saldo zero` : "")
+      : c.atendida === null
         ? c.classificaveis.comDado === 0
           ? `sem dado (nenhum dos ${c.classificaveis.total} projetos é classificável)`
           : `ao menos ${brl(c.alocado)} de ${brl(c.reservado)} — indeterminado, ${parcial}`

@@ -15,10 +15,15 @@
       "reservado": 7500000,
       "alocado": 3491999.84,
       "cumprimento": 0.46559997866666664,
-      "atendida": null,
+      "atendida": true,
       "classificaveis": {
         "comDado": 31,
         "total": 63
+      },
+      "oficial": {
+        "captado": 7500000,
+        "saldo": 0,
+        "fonteUrl": "https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf"
       }
     },
     {
@@ -32,6 +37,12 @@
       "classificaveis": {
         "comDado": 31,
         "total": 63
+      },
+      "oficial": {
+        "captado": 2329896,
+        "saldo": 0,
+        "observacao": "remanejado para cota III",
+        "fonteUrl": "https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf"
       }
     },
     {
@@ -41,10 +52,15 @@
       "reservado": 2500000,
       "alocado": 1636345.47,
       "cumprimento": 0.654538188,
-      "atendida": null,
+      "atendida": true,
       "classificaveis": {
         "comDado": 31,
         "total": 63
+      },
+      "oficial": {
+        "captado": 2670104,
+        "saldo": 0,
+        "fonteUrl": "https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf"
       }
     },
     {
@@ -54,10 +70,15 @@
       "reservado": 12500000,
       "alocado": 7265241.73,
       "cumprimento": 0.5812193384000001,
-      "atendida": null,
+      "atendida": true,
       "classificaveis": {
         "comDado": 31,
         "total": 63
+      },
+      "oficial": {
+        "captado": 12500000,
+        "saldo": 0,
+        "fonteUrl": "https://secult.es.gov.br/media/2025/RECURSO%20FINANCEIRO%20CAPTADO%20-%202025%20%2817%29.pdf"
       }
     }
   ],
@@ -70,7 +91,7 @@
     "comValorAutorizado": 63,
     "comValorCaptado": 63,
     "comMunicipio": 40,
-    "comSegmento": 0,
+    "comSegmento": 41,
     "comPatrocinador": 63
   }
 }
