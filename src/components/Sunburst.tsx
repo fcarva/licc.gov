@@ -102,7 +102,9 @@ export function Sunburst({
         preserveAspectRatio="xMidYMid meet"
         className="h-full w-full"
         role="img"
-        aria-label={`Rosca do orçamento — ${titulo}, ${brl(total)}, repartido entre ${fatias.length} linguagens culturais e o teto ainda não captado`}
+        // "faixas", não "linguagens culturais": uma das fatias é a dos projetos
+        // sem linguagem classificada, que é lacuna medida e não categoria.
+        aria-label={`Rosca do orçamento — ${titulo}, ${brl(total)}, repartido entre ${fatias.length} faixas e o teto ainda não captado`}
       >
         <defs>
           {arcos.map((f) => {

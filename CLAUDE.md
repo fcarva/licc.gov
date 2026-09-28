@@ -96,7 +96,16 @@ devolveria o desenho à condição de taxonomia. `municipio`, `evento`, `espaco`
 `pessoa`, `edital` e `fundamento` também têm `anel: null`: aparecem nas páginas
 e no `/monitor`, não no desenho do fluxo.
 
-**A paleta vem do HTML do CivLab, não de amostragem.** Houve uma versão
+**A rosca de orçamento usa Flexoki; o grafo, a paleta aferida do CivLab.** A
+troca no painel de orçamento é divergência deliberada, pedida, e está
+documentada em `src/ontology/paleta-orcamento.ts` com os dois desvios que o
+validador aponta. Os valores vêm de `css/flexoki.css` no repositório
+`kepano/flexoki`, e a **ordem das matizes foi buscada** rodando
+`scripts/validate_palette.js` sobre permutações — o validador confere o pior par
+adjacente, então a ordem decide a aprovação. O que segue abaixo vale para os
+anéis do grafo.
+
+**A paleta do grafo vem do HTML do CivLab, não de amostragem.** Houve uma versão
 amostrada por contagem de pixels dos quadros da gravação; estava errada, e a
 razão vale guardar: **o pixel media o vértice aceso**, que já é a cor misturada
 a 50% com o branco. Media-se o efeito e guardava-se como causa.
@@ -127,6 +136,18 @@ argumento da página, não só o desenho.
 
 ## Armadilhas já pagas
 
+- **Projeto sem linguagem classificada é fatia própria, não sobra.** O arco
+  cinza da rosca mede "teto ainda não captado", e ele é a diferença entre o teto
+  e a soma das fatias. Enquanto os projetos sem segmento ficavam de fora, essa
+  diferença os absorvia: em 2025 o captado é 100% do teto e mesmo assim 45% do
+  círculo aparecia cinza — o gráfico afirmava que o Estado não captou metade da
+  renúncia quando captou tudo. Lacuna medida tem de aparecer como lacuna, com o
+  tamanho que tem, e não vazar para dentro de outra grandeza.
+- **O ciano do Flexoki não passa o piso de croma em degrau nenhum** (0,075 no
+  700, 0,086 no 600, 0,093 no 500). É propriedade da paleta, não erro de
+  escolha; ficou o 600, que dá a melhor separação. As regras duras — CVD ≥ 8 e
+  visão normal ≥ 15 — passam, e o piso de croma existe para marca fina não virar
+  cinza, caso que a rosca não é.
 - **Captado abaixo da reserva com saldo zero é remanejamento, não
   descumprimento.** O art. 18, § 2º permite à SECULT mover sobra entre cotas, e
   o anexo de 2025 registra a operação: a cota II captou R$ 2.329.896 de

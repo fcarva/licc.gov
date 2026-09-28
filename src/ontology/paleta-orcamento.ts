@@ -1,46 +1,85 @@
 /**
- * Paleta do painel de orçamento.
+ * Paleta do painel de orçamento — **Flexoki**.
  *
- * Família distinta da do grafo: enquanto os anéis usam pastéis suaves, a rosca
- * de orçamento do SF Government Graph usa cores **vívidas e saturadas**, para
- * que fatias finas continuem distinguíveis lado a lado.
+ * ## De onde vem, e por que trocou
  *
- * Os seis primeiros valores foram aferidos por varredura polar dos quadros da
- * gravação; os três últimos completam o conjunto para os nove segmentos da
- * LICC, mantidos na mesma luminosidade e saturação dos medidos.
+ * Os valores são do Flexoki (Steph Ango, MIT), lidos de `css/flexoki.css` no
+ * repositório `kepano/flexoki`, não de memória nem de amostragem de tela.
+ *
+ * A paleta anterior vinha por varredura polar dos quadros da gravação do SF
+ * Government Graph. **Esta troca é divergência deliberada da fidelidade ao
+ * CivLab**, pedida para o painel de orçamento; os anéis do grafo seguem com a
+ * paleta aferida, que continua descrita no `CLAUDE.md`.
+ *
+ * ## A ordem não é gosto — foi buscada
+ *
+ * O validador de paleta confere o pior par **adjacente**, então a ordem decide
+ * a aprovação. Em vez de tentar no olho, `scripts/validate_palette.js` foi
+ * rodado sobre permutações das oito matizes e ficou a de melhor separação:
+ *
+ *     vermelho → azul → laranja → roxo → verde → ciano → amarelo → magenta
+ *
+ * Resultado nas duas superfícies do projeto (`#ebeae4` e `#101013`):
+ * separação CVD 12,7 (piso 8), visão normal 15,5 (piso 15), banda de
+ * luminosidade e contraste no escuro aprovados. **Uma paleta serve os dois
+ * temas** — daí não haver variante escura a manter em sincronia.
+ *
+ * ## Os dois desvios, declarados
+ *
+ * 1. **O ciano reprova o piso de croma, e é da paleta.** O teal do Flexoki não
+ *    alcança o piso em degrau nenhum — 0,075 no 700, 0,086 no 600, 0,093 no
+ *    500. Ficou o 600, que é o de melhor separação. As regras duras do
+ *    validador (CVD ≥ 8 e visão normal ≥ 15) passam; o piso de croma existe
+ *    para marca fina não virar cinza, e aqui as marcas são arcos largos, com
+ *    nome escrito no arco e traço de 2px entre fatias.
+ * 2. **O contraste de laranja, verde e amarelo fica abaixo de 3:1 no claro.**
+ *    O validador chama isso de "relief required (visible labels or table
+ *    view)", e a rosca tem as duas coisas.
+ *
+ * ## Nove segmentos, oito matizes
+ *
+ * O Flexoki tem oito acentos e a ontologia, nove segmentos. O nono recebe o
+ * neutro `#6F6E69`, que é a dobra em "outros" que o método prescreve — gerar
+ * uma nona matiz seria inventar cor fora do sistema.
  */
 
 import { SEGMENTOS } from "./segmentos";
 
-/** Matizes do anel interno — a área que agrupa. */
+/** Matizes do anel interno, na ordem que o validador aprovou. */
 export const PALETA_ORCAMENTO = [
-  "#f8da84", // âmbar      (aferido)
-  "#9cc2fc", // azul-milho (aferido)
-  "#d1fe89", // lima       (aferido)
-  "#f48d4a", // coral      (aferido)
-  "#4cffb2", // verde-primavera (aferido)
-  "#8ae9f7", // ciano      (aferido)
-  "#ffb3c9", // rosa
-  "#c9b3fc", // lilás
-  "#ffcba4", // pêssego
+  "#D14D41", // red-400
+  "#3171B2", // blue-500
+  "#DA702C", // orange-400
+  "#735EB5", // purple-500
+  "#879A39", // green-400
+  "#24837B", // cyan-600
+  "#AD8301", // yellow-600
+  "#C04F79", // magenta-500
+  "#6F6E69", // flexoki-600 — o nono, sem matiz própria
 ] as const;
 
+/** Papel do Flexoki: para onde o anel externo clareia. */
+export const PAPEL_FLEXOKI = "#FFFCF0";
+
 /**
- * Clareia uma cor em direção ao branco.
+ * Clareia uma cor em direção ao **papel do Flexoki**, não ao branco puro.
  *
- * No original, o anel externo é o mesmo matiz do interno com cerca de 30% de
- * branco por cima — foi assim que `#f48d4a` (área) virou `#f9b387`
- * (departamento). Manter a relação, em vez de escolher duas cores soltas, é o
- * que faz o olho ler o anel externo como detalhamento do interno.
+ * O anel externo é o mesmo matiz do interno lavado de claro: é isso que faz o
+ * olho ler o externo como detalhamento do interno, em vez de duas cores
+ * soltas. Mirar `#FFFCF0` em vez de `#FFFFFF` mantém o calor do sistema — num
+ * fundo creme, clarear para branco puro esfria a fatia e a destaca do papel.
  */
-export function clarear(hex: string, fracao = 0.32): string {
+export function clarear(hex: string, fracao = 0.42): string {
   const n = parseInt(hex.slice(1), 16);
-  const misturar = (canal: number) =>
-    Math.round(canal + (255 - canal) * fracao);
+  const papel = [0xff, 0xfc, 0xf0];
   return (
     "#" +
     [(n >> 16) & 255, (n >> 8) & 255, n & 255]
-      .map((c) => misturar(c).toString(16).padStart(2, "0"))
+      .map((canal, i) =>
+        Math.round(canal + (papel[i] - canal) * fracao)
+          .toString(16)
+          .padStart(2, "0"),
+      )
       .join("")
   );
 }

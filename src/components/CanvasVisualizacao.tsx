@@ -81,7 +81,7 @@ export function CanvasVisualizacao({
 /** Segmentos no anel interno, os projetos de cada um no externo. */
 function montarFatias(grafo: Graph): FatiaSunburst[] {
   const projetos = grafo.nodes.filter((n) => n.kind === "projeto");
-  return grafo.nodes
+  const porSegmento = grafo.nodes
     .filter((n) => n.kind === "segmento" && (n.orcamento?.captado ?? 0) > 0)
     .map((seg) => ({
       id: seg.id,
@@ -100,4 +100,39 @@ function montarFatias(grafo: Graph): FatiaSunburst[] {
         })),
     }))
     .sort((a, b) => b.valor - a.valor);
+
+  // Projeto sem linguagem classificada é **fatia própria**, não sobra.
+  //
+  // O arco cinza da rosca significa "teto ainda não captado", e ele é a
+  // diferença entre o teto e a soma das fatias. Enquanto os projetos sem
+  // segmento ficavam de fora, essa diferença os absorvia: em 2025 o captado é
+  // 100% do teto, e mesmo assim 45% do círculo aparecia cinza — o gráfico
+  // dizia que o Estado não captou metade da renúncia quando captou tudo.
+  //
+  // Com fatia própria, o cinza volta a medir só o que não foi captado, e a
+  // lacuna de classificação aparece pelo que é: uma lacuna nossa, do tamanho
+  // que ela tem.
+  const semLinguagem = projetos.filter(
+    (p) => !p.meta?.segmentoId && (p.orcamento?.captado ?? 0) > 0,
+  );
+  if (!semLinguagem.length) return porSegmento;
+
+  return [
+    ...porSegmento,
+    {
+      id: "sem-linguagem",
+      rotulo: "Sem linguagem classificada",
+      valor: semLinguagem.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0),
+      // Neutro do Flexoki: não é acento porque não é categoria cultural — é o
+      // que a classificação por título não alcançou.
+      cor: "#B7B5AC",
+      filhos: semLinguagem
+        .sort((a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0))
+        .map((p) => ({
+          id: p.id,
+          rotulo: p.nome,
+          valor: p.orcamento?.captado ?? 0,
+        })),
+    },
+  ];
 }
