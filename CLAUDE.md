@@ -106,6 +106,15 @@ validador aponta. Os valores vêm de `css/flexoki.css` no repositório
 adjacente, então a ordem decide a aprovação. O que segue abaixo vale para os
 anéis do grafo.
 
+**Vértice em repouso é branco; as três camadas são do glifo.** Medido no HTML
+de `graph.civlab.org/sf` em 29/09/2026: 177 vértices saem
+`fill="#FFFFFF" fill-opacity="1"` com `stroke-opacity="1"`, e os únicos doze
+`fill-opacity="0.5"` da página são os glifos inline, de coordenada fixa. A cor a
+50% é o estado **aceso por seleção**, não o repouso. Aqui `aceso` valia
+`!cadeia || cadeia.nos.has(id)`, e sem seleção `cadeia` é nula — o primeiro termo
+já dava verdadeiro e o grafo inteiro nascia pintado. Além de pesado, isso esvazia
+a codificação: se tudo está aceso, acender não distingue nada.
+
 **A paleta do grafo vem do HTML do CivLab, não de amostragem.** Houve uma versão
 amostrada por contagem de pixels dos quadros da gravação; estava errada, e a
 razão vale guardar: **o pixel media o vértice aceso**, que já é a cor misturada

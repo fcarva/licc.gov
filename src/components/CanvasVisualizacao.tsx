@@ -105,7 +105,8 @@ export function CanvasVisualizacao({
         )}
       </div>
 
-      <div className={`shrink-0 justify-center pb-4 pt-2 ${abasVisiveis ? "flex" : "hidden"}`}>
+      {/* Embaixo à direita, como no original — não centralizado. */}
+      <div className={`shrink-0 justify-end pb-4 pr-2 pt-2 ${abasVisiveis ? "flex" : "hidden"}`}>
         <Segmentado
           opcoes={[
             { id: "grafo", rotulo: "Grafo" },

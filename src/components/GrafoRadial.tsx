@@ -191,7 +191,21 @@ export function GrafoRadial({
         {/* Vértices. */}
         <g>
           {layout.nos.map((p) => {
-            const aceso = !cadeia || cadeia.nos.has(p.no.id);
+            // Duas perguntas diferentes, e confundi-las acendia o grafo inteiro.
+            //
+            // `naCadeia` é "pertence à cadeia do vértice escolhido"; `apagado` é
+            // "há uma escolha e este ficou de fora". Em repouso — sem escolha —
+            // não há nem aceso nem apagado: no original os 177 vértices saem
+            // `fill="#FFFFFF" fill-opacity="1"` com `stroke-opacity="1"`, medido
+            // no HTML de `graph.civlab.org/sf`. Os únicos `fill-opacity="0.5"`
+            // da página são os doze glifos inline, que são ícone e não vértice.
+            //
+            // Enquanto `aceso` valia `!cadeia || …`, o repouso caía no ramo
+            // aceso e todo vértice nascia pintado a 50%. O desenho ficava pesado
+            // e, pior, a cor deixava de significar coisa alguma: se tudo está
+            // aceso, acender não distingue nada.
+            const naCadeia = Boolean(cadeia?.nos.has(p.no.id));
+            const apagado = Boolean(cadeia) && !naCadeia;
             const eSelecionado = p.no.id === selecionado?.id;
             const demonstracao = p.no.proveniencia === "demonstracao";
             const forma = caminhoDaForma(p.forma, p.r);
@@ -237,23 +251,24 @@ export function GrafoRadial({
                 ) : null}
 
                 {/* A regra do HTML do CivLab, nas três camadas dele: base
-                    branca, a cor da categoria a 50% por cima quando o vértice
-                    acende, e o traço na cor cheia. Não existe segunda cor
-                    guardada em lugar nenhum — o pastel é sempre derivado. */}
+                    branca, a cor da categoria a 50% por cima **só quando o
+                    vértice acende por seleção**, e o traço na cor cheia. Não
+                    existe segunda cor guardada em lugar nenhum — o pastel é
+                    sempre derivado. */}
                 <path d={forma} fill="var(--color-papel)" />
                 <path
                   d={forma}
                   fill={p.cor}
-                  fillOpacity={aceso ? 0.5 : 0}
+                  fillOpacity={naCadeia ? 0.5 : 0}
                   className="transition-[fill-opacity] duration-200"
                 />
                 <path
                   d={forma}
                   fill="none"
                   stroke={p.cor}
-                  strokeOpacity={aceso ? 1 : 0.55}
-                  strokeWidth={aceso ? 1.2 : 0.9}
-                  strokeDasharray={demonstracao && !aceso ? "2 2" : undefined}
+                  strokeOpacity={apagado ? 0.55 : 1}
+                  strokeWidth={apagado ? 0.9 : 1.2}
+                  strokeDasharray={demonstracao && apagado ? "2 2" : undefined}
                   className="transition-[stroke-opacity] duration-200"
                 />
               </g>

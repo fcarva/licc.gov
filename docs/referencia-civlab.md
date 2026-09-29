@@ -223,6 +223,33 @@ de ser "quem se conecta" e passa a ser **quem responde**. O cabeçalho é só no
 e uma linha de descrição ("Policies and programs related to housing development,
 affordability, and regulation").
 
+## Vértice em repouso é **branco**, e a regra das três camadas é do glifo
+
+A medição que mais corrige o que estava escrito. No HTML de `graph.civlab.org/sf`:
+
+```
+177 × fill="#FFFFFF" fill-opacity="1" stroke="<cor>" stroke-opacity="1"
+ 12 × fill-opacity="0.5"
+```
+
+Os 177 são os vértices do grafo (`cursor: pointer`, `data-node-id`). Os 12 são os
+**glifos inline** — `cx="10.5" cy="11" r="7"`, coordenada fixa, ícone de categoria
+no texto e na legenda. É ali, e só ali, que aparece a pilha de três camadas
+(branco, cor a 50%, traço na cor).
+
+Então a regra correta tem dois casos:
+
+| Onde | Como se desenha |
+| --- | --- |
+| Glifo de categoria (texto, legenda, métrica) | três camadas: branco + cor a `fill-opacity 0.5` + traço na cor |
+| Vértice do grafo, **em repouso** | branco cheio, traço na cor, `stroke-opacity 1` |
+| Vértice do grafo, **aceso** por seleção | aí sim a cor a 50% por cima |
+
+O `licc.gov` pintava todo vértice a 50% em repouso, porque `aceso` valia
+`!cadeia || cadeia.nos.has(id)` — sem seleção, `cadeia` é nula e o primeiro termo
+já dava verdadeiro. O desenho ficava pesado e, pior, a cor deixava de significar:
+se tudo está aceso, acender não distingue nada.
+
 ## O que isso muda aqui
 
 | Achado | Estado no licc.gov |
@@ -234,6 +261,13 @@ affordability, and regulation").
 | Foto em "People in Focus" | sem contraparte: a ontologia tem um só `pessoa`, e não há banco de imagem oficial |
 | Tópicos com abas próprias | sem contraparte; `/segmentos` é taxonomia de linguagem, não questão |
 | Variação anual em toda métrica | **não apurável**: `variacaoAnual` é nulo em todo nó, porque só há um exercício carregado |
+| Vértice branco em repouso | **corrigido** — era pintado a 50% sempre |
+| `Read more` em cinza ao fim da prosa | **corrigido** — estava no cabeçalho, competindo com o título |
+| Fichas de tópico preenchidas, `View All` vazada | **corrigido** |
+| Segmentado do canvas embaixo à direita | **corrigido** — estava centralizado |
+| Prosa cortada por `line-clamp-4 md:line-clamp-6` | **divergência deliberada**: não cortamos, e mantemos a lista de notas de rodapé com veículo e link. O sobrescrito já é o link, como no original; a lista é transparência nossa, e custa altura de propósito |
+| Coluna como um cartão com divisórias internas | ainda são cartões soltos com `gap-4` |
+| Sem barra de navegação no topo | divergência: o original navega por trilha, busca e conteúdo; aqui há onze seções que lá não existem |
 
 ---
 

@@ -65,22 +65,17 @@ export default function PaginaInicial() {
       coluna={
         <>
           <Cartao>
-            <TituloSecao
-              acao={
-                <Link href="/noticias" className="text-xs text-realce underline-offset-2 hover:underline">
-                  Ler mais
-                </Link>
-              }
-            >
-              Últimas notícias
-            </TituloSecao>
-            <NoticiasEmProsa noticias={noticias} />
+            <TituloSecao>Últimas notícias</TituloSecao>
+            <NoticiasEmProsa noticias={noticias} maisHref="/noticias" />
           </Cartao>
 
           <Cartao>
             <TituloSecao
               acao={
-                <Link href="/segmentos" className="text-xs text-realce underline-offset-2 hover:underline">
+                <Link
+                  href="/segmentos"
+                  className="rounded-full border border-borda px-3 py-1 text-xs text-tinta-suave transition-colors hover:border-borda-forte hover:text-tinta"
+                >
                   Ver todos
                 </Link>
               }
@@ -92,7 +87,10 @@ export default function PaginaInicial() {
                 <li key={s.id}>
                   <Link
                     href={`/entidade/${s.slug}`}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-borda px-3 py-1.5 text-xs text-tinta-suave transition-colors hover:border-borda-forte hover:text-tinta"
+                    // Preenchida, não vazada: no original as fichas de tópico
+                    // têm fundo próprio e uma cor só para todas. O ponto colorido
+                    // fica porque é nosso — amarra a ficha ao setor do grafo.
+                    className="inline-flex items-center gap-1.5 rounded-full bg-papel-fundo px-3 py-1.5 text-xs font-medium text-tinta-suave transition-colors hover:bg-cinza-medio hover:text-tinta"
                   >
                     <span
                       aria-hidden="true"

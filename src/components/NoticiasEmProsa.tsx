@@ -16,7 +16,14 @@ export interface NoticiaComEntidade extends Noticia {
  * órgão citado é clicável e cada afirmação tem número de referência transforma
  * o feed em responsabilização. Uma lista de manchetes não faz isso.
  */
-export function NoticiasEmProsa({ noticias }: { noticias: NoticiaComEntidade[] }) {
+export function NoticiasEmProsa({
+  noticias,
+  maisHref,
+}: {
+  noticias: NoticiaComEntidade[];
+  /** Destino do "Ler mais" que fecha a prosa. Sem ele, o link não se desenha. */
+  maisHref?: string;
+}) {
   const destaques = noticias.slice(0, 4);
   if (!destaques.length) {
     return <p className="text-sm text-tinta-fraca">Nenhuma publicação carregada.</p>;
@@ -55,6 +62,19 @@ export function NoticiasEmProsa({ noticias }: { noticias: NoticiaComEntidade[] }
           </span>
           );
         })}
+        {/*
+          Ao fim da prosa e em cinza, como o "Read more" do original — não no
+          cabeçalho. Ali ele compete com o título da seção; aqui é a continuação
+          natural da leitura, no ponto exato em que o texto para.
+        */}
+        {maisHref ? (
+          <Link
+            href={maisHref}
+            className="whitespace-nowrap text-tinta-fraca underline-offset-2 hover:text-tinta hover:underline"
+          >
+            Ler mais
+          </Link>
+        ) : null}
       </p>
 
       <ol className="mt-3 space-y-0.5 border-t border-borda pt-2.5">
