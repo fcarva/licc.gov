@@ -17,6 +17,7 @@ npm run build          # 342 páginas estáticas
 npm run build:graph    # regenera data/graph.json e data/stats.json
 npm run ingest         # coleta o Mapa Cultural do ES (ver bloqueio abaixo)
 npm run importar:habilitados   # planilha da SECULT → grafo, sem rede nenhuma
+npm run auditar:segmentos      # audita a classificação por linguagem
 ```
 
 A aplicação sobe sem nenhum passo de dados: se `data/graph.json` não existir,
@@ -165,6 +166,41 @@ argumento da página, não só o desenho.
   regras divergem de propósito do `aval-pol`, que agrupa "música popular e
   festivais" numa classe só. Palavra de formato — festival, mostra, encontro,
   semana — só entra acompanhada da linguagem.
+- **Concordância entre duas derivações não é acerto, e o nome da variável
+  importa.** A auditoria de segmentos mede as regras contra um conferente, e
+  quando esse conferente é outra inferência o que sai é desacordo, não verdade:
+  onde as duas discordam uma está errada; onde concordam **podem estar erradas
+  juntas**. Em 2025 deu 85,7% e κ de Cohen 0,813 — e, com esse κ, `graff` ainda
+  casava dentro de "ORIGRAFFES" e `\bfesta d` classificava a "Festa da Palavra"
+  como cultura popular. Chamar isso de "acurácia" faria a interface trocar
+  "derivado" por "conferido" sem nada ter sido conferido.
+- **Folha de conferência tem de ser cega, e célula vazia não é veredito.** Folha
+  que mostra o que as regras decidiram mede assentimento: quem preenche ancora na
+  resposta à vista e o número sai inflado sem ninguém mentir. Por isso o veredito
+  da máquina mora em `segmentos-evidencia.csv` e só encontra a folha na leitura de
+  volta. E `nenhuma` ("julguei, não dá para dizer") é diferente de vazio ("ainda
+  não julguei") — sem essa distinção não se mede se os projetos **sem** classe
+  estão certos, que é onde o classificador erra sem aparecer. Folha sem veredito
+  recusa e sai com código 1, como os conferidores de `tools/anexos-secult/`.
+- **Auditar o classificador pede o corpus todo, não o que está no grafo.** O
+  artefato sob teste é a lista de regras, então ela roda contra os 530 títulos —
+  63 do grafo mais 467 da lista de habilitados —, e foi isso que resolveu o caso
+  ORIGRAFFES: sobre os 63 o casamento de `graff` dentro de um nome inventado
+  parecia defeito, e outra linha do corpus grande soletra "Origraffes (Original
+  Graffiti Espírito Santo)". É festival de grafite, a regra acertou por um
+  caminho suspeito, e só o corpus maior provou.
+- **Topônimo não é linguagem.** `divino`, que existe para a Festa do Divino,
+  casava em "Divino de São Lourenço" — município capixaba — e, por vir antes de
+  `patrimonio` na ordem, escondia a classe certa de um projeto de restauro. O
+  termo dispara **uma vez em 530 títulos e é falso positivo**; a Festa do Divino
+  real é pega por `\bfesta d`. A verificação confere o trecho casado contra os 78
+  municípios da ontologia, então acha a classe inteira do problema em vez do caso.
+- **Auditoria que reimplementa o classificador audita uma cópia.** Por isso
+  `segmentoPorTitulo()` é invólucro fino de `classificarTitulo()`, que devolve a
+  evidência (regra, trecho, caminho, candidatas preteridas). E por isso o
+  relatório compara o `segmentoId` gravado em `data/graph.json` com o que o
+  classificador produz agora, saindo com erro quando divergem: artefato velho e
+  auditoria fora do caminho de produção invalidam o relatório do mesmo jeito.
 - **Rótulo de cobertura tem de dizer a origem quando o campo é derivado.** A
   linha de linguagem em `/indicadores` dizia "identificada", o que se lê como
   fonte oficial; cobertura alta é onde o rótulo engana mais, porque 100% de
@@ -396,6 +432,8 @@ valores truncados por quebra de linha dentro da célula.
 | `pipeline/sources/` | Cliente da API do Mapas Culturais |
 | `pipeline/seed/` | Conjunto de demonstração determinístico (`mulberry32`) |
 | `pipeline/build-graph.ts` | Agregados, posição, variação anual, conferência de cotas |
+| `pipeline/auditar-segmentos.ts` | Auditoria da linguagem: estrutura das regras e concordância |
+| `data/auditoria/` | Folha de conferência e evidência por título, versionadas |
 | `tools/scrape-civlab/` | Medição do CivLab — executa fora deste ambiente |
 | `tools/anexos-secult/` | Anexos da SECULT → CSV — executa fora deste ambiente |
 | `data/*.json` | Artefatos versionados de propósito: o diff entre coletas é auditável |
@@ -450,9 +488,16 @@ a terceira proveniência do modelo —, o nó carrega `meta.segmentoInferido` e 
 rótulo em `/indicadores` diz "classificada do título (derivado, não publicado)".
 O vocabulário das regex veio de `fcarva/aval-pol`
 (`analise/06_alocacao_linguagens.py`), adaptado às 9 classes do Mapas Culturais.
-**Pendência herdada de lá:** a amostra de conferência manual daquele repositório
-(`06_amostra_conferencia.csv`, 60 títulos) está com a coluna
-`linguagem_conferida` vazia. Nossa classificação carrega a mesma pendência.
+**A pendência herdada de lá está medida, não resolvida.** Aquele repositório
+emitiu uma folha de 60 títulos e nunca a preencheu. `npm run auditar:segmentos`
+fecha essa parte: a folha é censo dos 63, cega, e está preenchida em
+`data/auditoria/segmentos-folha.csv` com `conferente: modelo` — segunda
+derivação, não gabarito. Concordância 85,7%, κ de Cohen 0,813, com nove
+divergências: seis que as regras não classificam e o conferente sim (Bach sem a
+palavra "música", "Compondo na Rua", "Batidas do Mundo"), duas em que as regras
+classificam e o conferente não, e uma de classe trocada — "2ª Festa da Palavra",
+festival literário que `\bfesta d` carimbou como cultura popular. **A conferência
+humana continua faltando**, e a interface segue dizendo "derivado, não publicado".
 
 **As cotas do art. 18 agora vêm impressas** (`data/oficial/cotas-2025.csv`). Os
 anexos de recurso captado são seccionados por inciso e cada seção fecha com
@@ -490,12 +535,15 @@ valor atribuído, porque entram só por projeto multi-município.
    mais promissor. Três nomes de município também não resolvem contra a
    ontologia: "Vila Veha" (erro de digitação da fonte), "Marechal" e "Itaúnas"
    (distrito, não município).
-3. **Conferir a classificação por linguagem.** 41 dos 63 projetos têm classe
-   inferida do título; 22 não casam com regra nenhuma e ficam sem segmento. A
-   conferência manual é o que falta para os números saírem de exploratórios —
-   sortear uma amostra, conferir à mão e só então tratar a distribuição por
-   linguagem como leitura, não como hipótese. Resistir a criar regra olhando os
-   títulos que sobraram: isso é ajustar ao gabarito, não classificar.
+3. **Conferir a linguagem à mão, e só depois mexer nas regras.** A medição está
+   feita (`npm run auditar:segmentos -- --conferir`), mas o conferente é outra
+   derivação: falta uma passada humana sobre `data/auditoria/segmentos-folha.csv`
+   — mova a folha, reemita e preencha com `conferente: humano`, para as duas
+   colunas ficarem comparáveis. **Só então** corrigir regra, usando a lista de
+   divergências: `\bfesta d` é o alvo mais claro (dispara 28 vezes e pegou um
+   festival literário) e `divino` é falso positivo puro (uma ocorrência, e é
+   município). Corrigir antes da passada humana é fitar o classificador a uma
+   inferência, que é a armadilha de ajustar ao gabarito com o gabarito errado.
 4. **Valores por projeto.** A API pública do Mapas Culturais não expõe as
    inscrições (`registration`) de uma oportunidade — exige JWT — e é ali que
    vivem os valores da LICC. Precisam vir dos anexos publicados pela SECULT.

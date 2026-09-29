@@ -199,20 +199,97 @@ export function segmentoPorSlug(slug: string): Segmento | undefined {
  * — festival, mostra, encontro, semana — só entra acompanhada da linguagem, e
  * sozinha deixa o projeto sem classe.
  */
-const REGRAS_TITULO: Array<[string, RegExp]> = [
+export interface RegraTitulo {
+  /**
+   * Nome curto da regra, para o relatório de auditoria poder citá-la.
+   * Não é o id do segmento: duas regras podem apontar para o mesmo segmento.
+   */
+  id: string;
+  segmentoId: string;
+  padrao: RegExp;
+}
+
+const REGRAS_TITULO: RegraTitulo[] = [
   // Audiovisual antes de tudo: "Festival de Cinema" tem de cair aqui, não em música.
-  ["seg-audiovisual", /cinema|cine\b|\bfilme|curta|longa.?metragem|document[áa]rio|audiovisual|anima[çc][ãa]o|webs[ée]rie|\bs[ée]rie\b|fotograf/i],
-  ["seg-artes-cenicas", /teatr|espet[áa]cul|\bdan[çc]a|ballet|\bbal[ée]\b|circo|circens|palha[çc]|c[êe]nic|\bmamulengo|bonecos/i],
-  ["seg-culturas-populares", /congo|folia|\breis\b|jongo|ticumbi|folclor|carnaval|\bsamba|\bboi\b|caxambu|pomeran|quadrilh|capoeira|tradicion|artesanat|ind[íi]gen|quilombo|\bfesta d|divino|padroeir/i],
-  ["seg-literatura", /\blivro|literat|leitura|poesi|\bpoet|cordel|conta[çc][ãa]o de hist|\bsarau/i],
-  ["seg-museus-memoria", /museu|acervo|arquivo hist|biblioteca|mem[óo]ria/i],
-  ["seg-patrimonio", /patrim[ôo]n|restaura[çc][ãa]o|casar[ãa]o|tombad|\bigreja|capela|s[íi]tio hist/i],
-  ["seg-artes-visuais", /grafit|graff|arte urbana|\bmural|exposi[çc][ãa]o|artes visuais|escultur|pintur|\bdesign\b|\bmoda\b/i],
+  { id: "audiovisual", segmentoId: "seg-audiovisual", padrao: /cinema|cine\b|\bfilme|curta|longa.?metragem|document[áa]rio|audiovisual|anima[çc][ãa]o|webs[ée]rie|\bs[ée]rie\b|fotograf/i },
+  { id: "cenicas", segmentoId: "seg-artes-cenicas", padrao: /teatr|espet[áa]cul|\bdan[çc]a|ballet|\bbal[ée]\b|circo|circens|palha[çc]|c[êe]nic|\bmamulengo|bonecos/i },
+  { id: "populares", segmentoId: "seg-culturas-populares", padrao: /congo|folia|\breis\b|jongo|ticumbi|folclor|carnaval|\bsamba|\bboi\b|caxambu|pomeran|quadrilh|capoeira|tradicion|artesanat|ind[íi]gen|quilombo|\bfesta d|divino|padroeir/i },
+  { id: "literatura", segmentoId: "seg-literatura", padrao: /\blivro|literat|leitura|poesi|\bpoet|cordel|conta[çc][ãa]o de hist|\bsarau/i },
+  { id: "museus", segmentoId: "seg-museus-memoria", padrao: /museu|acervo|arquivo hist|biblioteca|mem[óo]ria/i },
+  { id: "patrimonio", segmentoId: "seg-patrimonio", padrao: /patrim[ôo]n|restaura[çc][ãa]o|casar[ãa]o|tombad|\bigreja|capela|s[íi]tio hist/i },
+  { id: "visuais", segmentoId: "seg-artes-visuais", padrao: /grafit|graff|arte urbana|\bmural|exposi[çc][ãa]o|artes visuais|escultur|pintur|\bdesign\b|\bmoda\b/i },
   // Música por último entre as linguagens: só chega aqui o que nenhuma forma
   // mais específica reclamou.
-  ["seg-musica", /m[úu]sic|\bshow\b|orquestr|sinf[ôo]n|filarm[ôo]n|camerat|\bcoral\b|\bcoro\b|\bcorais|\bbanda|sanfon|\bviola\b|\bjazz|\brock|\bblues|forr[óo]|sertanej|can[çc][ãa]o|\bcanto\b|\b[óo]pera\b|concerto|\bmpb\b|\bchoro\b|\bcavaquinho/i],
-  ["seg-cultura-digital", /\bjogo|\bgame|cultura digital|economia criativa|gest[ãa]o cultural|podcast|\bpodcast/i],
+  { id: "musica", segmentoId: "seg-musica", padrao: /m[úu]sic|\bshow\b|orquestr|sinf[ôo]n|filarm[ôo]n|camerat|\bcoral\b|\bcoro\b|\bcorais|\bbanda|sanfon|\bviola\b|\bjazz|\brock|\bblues|forr[óo]|sertanej|can[çc][ãa]o|\bcanto\b|\b[óo]pera\b|concerto|\bmpb\b|\bchoro\b|\bcavaquinho/i },
+  { id: "digital", segmentoId: "seg-cultura-digital", padrao: /\bjogo|\bgame|cultura digital|economia criativa|gest[ãa]o cultural|podcast|\bpodcast/i },
 ];
+
+/** Vista somente-leitura das regras, para a auditoria contá-las e nomeá-las. */
+export const REGRAS_DE_TITULO: readonly RegraTitulo[] = REGRAS_TITULO;
+
+export interface CasamentoRegra {
+  /** Posição da regra na lista. A ordem é o que decide o empate. */
+  ordem: number;
+  regraId: string;
+  segmentoId: string;
+  /** O trecho do título que a regex casou — a evidência da classificação. */
+  trecho: string;
+  /**
+   * Em que forma do título a regex casou.
+   *
+   * `segmentoPorTitulo` testa o normalizado **e** o cru, então regra que casa em
+   * só um dos dois depende de acento e é frágil: basta a fonte grafar sem acento
+   * (ou com) para a classe mudar. A auditoria precisa ver isso.
+   */
+  caminho: "ambos" | "normalizado" | "cru";
+}
+
+export interface ClassificacaoTitulo {
+  titulo: string;
+  /** O vencedor: o primeiro casamento na ordem das regras. */
+  segmento?: Segmento;
+  /**
+   * Todos os casamentos, na ordem das regras — não só o vencedor.
+   *
+   * Com mais de um, a **ordem** está decidindo sozinha qual linguagem o projeto
+   * recebe, e essa decisão fica invisível em quem só devolve o vencedor. É o que
+   * a auditoria chama de conflito de ordem.
+   */
+  casamentos: CasamentoRegra[];
+}
+
+/**
+ * Classifica o título **e devolve a evidência** de como chegou lá.
+ *
+ * É esta função que `segmentoPorTitulo` usa, de propósito: a auditoria tem de
+ * exercitar o caminho de produção. Auditoria que reimplementa o classificador
+ * audita uma cópia, e as duas divergem sem avisar.
+ */
+export function classificarTitulo(titulo: string): ClassificacaoTitulo {
+  const t = normalizar(titulo);
+  const casamentos: CasamentoRegra[] = [];
+
+  REGRAS_TITULO.forEach((regra, ordem) => {
+    // `exec` no lugar de `test` só para guardar o trecho: as regex não têm
+    // flag `g`, então não carregam `lastIndex` e a chamada é sem estado.
+    const noNormalizado = regra.padrao.exec(t);
+    const noCru = regra.padrao.exec(titulo);
+    if (!noNormalizado && !noCru) return;
+    casamentos.push({
+      ordem,
+      regraId: regra.id,
+      segmentoId: regra.segmentoId,
+      trecho: (noNormalizado ?? noCru)![0],
+      caminho: noNormalizado && noCru ? "ambos" : noNormalizado ? "normalizado" : "cru",
+    });
+  });
+
+  return {
+    titulo,
+    segmento: casamentos.length ? segmentoPorId(casamentos[0].segmentoId) : undefined,
+    casamentos,
+  };
+}
 
 /**
  * Infere a linguagem cultural do título, ou devolve `undefined`.
@@ -221,9 +298,5 @@ const REGRAS_TITULO: Array<[string, RegExp]> = [
  * e precisa ser marcado como tal onde aparecer.
  */
 export function segmentoPorTitulo(titulo: string): Segmento | undefined {
-  const t = normalizar(titulo);
-  for (const [id, padrao] of REGRAS_TITULO) {
-    if (padrao.test(t) || padrao.test(titulo)) return segmentoPorId(id);
-  }
-  return undefined;
+  return classificarTitulo(titulo).segmento;
 }

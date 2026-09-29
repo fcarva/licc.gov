@@ -251,6 +251,62 @@ as listas de adjacência de entrada e saída. Se os artefatos não existirem,
 constrói o grafo em memória — a aplicação nunca sobe quebrada por falta de um
 passo de build.
 
+## 5. Auditoria dos segmentos — `pipeline/auditar-segmentos.ts`
+
+A linguagem cultural é o único campo **inteiramente derivado** do grafo: nenhum
+anexo da SECULT a publica, e a única evidência é o título — projeto não tem
+`objeto` nem `descricao`, porque a extração dos habilitados descarta a coluna de
+objeto de propósito (a prosa atravessa fronteira de registro). Sem segundo campo
+para cruzar, não há gabarito automático, e a auditoria se parte em duas.
+
+### Estrutural — prova propriedades das regras, sem conferente
+
+Roda sobre **530 títulos**: os 63 do grafo mais os 467 da lista de habilitados.
+A lista não cria projeto, mas o artefato sob teste aqui é a **lista de regras**, e
+ela merece ser exercitada contra todo título que existe.
+
+| Verificação | O que procura |
+| --- | --- |
+| artefato × classificador | `data/graph.json` e `classificarTitulo()` têm de dizer o mesmo. Divergir significa artefato velho ou auditoria fora do caminho de produção, e **sai com erro**: as duas hipóteses invalidam o resto do relatório. |
+| conflito de ordem | Título em que mais de uma regra casa. A ordem decide sozinha, e num classificador de primeiro-casamento essa decisão é invisível. |
+| regra morta | Regra que nunca dispara: regex quebrada, ou vocabulário que não se aplica ao ES. |
+| casamento em topônimo | Termo que casa dentro de nome de município. O lugar onde o projeto acontece não diz a linguagem dele. |
+| casamento intra-palavra | Termo achado no meio de outra palavra. Testa só à esquerda: as regras são radicais por desenho — `teatr` tem de pegar "teatro" —, então letra depois é esperado e letra antes quase nunca é intenção. |
+| dependência de acento | `segmentoPorTitulo` testa o título normalizado **e** o cru. Regra que casa em só um dos dois depende da grafia da fonte. |
+
+### Concordância — duas derivações, e o que o número não diz
+
+```bash
+npm run auditar:segmentos                 # estrutural + data/auditoria/segmentos-evidencia.csv
+npm run auditar:segmentos -- --folha      # emite a folha cega
+npm run auditar:segmentos -- --conferir   # lê a folha preenchida
+```
+
+A folha sai **sem o veredito da máquina**, e isso é o ponto: folha que mostra o
+que as regras decidiram mede assentimento, não juízo independente — quem preenche
+ancora na resposta à vista e a concordância sai inflada sem ninguém ter mentido.
+O veredito mora na evidência e só encontra a folha na leitura de volta.
+
+Célula vazia é "ainda não julguei"; `nenhuma` é "julguei, e o título não sustenta
+linguagem". A distinção é o que permite medir se os projetos que as regras
+deixaram sem classe estão certos — e é ali que o classificador mais erra sem
+aparecer. Folha sem nenhum veredito **não rende número**: o comando recusa e sai
+com código 1.
+
+O que sai é `concordancia` e o **κ de Cohen**, nunca "acerto". Quando o conferente
+é outra inferência — e o campo `conferente` registra qual —, o que se mede é
+desacordo entre duas derivações: onde discordam uma está errada, e isso é uma
+lista de triagem útil; onde concordam **podem estar erradas juntas**. Nada aqui
+promove a cobertura de linguagem a "conferida".
+
+### O que o pipeline não faz
+
+Não propõe regex e não conserta regra. Ajustar uma regra para casar com o
+conferente é fitar o classificador a outra inferência — "ajustar ao gabarito"
+numa forma pior, porque o gabarito não é verdade. Divergência é relatada; mexer
+em regra é decisão à parte, tomada depois, com a folha preenchida como registro
+do que se corrigiu contra o quê.
+
 ## Operação
 
 ```bash
@@ -259,7 +315,11 @@ LICC_ANO=2025 npm run ingest      # outro exercício
 LICC_MAX=50 npm run ingest        # amostra, para testar
 npm run build:graph               # consolida
 npm run data                      # os dois
+npm run auditar:segmentos         # audita a classificação por linguagem
 ```
+
+`data/auditoria/` é versionado pela mesma razão: a folha preenchida é o registro
+de contra o que as regras foram medidas, e o diff entre execuções é auditável.
 
 `data/raw/` é ignorado pelo git; `data/graph.json` e `data/stats.json` são
 versionados de propósito — o grafo é um artefato auditável, e a diferença entre
