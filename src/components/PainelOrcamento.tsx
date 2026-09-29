@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { Graph, GraphNode } from "@/types/graph";
 import { concentracaoDoCapital, desigualdadeTerritorial } from "@/lib/indicadores";
 import { CORES_GRAFICO } from "@/ontology/paleta-grafico";
-import { brl, numero, percentual } from "@/lib/format";
+import { brl, brlCurto, numero, percentual } from "@/lib/format";
 import { Cartao, TituloSecao, Metrica } from "./Coluna";
 import { AlocacaoProporcional, type LinhaAlocacao } from "./AlocacaoProporcional";
 import { corDoSegmento } from "@/ontology/paleta-orcamento";
@@ -206,7 +206,15 @@ export function PainelOrcamento({
                   </strong>{" "}
                   não receberam nenhum projeto no exercício, e{" "}
                   <span className="tabular">{percentual(territorio.dados.fracaoNaRmgv, 1)}</span>{" "}
-                  do valor ficou na Região Metropolitana.
+                  {/*
+                    A razão nomeia o denominador — terceira cópia desta frase, e
+                    a última a ser corrigida. O divisor é o valor **atribuído a
+                    município**, não o captado do exercício: sobre os R$ 25 mi a
+                    fatia da RMGV é 38,2%, não 66,4%.
+                  */}
+                  do valor com município atribuído ficou na Região Metropolitana
+                  — {brlCurto(territorio.dados.captadoSemMunicipio)} não entram
+                  em município nenhum.
                 </p>
               </li>
             ) : null}

@@ -179,6 +179,64 @@ via `focus:ring-2 focus:ring-grey-4`. Tipografia Inter: `type-header-1`
 
 ---
 
+# Remedição de 29/09/2026 — `graph.civlab.org/sf`
+
+> Lida via Firecrawl, que não passa pelo proxy de egresso. **O original mudou
+> desde os despejos de agosto**, e o que segue substitui o que diverge acima.
+
+## A coluna-documento da home, em ordem
+
+1. Trilha `CivLab / SF Gov`
+2. **Latest News** — prosa com entidades ligadas e notas de rodapé numeradas
+3. **Trending Topics** — fichas de tópico e um `View All` para `/sf/topics`
+4. **People in Focus** — três cartões com **foto**, cargo, descrição e `View profile →`
+5. **Overview** — "Top level metrics … tracking total entity counts and fiscal data",
+   em dois degraus:
+   - contagens: Residents 842.027 (com `*` ligando à fonte demográfica),
+     Elected 10, Commissions 51, Advisory 55, Departments 54;
+   - `This Year 2026-2027`: Total Budget $16.85B ↑5,38%, Total Revenue $16.85B
+     ↑5,38%, City Employees 34.151 ↓3,44% — cada um com a variação anual;
+   - e **dois chamados**: `Explore budget` e `How the budget is made`, este
+     apontando para o ensaio no Substack.
+6. **About** — "We cannot govern systems we don't understand…", a nota
+   _"CivLab is not affiliated with the City and County of San Francisco"_ e os
+   contatos.
+
+O canvas segue com o segmentado `Graph | Budget`, e a legenda de categorias
+aparece sobre ele (`ELECTED COMMISSION DEPARTMENT People of San Francisco`).
+
+## As abas de entidade ganharam uma quarta
+
+Em `/sf/departments/ccsf-department-of-public-health`: **News · Who's connected?
+· Budget · Media**. O cabeçalho traz, em ordem: nome, descrição, os links
+`Legal Source` e `Official Website`, a contagem `7743 Budgeted Employees` e o
+cartão do titular (`Public Health, Director` / `Daniel Tsai` / `Appointed 2025`).
+
+Cada notícia é ficha com título, data, resumo, veículo e imagem, e a lista fecha
+com `Load more`.
+
+## Tópicos são uma seção de topo, com abas próprias
+
+`/sf/topics/<slug>`, trilha `CivLab / SF Gov / Topics`, e as abas são
+**News · Who's Responsible? · Media** — repare que num tópico a pergunta deixa
+de ser "quem se conecta" e passa a ser **quem responde**. O cabeçalho é só nome
+e uma linha de descrição ("Policies and programs related to housing development,
+affordability, and regulation").
+
+## O que isso muda aqui
+
+| Achado | Estado no licc.gov |
+| --- | --- |
+| Ordem da coluna da home | já espelhada: notícias, temas em alta, entidades em foco, panorama, este exercício, sobre |
+| `Explore budget` vira a aba do canvas | **corrigido**: era link para `/orcamento`, agora troca a vista ao lado por contexto |
+| `How the budget is made` | sem contraparte — seria um `/como-funciona`, e metade dos passos da LICC está `verificado: false` |
+| Aba `Media` | sem contraparte: não há acervo de mídia no grafo |
+| Foto em "People in Focus" | sem contraparte: a ontologia tem um só `pessoa`, e não há banco de imagem oficial |
+| Tópicos com abas próprias | sem contraparte; `/segmentos` é taxonomia de linguagem, não questão |
+| Variação anual em toda métrica | **não apurável**: `variacaoAnual` é nulo em todo nó, porque só há um exercício carregado |
+
+---
+
 # O que se implementou diferente, e por quê
 
 Registro das divergências deliberadas entre o original e o licc.gov. Nenhuma é

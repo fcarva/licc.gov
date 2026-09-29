@@ -332,6 +332,19 @@ argumento da página, não só o desenho.
   conferência cruzada: é o "1112%" em escala menor, e inflava justamente o lado
   politicamente carregado. Hoje o rótulo diz "do valor com município atribuído" e
   os R$ 10,6 mi sem território aparecem como número próprio.
+- **A mesma razão errada mora em três lugares.** "66,4% do valor" apareceu em
+  `/indicadores`, em `/municipios` (como "33,6% do total captado") e ainda uma
+  terceira vez no painel de orçamento da home. Corrigir onde se viu não é
+  corrigir: frase que cita número derivado é copiada, e `grep` pelo texto acha só
+  a redação, não a razão. Ao mexer num denominador, procure pelo **nome da
+  grandeza** (`fracaoNaRmgv`) em todo o repositório, não pela frase.
+- **A referência do CivLab envelhece — ela é um instantâneo, não um espelho.**
+  Os despejos de agosto/2026 registravam abas `News | Who's connected? | Budget`;
+  a remedição de 29/09/2026, via Firecrawl sobre `graph.civlab.org/sf`, achou uma
+  quarta aba (`Media`), páginas de tópico com abas próprias
+  (`News | Who's Responsible? | Media`) e a home reorganizada. `firecrawl_scrape`
+  **existe nesta sessão** e não passa pelo proxy de egresso, então remedir é
+  barato: faça isso antes de "corrigir" divergência contra a tabela antiga.
 - **Varredura de links tem de cobrir toda rota, não as que se lembrou.** Seis
   `href="/segmentos/<slug>"` na tabela do indicador 3 apontavam para uma rota que
   **nunca existiu** — 404 em produção. A conferência anterior olhou só `/entidade`
@@ -415,7 +428,13 @@ Duas saídas funcionam, e **as duas só localizam, nenhuma lê**:
 - `WebSearch` — foi assim que as URLs dos anexos em `docs/pipeline.md` foram
   achadas.
 - `mcp__Firecrawl__firecrawl_search` — não passa pelo proxy de egresso. Devolve
-  título, URL e descrição; nesta sessão **não há `firecrawl_scrape`**.
+  título, URL e descrição.
+- `mcp__Firecrawl__firecrawl_scrape` — **existe**, e lê a página inteira, também
+  sem passar pelo proxy. Foi assim que `graph.civlab.org/sf` foi remedido e que o
+  ensaio "How the SF Budget is Made" foi lido. Isto muda o que se pode auditar:
+  página pública que o Firecrawl alcança é **texto lido**, não só identidade. O
+  que continua valendo é que nada disso alcança `planalto.gov.br` ou os diários
+  oficiais pelo proxy, então norma segue conferida só onde há PDF acessível.
 
 Daí a regra prática: essas buscas **auditam identidade de norma** — número,
 data, ementa, URL oficial, e o trecho que o buscador expõe — e **não auditam

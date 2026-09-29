@@ -6,6 +6,7 @@ import { CanvasVisualizacao, type Aba } from "./CanvasVisualizacao";
 import { PainelSelecao } from "./PainelSelecao";
 import { PainelOrcamento, type CotaResumo } from "./PainelOrcamento";
 import { PaginaComCanvas } from "./PaginaComCanvas";
+import { CanvasContexto } from "./CanvasContexto";
 
 /**
  * Amarra a coluna-documento ao canvas.
@@ -39,6 +40,9 @@ export function HomeGrafo({
   };
 
   return (
+    // O contexto é o que deixa a coluna — montada no servidor — virar a aba do
+    // canvas, como o "Explore budget" do original faz.
+    <CanvasContexto.Provider value={{ abrir: setAba }}>
     <PaginaComCanvas
       coluna={
         selecionado ? (
@@ -71,5 +75,6 @@ export function HomeGrafo({
         />
       }
     />
+    </CanvasContexto.Provider>
   );
 }

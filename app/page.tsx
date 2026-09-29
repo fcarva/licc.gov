@@ -5,6 +5,7 @@ import { Cartao, TituloSecao, Metrica } from "@/components/Coluna";
 import { NoticiasEmProsa, type NoticiaComEntidade } from "@/components/NoticiasEmProsa";
 import type { NodeKind } from "@/types/graph";
 import { Glifo } from "@/components/Glifo";
+import { BotaoCanvas } from "@/components/CanvasContexto";
 import { brl, numero, percentual } from "@/lib/format";
 
 /**
@@ -147,9 +148,10 @@ export default function PaginaInicial() {
           <Cartao>
             <TituloSecao
               acao={
-                <Link href="/orcamento" className="text-xs text-realce underline-offset-2 hover:underline">
-                  Explorar orçamento
-                </Link>
+                // Vira a aba do canvas ao lado em vez de navegar: é o que o
+                // "Explore budget" do original faz, e mantém a leitura na mesma
+                // tela — os números aqui, a rosca que os reparte ali.
+                <BotaoCanvas aba="orcamento">Explorar orçamento →</BotaoCanvas>
               }
             >
               Este exercício{" "}
