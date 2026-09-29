@@ -29,7 +29,14 @@
   --color-tinta: #1c1917;
   --color-tinta-forte: #383633;
   --color-tinta-suave: #57534e;
-  --color-tinta-fraca: #7e776c;
+  /* Um degrau mais escuro que o `grey-4` do original, e a razão é medida.
+     `#7e776c` dá 3,68 de contraste sobre `papel-fundo` e 4,43 sobre branco —
+     abaixo dos 4,5 que a WCAG pede para texto normal. Lá esse tom aparece em
+     corpo maior; aqui é a cor de quase todo rótulo de 10 a 12px, que é
+     justamente onde contraste mais importa. `#6f695f` é o primeiro valor que
+     passa no fundo mais exigente (4,52) mantendo 37 unidades de distância do
+     degrau de cima — escurecer mais colapsaria dois degraus da rampa num só. */
+  --color-tinta-fraca: #6f695f;
 
   --color-papel: #ffffff;
   --color-papel-suave: #f9f8f7;

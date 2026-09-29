@@ -18,6 +18,7 @@ npm run build:graph    # regenera data/graph.json e data/stats.json
 npm run ingest         # coleta o Mapa Cultural do ES (ver bloqueio abaixo)
 npm run importar:habilitados   # planilha da SECULT → grafo, sem rede nenhuma
 npm run auditar:segmentos      # audita a classificação por linguagem
+npm run usabilidade            # passada de usabilidade (precisa do `npm run start`)
 ```
 
 A aplicação sobe sem nenhum passo de dados: se `data/graph.json` não existir,
@@ -351,6 +352,31 @@ argumento da página, não só o desenho.
   conferência cruzada: é o "1112%" em escala menor, e inflava justamente o lado
   politicamente carregado. Hoje o rótulo diz "do valor com município atribuído" e
   os R$ 10,6 mi sem território aparecem como número próprio.
+- **`outline-none` sem substituto é foco invisível, e ninguém vê isso testando
+  com o ponteiro.** Os vértices do grafo tinham `className="cursor-pointer
+  outline-none"`: focáveis, e sem indicação nenhuma. A passada contou 150 assim
+  na home e 252 em `/projetos`. Anel desenhado em SVG não aparece em `outline`
+  nem em `box-shadow`, então ele **se declara** com `data-anel-foco` — senão a
+  própria ferramenta de aferição conclui "sem indicação" e erra junto.
+- **Widget composto é uma parada de Tab, não uma por elemento.** Com
+  `tabIndex={0}` em todo vértice, atravessar o grafo custava 150 toques na home
+  e mais de 250 em `/projetos` — a passada estourou o teto de 400. O padrão é
+  tabindex itinerante: só o vértice em foco entra na ordem, as setas andam por
+  dentro, e é o mesmo que `Abas.tsx` já fazia no segmentado.
+- **Token copiado sem o uso vira defeito de contraste.** `tinta-fraca` recebeu o
+  `grey-4` do original (`#7e776c`), mas lá esse tom aparece em corpo maior e aqui
+  é a cor de quase todo rótulo de 10 a 12px. Dava 3,68 sobre `papel-fundo` e 4,43
+  sobre branco, os dois abaixo dos 4,5 da WCAG. O valor certo se calcula, não se
+  escolhe: `#6f695f` é o primeiro que passa no fundo mais exigente mantendo 37
+  unidades de distância do degrau de cima — mais escuro colapsaria dois degraus
+  da rampa num só.
+- **Esconder navegação no celular é escondê-la onde ela mais falta.** A barra era
+  `hidden md:flex`, então abaixo de 768px o cabeçalho tinha **um** link, o
+  logotipo. Hoje ela rola na horizontal desde a menor largura, com o rótulo
+  virando `sr-only` para caber, e o rodapé repete os quatro anéis por extenso.
+  Alvo de toque tem piso de 44px (`min-h-11`), solto acima de `md`, onde o
+  ponteiro não precisa dele — e link de texto corrido é isento, que é por que a
+  ferramenta o exclui da contagem.
 - **Truncar nome de entidade quebra o serviço da página.** As listas cortavam
   com `truncate`, e "I FESTIVAL INTERNACIONAL DE JAZ…" não identifica projeto
   nenhum — identificar é justamente o que a página existe para fazer. Hoje é
@@ -513,6 +539,7 @@ valores truncados por quebra de linha dentro da célula.
 | `src/components/IndiceCategoria.tsx` | Índice de uma categoria do grafo — a divisão de topo do CivLab |
 | `src/lib/fatias-orcamento.ts` | Grafo → fatias da rosca, por linguagem e por território |
 | `data/auditoria/` | Folha de conferência e evidência por título, versionadas |
+| `tools/usabilidade/` | Condutor de navegador e a passada: teclado, contraste, alvos, capturas |
 | `tools/scrape-civlab/` | Medição do CivLab — executa fora deste ambiente |
 | `tools/anexos-secult/` | Anexos da SECULT → CSV — executa fora deste ambiente |
 | `data/*.json` | Artefatos versionados de propósito: o diff entre coletas é auditável |

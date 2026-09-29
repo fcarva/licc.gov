@@ -15,7 +15,8 @@
     "data": "npm run ingest && npm run build:graph",
     "scrape:secult": "tsx --env-file-if-exists=.env pipeline/scrape-secult.ts",
     "merge:patrocinadores": "tsx --env-file-if-exists=.env pipeline/importar-patrocinadores.ts",
-    "auditar:segmentos": "tsx --env-file-if-exists=.env pipeline/auditar-segmentos.ts"
+    "auditar:segmentos": "tsx --env-file-if-exists=.env pipeline/auditar-segmentos.ts",
+    "usabilidade": "node tools/usabilidade/passada.mjs"
   },
   "dependencies": {
     "next": "16.3.3",

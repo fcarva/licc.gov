@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState, useId } from "react";
+import { useMemo, useRef, useState, useId } from "react";
 import type { Graph, GraphNode } from "@/types/graph";
 import { NODE_KINDS } from "@/ontology/nodes";
 import {
@@ -34,6 +34,16 @@ export function GrafoRadial({
 }) {
   const [pairado, setPairado] = useState<NoPosicionado | null>(null);
   const idSeta = useId();
+  /**
+   * Posição do foco itinerante — o grafo é **uma** parada de Tab, não 246.
+   *
+   * Com `tabIndex={0}` em todo vértice, atravessar o grafo pelo teclado custava
+   * 150 toques na home e mais de 250 em `/projetos`, que é onde a passada de
+   * usabilidade estourou o teto de 400 paradas. O padrão para widget composto é
+   * o mesmo que `Abas.tsx` já usa: uma parada, e as setas andam por dentro.
+   */
+  const [focoTeclado, setFocoTeclado] = useState(0);
+  const vertices = useRef<Array<SVGGElement | null>>([]);
 
   // 330,75 é o raio do anel externo do original numa meia-largura de 400 —
   // 0,827 dela. Passar 400 aqui encostaria os projetos na borda do viewBox.
@@ -194,7 +204,7 @@ export function GrafoRadial({
 
         {/* Vértices. */}
         <g>
-          {layout.nos.map((p) => {
+          {layout.nos.map((p, indice) => {
             // Duas perguntas diferentes, e confundi-las acendia o grafo inteiro.
             //
             // `naCadeia` é "pertence à cadeia do vértice escolhido"; `apagado` é
@@ -223,18 +233,44 @@ export function GrafoRadial({
             return (
               <g
                 key={p.no.id}
+                ref={(el) => {
+                  vertices.current[indice] = el;
+                }}
                 transform={`translate(${p.x} ${p.y})${giro}`}
-                className="cursor-pointer outline-none"
-                tabIndex={0}
+                className="group cursor-pointer outline-none"
+                // Só o vértice na posição itinerante entra na ordem de Tab.
+                tabIndex={indice === focoTeclado ? 0 : -1}
                 role="button"
                 aria-label={`${NODE_KINDS[p.no.kind].rotulo}: ${p.no.nome}`}
                 aria-pressed={eSelecionado}
-                onClick={() => onSelecionar(eSelecionado ? null : p.no)}
+                onClick={() => {
+                  setFocoTeclado(indice);
+                  onSelecionar(eSelecionado ? null : p.no);
+                }}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" || e.key === " ") {
                     e.preventDefault();
                     onSelecionar(eSelecionado ? null : p.no);
+                    return;
                   }
+                  const passo =
+                    e.key === "ArrowRight" || e.key === "ArrowDown"
+                      ? 1
+                      : e.key === "ArrowLeft" || e.key === "ArrowUp"
+                        ? -1
+                        : 0;
+                  const total = layout.nos.length;
+                  const destino = passo
+                    ? (indice + passo + total) % total
+                    : e.key === "Home"
+                      ? 0
+                      : e.key === "End"
+                        ? total - 1
+                        : -1;
+                  if (destino < 0) return;
+                  e.preventDefault();
+                  setFocoTeclado(destino);
+                  vertices.current[destino]?.focus();
                 }}
                 onMouseEnter={() => setPairado(p)}
                 onMouseLeave={() => setPairado(null)}
@@ -243,6 +279,24 @@ export function GrafoRadial({
               >
                 {/* Alvo generoso para o ponteiro, invisível. */}
                 <circle r={Math.max(p.r + 5, 9)} fill="transparent" />
+
+                {/* Anel de foco.
+                    `outline-none` tirava o anel do navegador e nada o repunha:
+                    a passada de usabilidade contou 150 vértices focáveis sem
+                    indicação nenhuma na home, e 252 em /projetos. Foco invisível
+                    é o defeito que nunca aparece para quem testa com o ponteiro. */}
+                <circle
+                  // Declarado para a aferição poder achá-lo: anel desenhado em
+                  // SVG não aparece em `outline` nem em `box-shadow`, então um
+                  // auditor que só olha CSS conclui "sem indicação de foco" e
+                  // erra. Ver `tools/usabilidade/`.
+                  data-anel-foco=""
+                  r={Math.max(p.r + 6, 10)}
+                  fill="none"
+                  stroke="var(--color-tinta)"
+                  strokeWidth={1.5}
+                  className="opacity-0 transition-opacity group-focus-visible:opacity-100"
+                />
 
                 {eSelecionado ? (
                   <path

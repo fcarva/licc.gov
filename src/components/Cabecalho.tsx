@@ -19,8 +19,15 @@ const FLUXO: Array<{ href: string; rotulo: string; kind: NodeKind }> = [
   { href: "/projetos", rotulo: "Projetos", kind: "projeto" },
 ];
 
+/**
+ * `min-h-11` são 44px: o piso de alvo de toque.
+ *
+ * A passada de usabilidade mediu 16px no menor alvo do cabeçalho — menos de um
+ * terço do mínimo, e o original usa `h-[44px]` em tudo que é tocável. Acima de
+ * `md` o ponteiro não precisa disso, e a pílula volta ao corpo compacto.
+ */
 const PILULA =
-  "shrink-0 rounded-full px-3 py-1.5 text-sm text-tinta-suave transition-colors hover:bg-papel hover:text-tinta";
+  "flex shrink-0 items-center gap-1.5 rounded-full px-3 text-sm text-tinta-suave transition-colors hover:bg-papel hover:text-tinta min-h-11 md:min-h-0 md:py-1.5";
 
 export function Cabecalho({ ano }: { ano: number }) {
   return (
@@ -28,7 +35,7 @@ export function Cabecalho({ ano }: { ano: number }) {
       <div className="mx-auto flex h-14 max-w-[1700px] items-center gap-3 px-4">
         <Link
           href="/"
-          className="flex shrink-0 items-baseline gap-2 rounded-full bg-papel px-4 py-2"
+          className="flex min-h-11 shrink-0 items-center gap-2 rounded-full bg-papel px-4 md:min-h-0 md:py-2"
         >
           <span aria-hidden="true" className="text-[var(--color-publico)]">✳</span>
           <span className="font-mono text-sm font-semibold tracking-tight text-tinta">
@@ -47,14 +54,22 @@ export function Cabecalho({ ano }: { ano: number }) {
           As demais vistas desceram para o rodapé: alcançáveis de toda página,
           sem disputar o topo com a identidade e a busca.
         */}
+        {/*
+          Visível desde o celular, rolando na horizontal.
+          Estava `hidden md:flex`, e a passada de usabilidade mostrou o custo:
+          abaixo de 768px o cabeçalho tinha **um** link — o logotipo — e os
+          quatro anéis do fluxo ficavam inalcançáveis. Esconder navegação no
+          celular é onde ela mais falta.
+        */}
         <nav
-          className="rolagem-fina hidden min-w-0 flex-1 items-center gap-0.5 overflow-x-auto md:flex"
+          className="rolagem-fina flex min-w-0 flex-1 items-center gap-0.5 overflow-x-auto"
           aria-label="Fluxo do valor"
         >
           {FLUXO.map((item) => (
-            <Link key={item.href} href={item.href} className={`${PILULA} flex items-center gap-1.5`}>
+            <Link key={item.href} href={item.href} className={PILULA}>
               <Glifo kind={item.kind} className="text-[0.9em]" />
-              {item.rotulo}
+              <span className="hidden sm:inline">{item.rotulo}</span>
+              <span className="sr-only sm:hidden">{item.rotulo}</span>
             </Link>
           ))}
         </nav>
