@@ -223,6 +223,66 @@ de ser "quem se conecta" e passa a ser **quem responde**. O cabeçalho é só no
 e uma linha de descrição ("Policies and programs related to housing development,
 affordability, and regulation").
 
+## O sistema de design, lido do CSS
+
+Do arquivo `/_next/static/css/1e4e05271abface5.css`, em 29/09/2026.
+
+### A escala tipográfica: três famílias, peso por papel
+
+```
+header-1  30/600/110%      paragraph-1  24/400/150%  ls -2%     ui-1  16/500
+header-2  24/600/120%      paragraph-2  16/400/140%  ls -1%     ui-2  14/500
+header-3  20/500/120%      paragraph-3  14/400/130%             ui-3  12/500/130%
+header-4  16/600/120%      paragraph-4  12/400/145%  ls +1%     ui-4  10/400
+header-5  14/600/120%
+```
+
+O que dá unidade não são os tamanhos — é a **convenção de peso por papel**:
+título 600, prosa 400, rótulo de interface 500. E o espacejamento é **negativo no
+texto grande, positivo no pequeno**: correção óptica clássica, e metade da
+diferença entre um texto que parece composto e um que não.
+
+### A rampa de tinta é quente, e inverte entre os temas
+
+| | Claro | Escuro |
+| --- | --- | --- |
+| `grey-1` | `#1c1917` | `#ede9e2` |
+| `grey-2` | `#383633` | `#cfc9c0` |
+| `grey-3` | `#57534e` | `#a29b90` |
+| `grey-4` | `#7e776c` | `#98938e` |
+| `grey-light` | `#f4f2ef` | `#2b2723` |
+| `grey-lighter` | `#f9f8f7` | `#262220` |
+| `grey-mid` | `#dddbd5` | `#3a342e` |
+| `outline` | `#edece9` | `#2e2925` |
+| `background` | `#eceae4` | `#161310` |
+| `blue` / `blue-dim` | `#084ab4` / `#e8f0fe` | `#85a8ee` / `#212b3d` |
+| `purple` / `purple-dim` | `#826dc8` / `#c0b6e3` | `#826dc8` / `#2e2745` |
+
+Dois pontos de engenharia: a rampa **inverte** em vez de ser recalculada — os dois
+temas são a mesma lista de nomes com valores trocados —, e `outline` é quase
+imperceptível de propósito, porque a separação vem da superfície e não do traço.
+
+O fundo medido é `#eceae4`. O `CLAUDE.md` registrava `#ebeae4`, aferido por
+amostragem de tela; o CSS é mais autoritativo que o pixel.
+
+### Margem horizontal é um token, não um valor por bloco
+
+```css
+:root { --margin: 16px }
+@media (min-width: 48rem) { :root { --margin: 24px } }
+.px-margin { padding-inline: var(--margin) }
+```
+
+Um valor só mantém o ritmo horizontal igual em cartão, tabela e cabeçalho.
+Espalhar `px-3`, `px-4` e `px-5` faz cada bloco começar num lugar diferente.
+
+### O que isso mudou aqui
+
+A tinta daqui era o **slate do Tailwind** (`#0b1220`, `#475569`, `#94a3b8`) sobre
+papel quente. Fundo quente com tinta fria é a incoerência que ninguém nomeia e
+todo mundo sente: some a impressão de conjunto. Os três blocos acima entraram em
+`app/globals.css`.
+
 ## Navegação: o original não tem barra, e o Overview não navega
 
 Medido no HTML e nas rotas, porque é contraintuitivo.

@@ -2,30 +2,48 @@
 
 /*
  * Estética de setor público, na linha do SF Government Graph: fundo cinza
- * quente, cartões brancos flutuando sobre ele, tipografia de alto contraste e
- * nenhuma cor decorativa. A cor só aparece onde carrega significado.
+ * quente, cartões brancos flutuando sobre ele, e nenhuma cor decorativa — a cor
+ * só aparece onde carrega significado.
  *
- * O fundo foi **aferido por amostragem** dos quadros da gravação do CivLab. As
- * cinco cores de categoria vêm do **HTML** do original (ver
- * `docs/referencia-civlab.md`): amostrar pixel media o vértice *aceso*, que é
- * a cor já misturada a 50% com o branco — o efeito, não a causa. Aqui ficam as
- * cores cheias; o pastel é derivado no desenho com `fill-opacity: 0.5`.
+ * ## A rampa de tinta é quente, e isso não é detalhe
+ *
+ * Os valores abaixo vêm do **CSS do original**, lido em 29/09/2026 de
+ * `graph.civlab.org/_next/static/css/1e4e05271abface5.css`. Antes disso a tinta
+ * daqui era o slate do Tailwind — `#0b1220`, `#475569`, `#94a3b8` —, que é
+ * azulada, sobre um papel quente. Fundo quente com tinta fria é o tipo de
+ * incoerência que ninguém sabe nomear e todo mundo sente: some a impressão de
+ * conjunto, e cada cartão parece recortado de outro sítio.
+ *
+ * A rampa real é de pedra, em quatro degraus, e **inverte** no tema escuro em
+ * vez de ser recalculada. Por isso os dois temas aqui são a mesma lista de
+ * nomes com os valores trocados, e não duas paletas independentes.
+ *
+ * ## As cores de categoria vêm do HTML, não de amostragem
+ *
+ * Amostrar pixel media o vértice *aceso*, que é a cor já misturada a 50% com o
+ * branco — o efeito, não a causa. Aqui ficam as cores cheias; o pastel é
+ * derivado no desenho com `fill-opacity: 0.5`, e só quando o vértice acende.
  */
 @theme {
-  --color-tinta: #0b1220;
-  --color-tinta-suave: #475569;
-  --color-tinta-fraca: #94a3b8;
+  /* A rampa de tinta, quatro degraus (`grey-1..4` no original). */
+  --color-tinta: #1c1917;
+  --color-tinta-forte: #383633;
+  --color-tinta-suave: #57534e;
+  --color-tinta-fraca: #7e776c;
+
   --color-papel: #ffffff;
-  --color-papel-suave: #f8fafc;
+  --color-papel-suave: #f9f8f7;
   /* Fundo da tela: o cinza quente sobre o qual os cartões flutuam. */
-  --color-papel-fundo: #ebeae4;
+  --color-papel-fundo: #eceae4;
   /* O `grey-mid` do original: um degrau abaixo do fundo da tela. Existe para
      que a aba inativa apareça — pintá-la com `papel-fundo` some com ela, que
      é exatamente o que acontecia aqui. */
-  --color-cinza-medio: #dcdad2;
-  --color-borda: #e2e8f0;
-  --color-borda-forte: #cbd5e1;
-  --color-realce: #1e3a5f;
+  --color-cinza-medio: #dddbd5;
+  /* `outline` do original: quase imperceptível de propósito. Lá a separação vem
+     da superfície, não do traço — borda forte sobre cartão branco é ruído. */
+  --color-borda: #edece9;
+  --color-borda-forte: #dddbd5;
+  --color-realce: #084ab4;
 
   --color-publico: #f27836;
   --color-governanca: #f2686f;
@@ -44,30 +62,34 @@
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-tema="claro"]) {
-    --color-tinta: #e8edf5;
-    --color-tinta-suave: #94a3b8;
-    --color-tinta-fraca: #64748b;
-    --color-papel: #17171a;
-    --color-papel-suave: #1d1d21;
-    --color-papel-fundo: #101013;
-    --color-cinza-medio: #26262b;
-    --color-borda: #1f2937;
-    --color-borda-forte: #334155;
-    --color-realce: #7dd3fc;
+    /* A mesma rampa, invertida — não uma segunda paleta. */
+    --color-tinta: #ede9e2;
+    --color-tinta-forte: #cfc9c0;
+    --color-tinta-suave: #a29b90;
+    --color-tinta-fraca: #98938e;
+    --color-papel: #262220;
+    --color-papel-suave: #2b2723;
+    --color-papel-fundo: #161310;
+    --color-cinza-medio: #3a342e;
+    --color-borda: #2e2925;
+    --color-borda-forte: #3a342e;
+    --color-realce: #85a8ee;
   }
 }
 
 :root[data-tema="escuro"] {
-  --color-tinta: #e8edf5;
-  --color-tinta-suave: #94a3b8;
-  --color-tinta-fraca: #64748b;
-  --color-papel: #17171a;
-  --color-papel-suave: #1d1d21;
-  --color-papel-fundo: #101013;
-  --color-cinza-medio: #26262b;
-  --color-borda: #1f2937;
-  --color-borda-forte: #334155;
-  --color-realce: #7dd3fc;
+  /* A mesma rampa, invertida — não uma segunda paleta. */
+  --color-tinta: #ede9e2;
+  --color-tinta-forte: #cfc9c0;
+  --color-tinta-suave: #a29b90;
+  --color-tinta-fraca: #98938e;
+  --color-papel: #262220;
+  --color-papel-suave: #2b2723;
+  --color-papel-fundo: #161310;
+  --color-cinza-medio: #3a342e;
+  --color-borda: #2e2925;
+  --color-borda-forte: #3a342e;
+  --color-realce: #85a8ee;
 }
 
 html,
@@ -82,6 +104,47 @@ body {
   -webkit-font-smoothing: antialiased;
   font-feature-settings: "cv02", "cv03", "cv04", "tnum";
 }
+
+/*
+ * A escala tipográfica do original, lida do CSS dele.
+ *
+ * São **três famílias com convenção de peso por papel**, e é isso que dá
+ * unidade: título é 600, prosa é 400, rótulo de interface é 500. Antes daqui
+ * havia só `text-xs`, `text-[11px]` e `text-[10px]` escolhidos caso a caso, o
+ * que produz doze tamanhos diferentes na mesma tela sem nenhum querer dizer
+ * nada.
+ *
+ * Repare no espacejamento: **negativo no texto grande, positivo no pequeno**.
+ * É a correção óptica clássica — corpo grande fecha, corpo pequeno abre — e é
+ * metade da diferença entre um texto que parece composto e um que não.
+ */
+.type-header-1 { font-size: 30px; font-weight: 600; line-height: 110%; }
+.type-header-2 { font-size: 24px; font-weight: 600; line-height: 120%; }
+.type-header-3 { font-size: 20px; font-weight: 500; line-height: 120%; }
+.type-header-4 { font-size: 16px; font-weight: 600; line-height: 120%; }
+.type-header-5 { font-size: 14px; font-weight: 600; line-height: 120%; }
+
+.type-paragraph-1 { font-size: 24px; font-weight: 400; line-height: 150%; letter-spacing: -0.02em; }
+.type-paragraph-2 { font-size: 16px; font-weight: 400; line-height: 140%; letter-spacing: -0.01em; }
+.type-paragraph-3 { font-size: 14px; font-weight: 400; line-height: 130%; }
+.type-paragraph-4 { font-size: 12px; font-weight: 400; line-height: 145%; letter-spacing: 0.01em; }
+
+.type-ui-1 { font-size: 16px; font-weight: 500; }
+.type-ui-2 { font-size: 14px; font-weight: 500; }
+.type-ui-3 { font-size: 12px; font-weight: 500; line-height: 130%; }
+.type-ui-4 { font-size: 10px; font-weight: 400; }
+
+/*
+ * Margem horizontal única, responsiva — o `--margin` do original.
+ *
+ * Um valor só, aplicado por `px-margin`, mantém o ritmo horizontal igual em
+ * cartão, tabela e cabeçalho. Espalhar `px-3`, `px-4` e `px-5` pelo código faz
+ * cada bloco começar num lugar diferente, e o olho vê a bagunça antes de achar
+ * a causa.
+ */
+:root { --margin: 16px; }
+@media (min-width: 48rem) { :root { --margin: 24px; } }
+.px-margin { padding-inline: var(--margin); }
 
 /* Números tabulares em toda tabela financeira — colunas que se alinham. */
 .tabular {

@@ -256,7 +256,7 @@ export default function PaginaIndicadores() {
                           <li key={p.id} className="flex items-baseline justify-between gap-2 text-xs">
                             <Link
                               href={p.slug ? `/entidade/${p.slug}` : "#"}
-                              className="min-w-0 flex-1 truncate text-tinta-suave underline-offset-2 hover:text-tinta hover:underline"
+                              className="min-w-0 flex-1 line-clamp-2 text-tinta-suave underline-offset-2 hover:text-tinta hover:underline"
                             >
                               {p.nome}
                             </Link>

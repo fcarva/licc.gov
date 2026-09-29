@@ -139,11 +139,6 @@ export function IndiceCategoria({
                   nota="o mesmo teto, visto neste anel"
                 />
               ) : null}
-              <Numero
-                rotulo="Anel no fluxo"
-                valor={spec.anel === null ? "—" : String(spec.anel)}
-                nota={`análogo a ${spec.analogoCivLab}`}
-              />
             </dl>
           </div>
 
@@ -171,27 +166,46 @@ export function IndiceCategoria({
                   <Link
                     href={`/entidade/${n.slug}`}
                     onFocus={() => setSelecionado(n)}
-                    className="text-sm font-medium text-tinta underline-offset-2 hover:underline"
+                    className="type-header-5 text-tinta underline-offset-2 hover:underline"
                   >
                     {n.nome}
                   </Link>
-                  <dl className="mt-1 flex flex-wrap items-baseline gap-x-4 gap-y-0.5">
-                    {celulas(n).map((c, i) => (
-                      <div key={colunas[i]?.rotulo ?? i} className="flex items-baseline gap-1.5">
-                        <dt className="text-[10px] uppercase tracking-wide text-tinta-fraca">
-                          {colunas[i]?.rotulo}
-                        </dt>
-                        <dd
-                          className={`text-xs ${
-                            colunas[i]?.alinhar === "direita"
-                              ? "tabular font-medium text-tinta"
-                              : "text-tinta-suave"
-                          }`}
+                  {/*
+                    `shrink-0` no rótulo, e prosa em linha própria.
+                    Sem o primeiro, um valor longo comprimia o rótulo até ele
+                    quebrar em tiras — "PAPEL / NO / FLUXO" em três linhas de uma
+                    palavra. Sem o segundo, a descrição de um órgão dividia a
+                    linha com o rótulo e sobrava uma coluna de texto estreita
+                    demais para ser lida.
+                  */}
+                  <dl className="mt-1 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+                    {celulas(n).map((c, i) => {
+                      const col = colunas[i];
+                      const prosa = col?.prosa;
+                      return (
+                        <div
+                          key={col?.rotulo ?? i}
+                          className={
+                            prosa
+                              ? "w-full"
+                              : "flex min-w-0 items-baseline gap-1.5"
+                          }
                         >
-                          {c}
-                        </dd>
-                      </div>
-                    ))}
+                          <dt className="type-ui-4 shrink-0 uppercase tracking-wide text-tinta-fraca">
+                            {col?.rotulo}
+                          </dt>
+                          <dd
+                            className={`min-w-0 ${prosa ? "mt-0.5 type-paragraph-4" : "type-paragraph-4"} ${
+                              col?.alinhar === "direita"
+                                ? "tabular font-medium text-tinta"
+                                : "text-tinta-suave"
+                            }`}
+                          >
+                            {c}
+                          </dd>
+                        </div>
+                      );
+                    })}
                   </dl>
                 </li>
               );
@@ -253,7 +267,7 @@ const ROTULO_DO_TOTAL: Partial<Record<NodeKind, string>> = {
  * genérica, diria menos sobre todos.
  */
 const COLUNAS: Partial<
-  Record<NodeKind | "padrao", Array<{ rotulo: string; alinhar?: "direita" }>>
+  Record<NodeKind | "padrao", Array<{ rotulo: string; alinhar?: "direita"; prosa?: boolean }>>
 > = {
   patrocinador: [
     { rotulo: "CNPJ" },
@@ -272,5 +286,5 @@ const COLUNAS: Partial<
     { rotulo: "Captado", alinhar: "direita" },
     { rotulo: "Execução", alinhar: "direita" },
   ],
-  padrao: [{ rotulo: "Sigla" }, { rotulo: "Papel no fluxo" }],
+  padrao: [{ rotulo: "Sigla" }, { rotulo: "Papel no fluxo", prosa: true }],
 };

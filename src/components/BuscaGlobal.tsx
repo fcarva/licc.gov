@@ -190,7 +190,7 @@ export function BuscaGlobal() {
                         style={{ background: spec.cor }}
                       />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-sm text-tinta">{r.nome}</span>
+                        <span className="block line-clamp-2 text-sm text-tinta">{r.nome}</span>
                         <span className="block truncate text-xs text-tinta-fraca">
                           {spec.rotulo}
                           {r.casouEm ? ` · ${r.casouEm}` : ""}

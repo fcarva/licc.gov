@@ -54,10 +54,14 @@ export function GrafoRadial({
   const lado = (layout.extensao + margem) * 2;
 
   return (
-    <div className="relative h-full w-full">
+    // Coluna, não sobreposição: a faixa do nome existe sempre, com ou sem
+    // seleção. Antes a pílula era `absolute bottom-1` sobre o desenho e caía em
+    // cima do rótulo do anel externo. Reservar a faixa em vez de flutuar sobre
+    // ele também evita o desenho mudar de tamanho quando algo é selecionado.
+    <div className="relative flex h-full w-full flex-col">
       <svg
         viewBox={`${-lado / 2} ${-lado / 2} ${lado} ${lado}`}
-        className="h-full w-full"
+        className="min-h-0 w-full flex-1"
         role="group"
         aria-label="Grafo radial do ecossistema da LICC"
       >
@@ -333,19 +337,21 @@ export function GrafoRadial({
         <Tooltip posicao={pairado} lado={lado} />
       ) : null}
 
-      {/* Nome do selecionado ancorado no rodapé do canvas, como no CivLab —
-          fica legível mesmo quando o vértice está na borda do desenho. */}
-      {selecionado ? (
-        <p
-          className="pointer-events-none absolute inset-x-0 bottom-1 mx-auto w-fit max-w-[85%] truncate rounded-md border bg-papel px-2.5 py-1 text-center text-xs font-medium shadow-sm"
-          style={{
-            borderColor: porId.get(selecionado.id)?.cor ?? "var(--color-borda)",
-            color: porId.get(selecionado.id)?.cor ?? "var(--color-tinta)",
-          }}
-        >
-          {selecionado.nome}
-        </p>
-      ) : null}
+      {/* Nome do selecionado no rodapé do canvas, como no CivLab — fica legível
+          mesmo quando o vértice está na borda do desenho. */}
+      <div className="pointer-events-none flex h-8 shrink-0 items-center justify-center px-4">
+        {selecionado ? (
+          <p
+            className="type-ui-3 max-w-full truncate rounded-md border bg-papel px-2.5 py-1 text-center"
+            style={{
+              borderColor: porId.get(selecionado.id)?.cor ?? "var(--color-borda)",
+              color: porId.get(selecionado.id)?.cor ?? "var(--color-tinta)",
+            }}
+          >
+            {selecionado.nome}
+          </p>
+        ) : null}
+      </div>
     </div>
   );
 }

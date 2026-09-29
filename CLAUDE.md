@@ -106,6 +106,16 @@ validador aponta. Os valores vêm de `css/flexoki.css` no repositório
 adjacente, então a ordem decide a aprovação. O que segue abaixo vale para os
 anéis do grafo.
 
+**A rampa de tinta é quente, e a escala tipográfica tem três famílias.** Lidas
+do CSS do original (`docs/referencia-civlab.md`). A tinta daqui era o slate do
+Tailwind — azulada — sobre papel quente `#eceae4`: a incoerência que ninguém
+nomeia e todo mundo sente. A rampa real é de pedra em quatro degraus e **inverte**
+no tema escuro em vez de ser recalculada. E o que dá unidade ao texto não são os
+tamanhos, é a **convenção de peso por papel**: título 600, prosa 400, rótulo de
+interface 500, com espacejamento negativo no corpo grande e positivo no pequeno.
+As classes `type-*` e o token `--margin` estão em `app/globals.css`; prefira-os a
+escolher `text-[11px]` caso a caso.
+
 **Vértice em repouso é branco; as três camadas são do glifo.** Medido no HTML
 de `graph.civlab.org/sf` em 29/09/2026: 177 vértices saem
 `fill="#FFFFFF" fill-opacity="1"` com `stroke-opacity="1"`, e os únicos doze
@@ -341,6 +351,16 @@ argumento da página, não só o desenho.
   conferência cruzada: é o "1112%" em escala menor, e inflava justamente o lado
   politicamente carregado. Hoje o rótulo diz "do valor com município atribuído" e
   os R$ 10,6 mi sem território aparecem como número próprio.
+- **Truncar nome de entidade quebra o serviço da página.** As listas cortavam
+  com `truncate`, e "I FESTIVAL INTERNACIONAL DE JAZ…" não identifica projeto
+  nenhum — identificar é justamente o que a página existe para fazer. Hoje é
+  `line-clamp-2`/`line-clamp-3`: a altura segue limitada e o nome cabe. O mesmo
+  vale para rótulo de campo: sem `shrink-0` no `<dt>`, um valor longo comprime o
+  rótulo até ele quebrar em tiras de uma palavra — "PAPEL / NO / FLUXO".
+- **Elemento flutuante sobre o desenho precisa de faixa reservada.** A pílula com
+  o nome do vértice selecionado era `absolute bottom-1` e caía sobre o rótulo do
+  anel externo. Reservar uma faixa no fim da coluna resolve e ainda evita o
+  desenho mudar de tamanho quando algo é selecionado.
 - **A mesma razão errada mora em três lugares.** "66,4% do valor" apareceu em
   `/indicadores`, em `/municipios` (como "33,6% do total captado") e ainda uma
   terceira vez no painel de orçamento da home. Corrigir onde se viu não é

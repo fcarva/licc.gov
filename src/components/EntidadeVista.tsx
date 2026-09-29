@@ -258,7 +258,7 @@ function VinculoPrincipal({ detalhe }: { detalhe: EntityDetail }) {
       >
         <Glifo kind={vinculo.node.kind} className="text-base" />
         <span className="min-w-0 flex-1">
-          <span className="block truncate text-sm text-tinta">{vinculo.node.nome}</span>
+          <span className="type-paragraph-3 block line-clamp-2 text-tinta">{vinculo.node.nome}</span>
           <span className="block text-[11px] text-tinta-fraca">
             {NODE_KINDS[vinculo.node.kind].rotulo}
           </span>
@@ -300,7 +300,12 @@ function CartaoConexoes({ vizinhos }: { vizinhos: EntityDetail["vizinhos"] }) {
                     >
                       <Glifo kind={v.node.kind} className="mt-0.5" />
                       <span className="min-w-0 flex-1">
-                        <span className="block truncate text-xs text-tinta">{v.node.nome}</span>
+                        {/* Quebra em até três linhas em vez de cortar.
+                            "I FESTIVAL INTERNACIONAL DE JAZ…" não identifica
+                            projeto nenhum, e identificar é o serviço da página. */}
+                        <span className="type-paragraph-4 block line-clamp-3 text-tinta">
+                          {v.node.nome}
+                        </span>
                         <span className="tabular block text-[11px] text-tinta-fraca">
                           {v.edge.peso ? brlCurto(v.edge.peso) : NODE_KINDS[v.node.kind].rotulo}
                         </span>

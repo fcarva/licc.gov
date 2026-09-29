@@ -246,7 +246,7 @@ function Conexoes({ detalhe }: { detalhe: EntityDetail }) {
                   >
                     <Glifo kind={v.node.kind} className="mt-0.5" />
                     <span className="min-w-0 flex-1">
-                      <span className="block truncate text-xs text-tinta">{v.node.nome}</span>
+                      <span className="type-paragraph-4 block line-clamp-2 text-tinta">{v.node.nome}</span>
                       {v.edge.peso ? (
                         <span className="tabular block text-[11px] text-tinta-fraca">
                           {brlCurto(v.edge.peso)}
@@ -286,7 +286,7 @@ function Orcamento({ no, detalhe }: { no: GraphNode; detalhe: EntityDetail }) {
               <li key={v.edge.id} className="flex items-baseline justify-between gap-2">
                 <Link
                   href={`/entidade/${v.node.slug}`}
-                  className="min-w-0 flex-1 truncate text-sm text-tinta-suave underline-offset-2 hover:text-tinta hover:underline"
+                  className="min-w-0 flex-1 line-clamp-2 text-sm text-tinta-suave underline-offset-2 hover:text-tinta hover:underline"
                 >
                   {v.node.nome}
                 </Link>
