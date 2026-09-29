@@ -1,3 +1,4 @@
+import type { GraphNode } from "@/types/graph";
 import Link from "next/link";
 
 /**
@@ -89,7 +90,8 @@ export function Metrica({
   rotulo: string;
   valor: string;
   nota?: string;
-  posicao?: { lugar: number; total: number };
+  /** Posição entre pares — a forma vem de `GraphNode["posicao"]`, uma fonte só. */
+  posicao?: NonNullable<GraphNode["posicao"]>;
   variacao?: number | null;
 }) {
   return (
@@ -101,6 +103,16 @@ export function Metrica({
       {posicao ? (
         <p className="tabular mt-0.5 text-[11px] text-tinta-fraca">
           Posição {posicao.lugar} de {posicao.total}
+          {/*
+            Quando o recorte não é a categoria inteira, ele se nomeia.
+            O construtor só posiciona quem tem captação, porque "40 de 54" entre
+            entidades zeradas não informa nada — mas um município lendo "de 15"
+            sem saber que existem 78 tira a conclusão errada, do mesmo jeito que
+            a fatia do interior lia "do total captado" sobre o subconjunto.
+          */}
+          {posicao.universo > posicao.total ? (
+            <span> que captaram — de {posicao.universo}</span>
+          ) : null}
         </p>
       ) : null}
       {variacao !== undefined && variacao !== null ? (

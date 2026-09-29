@@ -135,7 +135,15 @@ export interface GraphNode {
   proveniencia: Proveniencia;
   url?: string;
   /** Posição por captação dentro da própria categoria: "3 de 22". */
-  posicao?: { lugar: number; total: number };
+  /**
+   * Posição entre os pares, no espírito do "Rank 13 of 54" do CivLab.
+   *
+   * `total` conta só quem tem captação — posição entre entidades zeradas não
+   * informa nada —, e `universo` conta a categoria inteira. Os dois juntos
+   * porque, quando diferem, a razão precisa nomear o próprio recorte: município
+   * é "4 de 15" entre os que captaram, e existem 78.
+   */
+  posicao?: { lugar: number; total: number; universo: number };
   /** Variação da captação sobre o exercício anterior (fração; 0,039 = +3,9%). */
   variacaoAnual?: number | null;
   /** Campos específicos por tipo de nó. */

@@ -284,6 +284,11 @@ function propagarAgregados(nodes: GraphNode[], edges: GraphEdge[]): void {
  * CivLab exibe como "Rank 1 of 54" e "↑3.90% from last year".
  */
 function posicionarEVariar(nodes: GraphNode[]): void {
+  // A categoria inteira, com ou sem orçamento: é o denominador que o rótulo
+  // precisa citar quando "de 15" não é "de todos".
+  const universo = new Map<string, number>();
+  for (const n of nodes) universo.set(n.kind, (universo.get(n.kind) ?? 0) + 1);
+
   const porCategoria = new Map<string, GraphNode[]>();
   for (const n of nodes) {
     if (!n.orcamento) continue;
@@ -300,7 +305,11 @@ function posicionarEVariar(nodes: GraphNode[]): void {
     // entidades todas zeradas não informa nada.
     const comValor = ordenada.filter((n) => (n.orcamento?.captado ?? 0) > 0);
     comValor.forEach((n, i) => {
-      n.posicao = { lugar: i + 1, total: comValor.length };
+      n.posicao = {
+        lugar: i + 1,
+        total: comValor.length,
+        universo: universo.get(n.kind) ?? comValor.length,
+      };
     });
 
     for (const n of lista) {
