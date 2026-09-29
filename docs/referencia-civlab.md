@@ -193,6 +193,10 @@ alguma delas deve ler o motivo antes.
 | Aba ativa | fica `disabled`, sem fundo | fica `tabindex="0"`, sem fundo | `disabled` tira a aba ativa da ordem de foco. Adotou-se a semântica Radix da página de departamento (`data-state`, `aria-controls`, setas) em todos os controles, inclusive o do rodapé. |
 | Aba inativa | `bg-grey-mid` | `--color-cinza-medio` (`#dcdad2`) | Não havia equivalente na paleta daqui, e usar `papel-fundo` — a cor da tela — fazia o controle inteiro desaparecer sobre o fundo. |
 | Rosca girando | `g.rotating` com `rotate()` calculado | não implementado | Polimento de animação; não muda a leitura. |
+| Seções de topo | uma por categoria de vértice (`/sf/elected/`, `/sf/commissions/`, `/sf/advisories/`, `/sf/departments/`) | `/orgaos`, `/patrocinadores`, `/proponentes`, `/projetos` | Mesma divisão, adaptada: a correspondência é **por posição no anel**, que é o que `analogoCivLab` registra em cada categoria. Aqui a ordem das quatro é a do fluxo do valor — quem autoriza, quem põe, quem executa, o que se produz. |
+| Coluna do índice | lista de alocação, borda inferior na cor da categoria | igual, e **não** tabela | Não é escolha estética: `Tabela` carrega `min-w-[40rem]` e a coluna-documento tem ~576px a 1440px, então cinco colunas rolariam na horizontal em toda categoria. A lista é o que o original faz e é o que cabe. |
+| Largura da página | canvas + coluna, só | mais duas faixas de largura cheia, acima e abaixo do par | A aba de orçamento do original tem a rosca e o *breakdown*; o `/orcamento` daqui tem também conferência de cota e duas tabelas territoriais, que não têm contraparte lá. Comprimi-las a 40% as tornaria ilegíveis, e removê-las seria publicar menos. Ficam em largura cheia abaixo do par. |
+| Total da categoria | — | ausente em `governanca` | Somar ali não é uma grandeza: cinco dos seis órgãos não têm orçamento e o sexto é `licc-programa`, que espelha o total do exercício. Os três anéis do dinheiro mostram o total porque ali ele é o mesmo R$ 25 mi visto em estágios diferentes, e dizer isso é informação. |
 
 ## Paleta do orçamento
 

@@ -5,6 +5,7 @@ import type { Graph, GraphNode } from "@/types/graph";
 import { CanvasVisualizacao, type Aba } from "./CanvasVisualizacao";
 import { PainelSelecao } from "./PainelSelecao";
 import { PainelOrcamento, type CotaResumo } from "./PainelOrcamento";
+import { PaginaComCanvas } from "./PaginaComCanvas";
 
 /**
  * Amarra a coluna-documento ao canvas.
@@ -38,9 +39,9 @@ export function HomeGrafo({
   };
 
   return (
-    <div className="mx-auto grid max-w-[1700px] gap-5 px-4 py-5 lg:grid-cols-[minmax(400px,40%)_minmax(0,1fr)] lg:items-start">
-      <div className="rolagem-fina order-2 flex flex-col gap-4 lg:order-1 lg:max-h-[calc(100vh-6rem)] lg:overflow-y-auto lg:pr-1">
-        {selecionado ? (
+    <PaginaComCanvas
+      coluna={
+        selecionado ? (
           <PainelSelecao
             no={selecionado}
             onFechar={() => selecionar(null)}
@@ -57,10 +58,9 @@ export function HomeGrafo({
           />
         ) : (
           coluna
-        )}
-      </div>
-
-      <div className="order-1 h-[62vh] min-h-[26rem] lg:order-2 lg:sticky lg:top-[4.5rem] lg:h-[calc(100vh-6rem)]">
+        )
+      }
+      canvas={
         <CanvasVisualizacao
           grafo={grafo}
           selecionado={selecionado}
@@ -69,7 +69,7 @@ export function HomeGrafo({
           aba={aba}
           onMudarAba={setAba}
         />
-      </div>
-    </div>
+      }
+    />
   );
 }

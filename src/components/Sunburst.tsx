@@ -3,14 +3,9 @@
 import { useMemo, useRef, useState } from "react";
 import { brl, brlCurto, percentual } from "@/lib/format";
 import { clarear, escurecer } from "@/ontology/paleta-orcamento";
+import type { FatiaSunburst } from "@/lib/fatias-orcamento";
 
-export interface FatiaSunburst {
-  id: string;
-  rotulo: string;
-  valor: number;
-  cor: string;
-  filhos?: Array<{ id: string; rotulo: string; valor: number }>;
-}
+export type { FatiaSunburst } from "@/lib/fatias-orcamento";
 
 /**
  * Rosca de dois anéis com o aninhamento do orçamento.

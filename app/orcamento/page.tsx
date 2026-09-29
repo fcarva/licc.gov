@@ -2,7 +2,8 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { obterEstatisticas, obterGrafo, listarNos, projetoNoMunicipio } from "@/lib/dados";
 import { brl, numero, percentual } from "@/lib/format";
-import { Pagina, Tabela } from "@/components/Pagina";
+import { Tabela } from "@/components/Pagina";
+import { PaginaComRosca } from "@/components/PaginaComRosca";
 import { BarraExecucao } from "@/components/BarraExecucao";
 import { REGRAS } from "@/ontology";
 
@@ -54,7 +55,8 @@ export default function PaginaOrcamento() {
   const regioes = [...regiaoMap.entries()].sort((a, b) => b[1].projetos - a[1].projetos);
 
   return (
-    <Pagina
+    <PaginaComRosca
+      grafo={grafo}
       titulo={`Orçamento da LICC — exercício ${grafo.meta.ano}`}
       subtitulo={
         <>
@@ -64,7 +66,10 @@ export default function PaginaOrcamento() {
           contribuinte de fato aporta.
         </>
       }
-    >
+      // Os três números de cabeça ficam em largura cheia: são a manchete da
+      // página, e comprimidos em 40% de coluna virariam três cartões estreitos.
+      acima={
+        <>
       <section className="mb-8 grid gap-4 sm:grid-cols-3">
         <Cartao rotulo="Teto autorizado" valor={brl(grafo.meta.tetoAutorizado)} nota="Portaria SEFAZ nº 01-R/2025" />
         <Cartao
@@ -78,7 +83,66 @@ export default function PaginaOrcamento() {
           nota={`${percentual(stats.execucao)} do autorizado`}
         />
       </section>
-
+        </>
+      }
+      // A coluna pareia com a rosca a leitura que ela explica — a repartição por
+      // linguagem —, que é a "Alocação" da aba de orçamento do original.
+      coluna={
+        <>
+      <section className="mb-10">
+        <h2 className="mb-4 text-lg font-semibold text-tinta">Por segmento cultural</h2>
+        {!temDadosFinanceiros && (
+          <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
+            Os valores financeiros serão preenchidos quando a SECULT publicar os resultados de captação.
+          </p>
+        )}
+        <Tabela
+          colunas={[
+            { rotulo: "Segmento" },
+            { rotulo: "Projetos", alinhar: "direita" },
+            ...(temDadosFinanceiros
+              ? [
+                  { rotulo: "Autorizado", alinhar: "direita" as const },
+                  { rotulo: "Captado", alinhar: "direita" as const },
+                  { rotulo: "Execução", alinhar: "direita" as const },
+                ]
+              : []),
+          ]}
+        >
+          {segmentosComProjetos.map(({ seg: s, projetos }) => {
+            const a = s.orcamento?.autorizado ?? 0;
+            const c = s.orcamento?.captado ?? 0;
+            return (
+              <tr key={s.id} className="transition-colors hover:bg-papel-suave">
+                <td className="px-3 py-2.5">
+                  <Link href={`/entidade/${s.slug}`} className="text-tinta underline-offset-2 hover:underline">
+                    {s.nome}
+                  </Link>
+                </td>
+                <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{numero(projetos.length)}</td>
+                {temDadosFinanceiros && (
+                  <>
+                    <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{brl(a)}</td>
+                    <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{brl(c)}</td>
+                    <td className="px-3 py-2.5">
+                      <div className="ml-auto w-24">
+                        <BarraExecucao autorizado={a} captado={c} compacta />
+                      </div>
+                    </td>
+                  </>
+                )}
+              </tr>
+            );
+          })}
+        </Tabela>
+      </section>
+        </>
+      }
+      // Abaixo, em largura cheia: a conferência de cota e as tabelas
+      // territoriais. Nenhuma tem contraparte na aba do original, e tabela
+      // financeira larga fica ilegível numa coluna de 40%.
+      abaixo={
+        <>
       <section className="mb-10">
         <h2 className="mb-1 text-lg font-semibold text-tinta">Cotas obrigatórias</h2>
         <p className="mb-4 max-w-3xl text-sm leading-relaxed text-tinta-suave">
@@ -204,54 +268,6 @@ export default function PaginaOrcamento() {
       </section>
 
       <section className="mb-10">
-        <h2 className="mb-4 text-lg font-semibold text-tinta">Por segmento cultural</h2>
-        {!temDadosFinanceiros && (
-          <p className="mb-4 rounded-md border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">
-            Os valores financeiros serão preenchidos quando a SECULT publicar os resultados de captação.
-          </p>
-        )}
-        <Tabela
-          colunas={[
-            { rotulo: "Segmento" },
-            { rotulo: "Projetos", alinhar: "direita" },
-            ...(temDadosFinanceiros
-              ? [
-                  { rotulo: "Autorizado", alinhar: "direita" as const },
-                  { rotulo: "Captado", alinhar: "direita" as const },
-                  { rotulo: "Execução", alinhar: "direita" as const },
-                ]
-              : []),
-          ]}
-        >
-          {segmentosComProjetos.map(({ seg: s, projetos }) => {
-            const a = s.orcamento?.autorizado ?? 0;
-            const c = s.orcamento?.captado ?? 0;
-            return (
-              <tr key={s.id} className="transition-colors hover:bg-papel-suave">
-                <td className="px-3 py-2.5">
-                  <Link href={`/entidade/${s.slug}`} className="text-tinta underline-offset-2 hover:underline">
-                    {s.nome}
-                  </Link>
-                </td>
-                <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{numero(projetos.length)}</td>
-                {temDadosFinanceiros && (
-                  <>
-                    <td className="tabular px-3 py-2.5 text-right text-tinta-suave">{brl(a)}</td>
-                    <td className="tabular px-3 py-2.5 text-right font-medium text-tinta">{brl(c)}</td>
-                    <td className="px-3 py-2.5">
-                      <div className="ml-auto w-24">
-                        <BarraExecucao autorizado={a} captado={c} compacta />
-                      </div>
-                    </td>
-                  </>
-                )}
-              </tr>
-            );
-          })}
-        </Tabela>
-      </section>
-
-      <section className="mb-10">
         <h2 className="mb-4 text-lg font-semibold text-tinta">Por microrregião (resumo)</h2>
         <Tabela
           colunas={[
@@ -290,7 +306,9 @@ export default function PaginaOrcamento() {
           ))}
         </Tabela>
       </section>
-    </Pagina>
+        </>
+      }
+    />
   );
 }
 

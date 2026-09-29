@@ -201,6 +201,25 @@ argumento da página, não só o desenho.
   relatório compara o `segmentoId` gravado em `data/graph.json` com o que o
   classificador produz agora, saindo com erro quando divergem: artefato velho e
   auditoria fora do caminho de produção invalidam o relatório do mesmo jeito.
+- **A divisão de topo é por anel, e é a do CivLab.** Lá as seções são uma por
+  categoria de vértice (`/sf/elected/`, `/sf/commissions/`, `/sf/advisories/`,
+  `/sf/departments/`); aqui são `/orgaos`, `/patrocinadores`, `/proponentes` e
+  `/projetos`, na ordem do fluxo do valor. A correspondência é **por posição no
+  anel**, registrada em `analogoCivLab` dentro de cada categoria de
+  `src/ontology/nodes.ts`, e o campo `rota` aponta cada categoria ao seu índice.
+  `/orcamento`, `/indicadores` e `/monitor` são nossos, não divisões do original.
+- **`licc-programa` é `kind: "governanca"`, e não é um órgão.** Ele fica ali para
+  ocupar o primeiro anel do desenho, e carrega o espelho dos R$ 25 mi do
+  exercício. Some-o com os outros cinco — que não têm orçamento nenhum — e o
+  índice de órgãos publica "Captado R$ 25.000.000", afirmando que os órgãos
+  captaram o teto quando eles autorizam a renúncia e não a recebem. Por isso o
+  total de categoria é condicionado ao que ele mede, e em `governanca` não há.
+- **Coluna-documento não comporta tabela financeira.** Ela tem ~576px a 1440px de
+  viewport e `Tabela` carrega `min-w-[40rem]`, então qualquer tabela de quatro
+  colunas ali rola na horizontal. A coluna do original é **lista de alocação** —
+  nome, e embaixo os números, com borda inferior na cor da categoria —, e é por
+  isso que `IndiceCategoria` usa lista. O que precisa de tabela desce para a
+  faixa de largura cheia que `PaginaComCanvas` expõe em `abaixo`.
 - **Rótulo de cobertura tem de dizer a origem quando o campo é derivado.** A
   linha de linguagem em `/indicadores` dizia "identificada", o que se lê como
   fonte oficial; cobertura alta é onde o rótulo engana mais, porque 100% de
@@ -433,6 +452,9 @@ valores truncados por quebra de linha dentro da célula.
 | `pipeline/seed/` | Conjunto de demonstração determinístico (`mulberry32`) |
 | `pipeline/build-graph.ts` | Agregados, posição, variação anual, conferência de cotas |
 | `pipeline/auditar-segmentos.ts` | Auditoria da linguagem: estrutura das regras e concordância |
+| `src/components/PaginaComCanvas.tsx` | O arranjo de duas colunas aferido do original, com faixas de largura cheia |
+| `src/components/IndiceCategoria.tsx` | Índice de uma categoria do grafo — a divisão de topo do CivLab |
+| `src/lib/fatias-orcamento.ts` | Grafo → fatias da rosca, por linguagem e por território |
 | `data/auditoria/` | Folha de conferência e evidência por título, versionadas |
 | `tools/scrape-civlab/` | Medição do CivLab — executa fora deste ambiente |
 | `tools/anexos-secult/` | Anexos da SECULT → CSV — executa fora deste ambiente |
@@ -522,11 +544,14 @@ valor atribuído, porque entram só por projeto multi-município.
 
 ## Próximos passos
 
-1. **Calibrar o grafo contra medida.** Rodar `tools/scrape-civlab/` numa máquina
-   com rede, trazer `saida/` e executar `npx tsx pipeline/importar-referencia.ts`,
-   que gera `docs/referencia-civlab.md` com raios, contagens, formas e paleta
-   aferidos. Hoje `FRACAO_POR_ANEL` em `src/lib/radial.ts` está por impressão
-   visual dos quadros do vídeo.
+1. **Contagem de vértices por anel — a geometria já está aferida.** Este passo
+   dizia que `FRACAO_POR_ANEL` vinha "por impressão visual dos quadros do vídeo",
+   e envelheceu: `docs/referencia-civlab.md` traz `0,444 / 0,714 / 1,0` lidos do
+   HTML, e os quatro anéis daqui são divergência raciocinada, com a regra
+   escrita. O que `tools/scrape-civlab/` ainda acrescentaria é topologia —
+   quantos vértices por anel, os marcadores de vínculo de `r="4.2"` —, não os
+   raios. Roda numa máquina com rede; `npx tsx pipeline/importar-referencia.ts`
+   consome a `saida/`.
 2. **Fechar os 23 projetos sem município.** Dos 63, 40 casaram com a lista de
    habilitados por título exato; 4 são ambíguos (o mesmo título em mais de um
    exercício) e 18 não têm correspondência — título grafado diferente entre os

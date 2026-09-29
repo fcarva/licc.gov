@@ -43,6 +43,7 @@
  * uma nona matiz seria inventar cor fora do sistema.
  */
 
+import { REGIOES, type Regiao } from "./municipios";
 import { SEGMENTOS } from "./segmentos";
 
 /** Matizes do anel interno, na ordem que o validador aprovou. */
@@ -99,6 +100,24 @@ export function escurecer(hex: string, fracao = 0.42): string {
 /** Cor de orçamento estável para um índice qualquer. */
 export function corOrcamento(indice: number): string {
   return PALETA_ORCAMENTO[indice % PALETA_ORCAMENTO.length];
+}
+
+/**
+ * Cor de uma microrregião na rosca territorial.
+ *
+ * As microrregiões são **dez** e a paleta tem nove matizes, então o décimo
+ * índice cairia de volta na primeira cor se isto usasse `corOrcamento` cru —
+ * ciclar matiz é o que o método proíbe, porque duas fatias vizinhas passariam a
+ * ter a mesma cor sem nada indicar que são coisas diferentes. Além da paleta vai
+ * o neutro, que é a dobra em "outros" que o método prescreve.
+ *
+ * Hoje só seis microrregiões têm captação, então o caso é latente — mas latente
+ * é o que quebra quando a fonte muda, não quando o código muda.
+ */
+export function corDaRegiao(regiao: string): string {
+  const i = REGIOES.indexOf(regiao as Regiao);
+  if (i < 0 || i >= PALETA_ORCAMENTO.length - 1) return PALETA_ORCAMENTO[PALETA_ORCAMENTO.length - 1];
+  return PALETA_ORCAMENTO[i];
 }
 
 /**

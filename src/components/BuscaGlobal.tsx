@@ -119,8 +119,18 @@ export function BuscaGlobal() {
   };
 
   return (
-    <div ref={containerRef} className="relative">
-      <div className="relative">
+    // Fechada é um botão de 36px com a lupa; expande ao receber foco.
+    //
+    // É o comportamento medido no original (`h-9 w-9`, expande), e aqui resolve
+    // também um problema concreto: como campo sempre aberto ela comia ~280px do
+    // cabeçalho e a navegação de onze seções truncava no meio de uma palavra.
+    // `focus-within` faz a expansão sem estado em React — clicar no campo já o
+    // foca, e o atalho `/` continua funcionando.
+    <div
+      ref={containerRef}
+      className="relative w-9 shrink-0 transition-[width] duration-200 ease-out focus-within:w-[min(22rem,50vw)]"
+    >
+      <div className="group relative">
         <svg
           aria-hidden="true"
           viewBox="0 0 20 20"
@@ -144,9 +154,9 @@ export function BuscaGlobal() {
           onChange={(e) => setTermo(e.target.value)}
           onFocus={() => resultados.length && setAberto(true)}
           onKeyDown={aoTeclarNoCampo}
-          className="w-full rounded-md border border-borda bg-papel-suave py-1.5 pl-8 pr-12 text-sm text-tinta outline-none transition-colors placeholder:text-tinta-fraca focus:border-borda-forte focus:bg-papel focus:ring-2 focus:ring-realce/25 [&::-webkit-search-cancel-button]:appearance-none"
+          className="w-full rounded-full border border-borda bg-papel-suave py-1.5 pl-8 pr-3 text-sm transition-[border-radius,padding] focus:rounded-md focus:pr-12 text-tinta outline-none transition-colors placeholder:text-tinta-fraca focus:border-borda-forte focus:bg-papel focus:ring-2 focus:ring-realce/25 [&::-webkit-search-cancel-button]:appearance-none"
         />
-        <kbd className="pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 rounded border border-borda bg-papel px-1.5 py-0.5 font-mono text-[10px] text-tinta-fraca sm:block">
+        <kbd className="pointer-events-none absolute right-2 top-1/2 hidden -translate-y-1/2 rounded border border-borda bg-papel px-1.5 py-0.5 font-mono text-[10px] text-tinta-fraca opacity-0 transition-opacity group-focus-within:opacity-100 sm:block">
           /
         </kbd>
       </div>

@@ -3,11 +3,34 @@
 import { useState, useMemo } from "react";
 import type { Graph, GraphNode } from "@/types/graph";
 import { GrafoRadial } from "./GrafoRadial";
-import { Sunburst, type FatiaSunburst } from "./Sunburst";
+import { Sunburst } from "./Sunburst";
 import { Segmentado } from "./Abas";
-import { corDoSegmento } from "@/ontology/paleta-orcamento";
+import {
+  montarFatiasPorSegmento,
+  montarFatiasPorTerritorio,
+  type FatiaSunburst,
+} from "@/lib/fatias-orcamento";
 
 export type Aba = "grafo" | "orcamento";
+
+/**
+ * Como a rosca agrupa: por linguagem cultural ou por território.
+ *
+ * A mesma geometria de grupo → detalhe responde às duas perguntas, então a
+ * escolha é da página. `/orcamento` e `/segmentos` agrupam por linguagem;
+ * `/municipios` e `/monitor`, por microrregião.
+ */
+export type Agregacao = "segmento" | "territorio";
+
+const AGREGADORES = {
+  segmento: montarFatiasPorSegmento,
+  territorio: montarFatiasPorTerritorio,
+} as const;
+
+const TITULO_ROSCA: Record<Agregacao, string> = {
+  segmento: "Teto da LICC",
+  territorio: "Captado com município",
+};
 
 /**
  * A metade direita da tela: o grafo do ecossistema ou a rosca do orçamento,
@@ -21,6 +44,8 @@ export function CanvasVisualizacao({
   abaInicial = "grafo",
   aba: abaControlada,
   onMudarAba,
+  agregacao = "segmento",
+  abasVisiveis = true,
 }: {
   grafo: Graph;
   selecionado?: GraphNode | null;
@@ -31,6 +56,15 @@ export function CanvasVisualizacao({
   /** Quando fornecida, a aba é controlada pela página. */
   aba?: Aba;
   onMudarAba?: (aba: Aba) => void;
+  /** Como a rosca agrupa. */
+  agregacao?: Agregacao;
+  /**
+   * Falso quando a página fixa uma vista só.
+   *
+   * Mostrar um segmentado de duas opções onde só uma serve é ruído — a mesma
+   * razão por que `PainelAba` derruba a semântica de aba quando há uma vista só.
+   */
+  abasVisiveis?: boolean;
 }) {
   const [abaInterna, setAbaInterna] = useState<Aba>(abaInicial);
   const aba = abaControlada ?? abaInterna;
@@ -39,7 +73,14 @@ export function CanvasVisualizacao({
     onMudarAba?.(proxima);
   };
 
-  const fatias = useMemo(() => montarFatias(grafo), [grafo]);
+  const fatias = useMemo(() => AGREGADORES[agregacao](grafo), [grafo, agregacao]);
+  // A rosca por território soma só o que tem município atribuído, então o total
+  // dela é a soma das fatias, não o teto: usar o teto ali faria o arco cinza
+  // medir "não captado" quando o que falta é "sem município".
+  const totalRosca =
+    agregacao === "territorio"
+      ? fatias.reduce((s, f) => s + f.valor, 0)
+      : grafo.meta.tetoAutorizado;
 
   return (
     <div className="relative flex h-full w-full flex-col">
@@ -52,8 +93,8 @@ export function CanvasVisualizacao({
           />
         ) : (
           <Sunburst
-            titulo={`Teto da LICC ${grafo.meta.ano}`}
-            total={grafo.meta.tetoAutorizado}
+            titulo={`${TITULO_ROSCA[agregacao]} ${grafo.meta.ano}`}
+            total={totalRosca}
             fatias={fatias}
             destaqueId={destaqueOrcamento}
             onSelecionar={(id) => {
@@ -64,7 +105,7 @@ export function CanvasVisualizacao({
         )}
       </div>
 
-      <div className="flex shrink-0 justify-center pb-4 pt-2">
+      <div className={`shrink-0 justify-center pb-4 pt-2 ${abasVisiveis ? "flex" : "hidden"}`}>
         <Segmentado
           opcoes={[
             { id: "grafo", rotulo: "Grafo" },
@@ -76,63 +117,4 @@ export function CanvasVisualizacao({
       </div>
     </div>
   );
-}
-
-/** Segmentos no anel interno, os projetos de cada um no externo. */
-function montarFatias(grafo: Graph): FatiaSunburst[] {
-  const projetos = grafo.nodes.filter((n) => n.kind === "projeto");
-  const porSegmento = grafo.nodes
-    .filter((n) => n.kind === "segmento" && (n.orcamento?.captado ?? 0) > 0)
-    .map((seg) => ({
-      id: seg.id,
-      rotulo: seg.nome,
-      valor: seg.orcamento?.captado ?? 0,
-      // A rosca usa a paleta vívida do orçamento, não a pastel do grafo:
-      // fatias finas precisam continuar distinguíveis lado a lado.
-      cor: corDoSegmento(seg.id),
-      filhos: projetos
-        .filter((p) => p.meta?.segmentoId === seg.id && (p.orcamento?.captado ?? 0) > 0)
-        .sort((a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0))
-        .map((p) => ({
-          id: p.id,
-          rotulo: p.nome,
-          valor: p.orcamento?.captado ?? 0,
-        })),
-    }))
-    .sort((a, b) => b.valor - a.valor);
-
-  // Projeto sem linguagem classificada é **fatia própria**, não sobra.
-  //
-  // O arco cinza da rosca significa "teto ainda não captado", e ele é a
-  // diferença entre o teto e a soma das fatias. Enquanto os projetos sem
-  // segmento ficavam de fora, essa diferença os absorvia: em 2025 o captado é
-  // 100% do teto, e mesmo assim 45% do círculo aparecia cinza — o gráfico
-  // dizia que o Estado não captou metade da renúncia quando captou tudo.
-  //
-  // Com fatia própria, o cinza volta a medir só o que não foi captado, e a
-  // lacuna de classificação aparece pelo que é: uma lacuna nossa, do tamanho
-  // que ela tem.
-  const semLinguagem = projetos.filter(
-    (p) => !p.meta?.segmentoId && (p.orcamento?.captado ?? 0) > 0,
-  );
-  if (!semLinguagem.length) return porSegmento;
-
-  return [
-    ...porSegmento,
-    {
-      id: "sem-linguagem",
-      rotulo: "Sem linguagem classificada",
-      valor: semLinguagem.reduce((s, p) => s + (p.orcamento?.captado ?? 0), 0),
-      // Neutro do Flexoki: não é acento porque não é categoria cultural — é o
-      // que a classificação por título não alcançou.
-      cor: "#B7B5AC",
-      filhos: semLinguagem
-        .sort((a, b) => (b.orcamento?.captado ?? 0) - (a.orcamento?.captado ?? 0))
-        .map((p) => ({
-          id: p.id,
-          rotulo: p.nome,
-          valor: p.orcamento?.captado ?? 0,
-        })),
-    },
-  ];
 }

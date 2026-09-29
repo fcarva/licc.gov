@@ -32,6 +32,13 @@ export interface NodeKindSpec {
   /** Raio base em px, antes da escala por captação. */
   raioBase: number;
   analogoCivLab: string;
+  /**
+   * Índice da categoria — a divisão de topo, como `/sf/departments/` no CivLab.
+   *
+   * As quatro categorias do fluxo do valor e as duas transversais têm página de
+   * listagem própria; as demais caem em `/entidade`, porque uma lista de um
+   * registro só não é índice.
+   */
   rota: string;
 }
 
@@ -89,7 +96,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     forma: "circulo",
     raioBase: 9,
     analogoCivLab: "Elected",
-    rota: "/entidade",
+    rota: "/orgaos",
   },
   patrocinador: {
     kind: "patrocinador",
@@ -104,7 +111,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     forma: "losango",
     raioBase: 7,
     analogoCivLab: "Commission",
-    rota: "/entidade",
+    rota: "/patrocinadores",
   },
   proponente: {
     kind: "proponente",
@@ -119,7 +126,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     forma: "ponto",
     raioBase: 4,
     analogoCivLab: "Advisory",
-    rota: "/entidade",
+    rota: "/proponentes",
   },
   projeto: {
     kind: "projeto",
@@ -134,7 +141,7 @@ export const NODE_KINDS: Record<NodeKind, NodeKindSpec> = {
     forma: "quadrado",
     raioBase: 6,
     analogoCivLab: "Department",
-    rota: "/entidade",
+    rota: "/projetos",
   },
 
   /* Agrupadores: dão cor e recorte, mas não ocupam anel no radial. */
