@@ -131,15 +131,16 @@ export default function PaginaInicial() {
           <Cartao>
             <TituloSecao>Panorama</TituloSecao>
             <p className="mb-3 text-xs leading-relaxed text-tinta-fraca">
-              Quem participa do ciclo da LICC no exercício {grafo.meta.ano}.
+              Quem participa do ciclo da LICC no exercício {grafo.meta.ano}. Cada
+              número abre a lista completa.
             </p>
             <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-              <Contagem kind="governanca" rotulo="Órgãos" valor={listarNos("governanca").length} />
-              <Contagem kind="patrocinador" rotulo="Patrocinadores" valor={stats.totalPatrocinadores} />
-              <Contagem kind="proponente" rotulo="Proponentes" valor={stats.totalProponentes} />
-              <Contagem kind="projeto" rotulo="Projetos" valor={stats.totalProjetos} />
-              <Contagem kind="segmento" rotulo="Segmentos" valor={segmentos.length} />
-              <Contagem kind="municipio" rotulo="Municípios" valor={stats.totalMunicipiosAtendidos} nota="de 78" />
+              <Contagem kind="governanca" rotulo="Órgãos" valor={listarNos("governanca").length} href="/orgaos" />
+              <Contagem kind="patrocinador" rotulo="Patrocinadores" valor={stats.totalPatrocinadores} href="/patrocinadores" />
+              <Contagem kind="proponente" rotulo="Proponentes" valor={stats.totalProponentes} href="/proponentes" />
+              <Contagem kind="projeto" rotulo="Projetos" valor={stats.totalProjetos} href="/projetos" />
+              <Contagem kind="segmento" rotulo="Segmentos" valor={segmentos.length} href="/segmentos" />
+              <Contagem kind="municipio" rotulo="Municípios" valor={stats.totalMunicipiosAtendidos} nota="de 78" href="/municipios" />
             </dl>
           </Cartao>
 
@@ -149,7 +150,15 @@ export default function PaginaInicial() {
                 // Vira a aba do canvas ao lado em vez de navegar: é o que o
                 // "Explore budget" do original faz, e mantém a leitura na mesma
                 // tela — os números aqui, a rosca que os reparte ali.
-                <BotaoCanvas aba="orcamento">Explorar orçamento →</BotaoCanvas>
+                <span className="flex items-center gap-3">
+                  <BotaoCanvas aba="orcamento">Explorar orçamento</BotaoCanvas>
+                  <Link
+                    href="/indicadores"
+                    className="text-xs text-tinta-fraca underline-offset-2 hover:text-tinta hover:underline"
+                  >
+                    O que os números dizem
+                  </Link>
+                </span>
               }
             >
               Este exercício{" "}
@@ -225,19 +234,33 @@ export default function PaginaInicial() {
   );
 }
 
+/**
+ * Uma contagem do panorama — e, aqui, também a porta de entrada dela.
+ *
+ * No original as contagens do Overview são **texto puro**: medido no HTML, só o
+ * `*` de "Residents" é âncora, e aponta para a fonte demográfica externa. Lá o
+ * bloco agrega e quem navega é o grafo e a busca, porque atrás de "Departments
+ * 54" não existe página — `/sf/departments` redireciona para a home.
+ *
+ * Aqui existe. São 28 patrocinadores e 52 proponentes com índice próprio, e
+ * deixá-los como texto obrigaria a busca para alcançá-los. Então a estrutura é a
+ * mesma e a contagem é link: **divergência de dado, não de desenho**.
+ */
 function Contagem({
   rotulo,
   valor,
   nota,
   kind,
+  href,
 }: {
   rotulo: string;
   valor: number;
   nota?: string;
   kind: NodeKind;
+  href?: string;
 }) {
-  return (
-    <div>
+  const corpo = (
+    <>
       <dt className="flex items-center gap-1.5 text-xs text-tinta-suave">
         <Glifo kind={kind} />
         {rotulo}
@@ -246,6 +269,15 @@ function Contagem({
         {numero(valor)}
         {nota ? <span className="ml-1 text-xs font-normal text-tinta-fraca">{nota}</span> : null}
       </dd>
-    </div>
+    </>
+  );
+  if (!href) return <div>{corpo}</div>;
+  return (
+    <Link
+      href={href}
+      className="-m-1 rounded-lg p-1 transition-colors hover:bg-papel-fundo focus:outline-none focus-visible:ring-2 focus-visible:ring-borda-forte"
+    >
+      {corpo}
+    </Link>
   );
 }

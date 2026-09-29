@@ -19,17 +19,6 @@ const FLUXO: Array<{ href: string; rotulo: string; kind: NodeKind }> = [
   { href: "/projetos", rotulo: "Projetos", kind: "projeto" },
 ];
 
-/** Vistas que atravessam categoria: os tópicos do original, mais o nosso. */
-const TRANSVERSAL = [
-  { href: "/orcamento", rotulo: "Orçamento" },
-  { href: "/segmentos", rotulo: "Segmentos" },
-  { href: "/municipios", rotulo: "Municípios" },
-  { href: "/indicadores", rotulo: "Indicadores" },
-  { href: "/monitor", rotulo: "Monitor" },
-  { href: "/noticias", rotulo: "Notícias" },
-  { href: "/sobre", rotulo: "Sobre" },
-];
-
 const PILULA =
   "shrink-0 rounded-full px-3 py-1.5 text-sm text-tinta-suave transition-colors hover:bg-papel hover:text-tinta";
 
@@ -49,27 +38,22 @@ export function Cabecalho({ ano }: { ano: number }) {
         </Link>
 
         {/*
-          Rolável, e visível desde `md`.
-          Com onze seções nada cabe numa linha em largura de tablet, e a versão
-          anterior resolvia isso escondendo a navegação inteira abaixo de `lg` —
-          o que deixava o celular sem nenhuma, só busca e logotipo. Rolagem
-          horizontal mostra todas e não empurra o cabeçalho para duas linhas.
+          Só o fluxo do valor — os quatro anéis.
+          O original não tem barra nenhuma: navega-se pelo grafo, pela busca e
+          pela coluna-documento, e o Overview agrega sem navegar (as contagens
+          dele são texto puro, medido no HTML). Aqui os quatro anéis ficam porque
+          são o equivalente a clicar num anel do grafo, e porque atrás deles há
+          índice — 28 empresas, 52 proponentes — que lá não existe.
+          As demais vistas desceram para o rodapé: alcançáveis de toda página,
+          sem disputar o topo com a identidade e a busca.
         */}
         <nav
           className="rolagem-fina hidden min-w-0 flex-1 items-center gap-0.5 overflow-x-auto md:flex"
-          aria-label="Seções"
+          aria-label="Fluxo do valor"
         >
           {FLUXO.map((item) => (
             <Link key={item.href} href={item.href} className={`${PILULA} flex items-center gap-1.5`}>
               <Glifo kind={item.kind} className="text-[0.9em]" />
-              {item.rotulo}
-            </Link>
-          ))}
-
-          <span aria-hidden="true" className="mx-1.5 h-4 w-px shrink-0 bg-borda" />
-
-          {TRANSVERSAL.map((item) => (
-            <Link key={item.href} href={item.href} className={PILULA}>
               {item.rotulo}
             </Link>
           ))}

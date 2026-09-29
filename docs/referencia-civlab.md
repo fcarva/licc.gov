@@ -223,6 +223,45 @@ de ser "quem se conecta" e passa a ser **quem responde**. O cabeçalho é só no
 e uma linha de descrição ("Policies and programs related to housing development,
 affordability, and regulation").
 
+## Navegação: o original não tem barra, e o Overview não navega
+
+Medido no HTML e nas rotas, porque é contraintuitivo.
+
+**Não existe índice de categoria.** `graph.civlab.org/sf/departments` responde 200
+mas o `url` final é `/sf` — **redireciona para a home**. A categoria é segmento de
+URL (`/sf/departments/<slug>`), não página. Quem indexa as 54 secretarias é o
+próprio grafo: clicar no anel.
+
+**A única seção de topo é `/sf/topics`**, e a moldura dela diz para que serve:
+*"Explore the issues that San Franciscans care about most. Click into any topic
+to see which parts of the government are responsible and find recent news
+articles covering the latest developments."*
+
+**O `SF Gov ⌄` da trilha é `aria-label="Switch government graph"`** — troca de
+governo, não menu de seções.
+
+**O Overview agrega, não navega.** As contagens são texto puro:
+
+```html
+<div><div class="type-ui-1 …"><span>Departments</span></div>
+     <p class="type-header-3 mt-1.5">54</p></div>
+```
+
+Nenhuma âncora. A única da grade é o `*` de "Residents", e aponta para a fonte
+demográfica externa. Faz sentido: atrás de "Departments 54" não há página.
+
+Então todo o cromo de topo do original é: trilha com seletor de governo, busca
+`h-9 w-9`, e dois botões de histórico `h-9 w-9` num cartão só. Mais nada.
+
+### Como isso foi adaptado
+
+| Decisão | Aqui |
+| --- | --- |
+| Barra de navegação | reduzida ao **fluxo do valor** — os quatro anéis. É o equivalente a clicar num anel do grafo, e atrás deles há índice (28 empresas, 52 proponentes) que lá não existe. |
+| Contagens do Overview | **viram link**, divergência de dado e não de desenho: a estrutura é a mesma, mas aqui há página atrás do número. |
+| Orçamento, Indicadores, Segmentos, Municípios, Monitor, Notícias, Sobre | **rodapé**, alcançáveis de toda página. Lá orçamento é aba, notícias são a coluna e "sobre" é seção; aqui são páginas, e páginas precisam de porta. |
+| `/temas` no molde de `/sf/topics` | ainda não existe — é o eixo que falta |
+
 ## Vértice em repouso é **branco**, e a regra das três camadas é do glifo
 
 A medição que mais corrige o que estava escrito. No HTML de `graph.civlab.org/sf`:

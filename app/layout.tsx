@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Cabecalho } from "@/components/Cabecalho";
+import { Rodape } from "@/components/Rodape";
 import { obterGrafo } from "@/lib/dados";
 
 /**
@@ -60,6 +61,7 @@ export default function RootLayout({
         <Cabecalho ano={meta.ano} />
         {temDemo ? <FaixaDemonstracao /> : null}
         <main id="conteudo">{children}</main>
+        <Rodape ano={meta.ano} />
       </body>
     </html>
   );

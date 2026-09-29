@@ -347,6 +347,15 @@ argumento da página, não só o desenho.
   corrigir: frase que cita número derivado é copiada, e `grep` pelo texto acha só
   a redação, não a razão. Ao mexer num denominador, procure pelo **nome da
   grandeza** (`fracaoNaRmgv`) em todo o repositório, não pela frase.
+- **No original não há barra de navegação, e o Overview não navega.**
+  `/sf/departments` redireciona para `/sf`: categoria é segmento de URL, não
+  página, e quem indexa é o grafo. A única seção de topo é `/sf/topics`. E as
+  contagens do bloco Overview são texto puro no HTML — sem âncora —, porque atrás
+  de "Departments 54" não existe página. Aqui existe, então a adaptação foi
+  manter a estrutura e **tornar a contagem clicável**: divergência de dado, não
+  de desenho. A barra ficou só com os quatro anéis do fluxo; as demais vistas
+  desceram para o rodapé. Copiar a ausência da barra sem mover as páginas para
+  algum lugar teria deixado sete seções reais alcançáveis só por busca.
 - **A referência do CivLab envelhece — ela é um instantâneo, não um espelho.**
   Os despejos de agosto/2026 registravam abas `News | Who's connected? | Budget`;
   a remedição de 29/09/2026, via Firecrawl sobre `graph.civlab.org/sf`, achou uma
